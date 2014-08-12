@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<script src="base.js"></script>
+		<style>
+			.invalid {
+				background: red;
+			}
+		</style>
+	</head>
+	<body ng-app="base">
+		<section ng-scope ng-controller="number">
+			<div ng-repeat="b in bases">
+				<label for="base-editor-{{b.id}}">Base</label>
+				<input type="number" ng-model="b.base" name="base-editor-{{b.id}}"></input>
+				<div base="b.base" number="$parent.number"></div>
+				<button ng-click="remove(b.id)">Remove</button>
+			</div>
+			<button ng-click="addBase()">Add</button>
+		</section>
+	</body>
+</html>
