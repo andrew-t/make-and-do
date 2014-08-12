@@ -22,12 +22,14 @@
 		function setAscii(numbers) {
 			scope.ascii = String.fromCharCode.apply(null, numbers);
 		}
-		function parseNumbers(value, radix) {
+		function parseNumbers(value, radix, digits) {
 			var numbers = [];
 			if (!value)
 				return numbers;
 			value = value.split(/[^0-9a-fA-F]+/);
 			for (var i = 0; i < value.length; ++i) {
+				if (digits && value[i].length != digits)
+					return;
 				var number = parseInt(value[i], radix);
 				if (number < 1 || number > 127)
 					return;
@@ -36,7 +38,7 @@
 			return numbers;
 		}
 		scope.$watch('binary', function(value) {
-			var numbers = parseNumbers(value, 2);
+			var numbers = parseNumbers(value, 2, 8);
 			if (!(scope.binaryInvalid = !numbers)) {
 				setAscii(numbers);
 				setDecimal(numbers);
@@ -53,8 +55,9 @@
 		});
 		scope.$watch('hex', function(value) {
 			var numbers = [];
-			scope.hexInvalid = false;
 			if (value) {
+				if (scope.hexInvalid = value.length & 1)
+					return;
 				value = value.replace(/\s/, '');
 				for (var i = 0; i < value.length; i += 2) {
 					var number = parseInt(value.substr(i, 2), 16);
