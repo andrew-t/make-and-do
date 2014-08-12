@@ -2,7 +2,7 @@
 
 (function(){
 	angular.module('base', [])
-	.directive('base', ['$timeout', function(timeout) {
+	.directive('base', function() {
 		var id = 1;
 		return {
 			restrict: 'A',
@@ -32,7 +32,7 @@
 				});
 			}
 		};
-	}]).controller('number', ['$scope', function(scope) {
+	}).controller('number', ['$scope', function(scope) {
 		scope.bases = [];
 		var id = 1;
 		if (scope.number == undefined)

@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<script src="ascii.js"></script>
+		<link href="style.css" rel="stylesheet">
+	</head>
+	<body ng-app="ascii">
+		<section ng-scope ng-controller="ascii">
+			<div>
+				<label for="ascii">ASCII</label>
+				<textarea name="ascii" ng-model="ascii" ng-class="{ invalid: asciiInvalid }"></textarea>
+			</div>
+			<div>
+				<label for="binary">Binary</label>
+				<textarea name="binary" ng-model="binary" ng-class="{ invalid: binaryInvalid }"></textarea>
+			</div>
+			<div>
+				<label for="decimal">Decimal</label>
+				<textarea name="decimal" ng-model="decimal" ng-class="{ invalid: decimalInvalid }"></textarea>
+			</div>
+			<div>
+				<label for="hex">Hex</label>
+				<textarea name="hex" ng-model="hex" ng-class="{ invalid: hexInvalid }"></textarea>
+			</div>
+		</section>
+	</body>
+</html>

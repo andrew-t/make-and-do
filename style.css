@@ -1,0 +1,9 @@
+.invalid {
+	box-shadow: 0 0 2px 1px red;
+}
+button {
+	padding: 5px;
+}
+label:after {
+	content: ':';
+}
