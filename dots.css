@@ -1,0 +1,14 @@
+.dot-panel {
+	position: relative;
+}
+.dot {
+	display: block;
+	position: absolute;
+	border-radius: 50%;
+	transition: all 0.3s; /* must match js */
+	background: red; /* should be overridden */
+}
+.hiding {
+	width: 0 !important;
+	height: 0 !important;
+}
