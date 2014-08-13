@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<script src="choose.js"></script>
+		<link href="style.css" rel="stylesheet">
+	</head>
+	<body ng-app="choose">
+		<section ng-scope ng-controller="choose">
+			<input type="number" ng-model="a"> choose 
+			<input type="number" ng-model="b"> = 
+			<span>{{combinations(a, b)}}</span>
+
+			<div>{{a}} pick {{b}} = {{permutations(a, b)}}</div>
+		</section>
+	</body>
+</html>
