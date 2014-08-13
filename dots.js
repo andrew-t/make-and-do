@@ -26,6 +26,7 @@ console.log(Object.keys(options));
 		var panel,
 			hidingTransitionTime = 300; //ms, must match css
 
+		// remove all dots with an index of n or above
 		function hideDotsFrom(n) {
 			var d = 0, dStep = options.totalDelay / options.maxN;
 			for (; n < maxN; ++n) {
@@ -42,6 +43,7 @@ console.log(Object.keys(options));
 			}
 		}
 
+		// make sure a dot exists and is in the right place
 		function putDot(n, x, y, size) {
 			var id = 'dot-' + n,
 				el = document.getElementById(id);
@@ -60,6 +62,7 @@ console.log(Object.keys(options));
 			});
 		}
 
+		// perform a dance
 		function dance(d) {
 			hideDotsFrom(d.length);
 			var d = 0, dStep = options.totalDelay / options.maxN;
@@ -71,17 +74,21 @@ console.log(Object.keys(options));
 			}
 		}
 
+		// make a dance comprised of N sub-dances
 		function sumDances(ds) {
 			var d = [], i, j;
 			for (i = 0; i < ds.length; ++i)
 				squeezeDance(ds[i]);
 			for (i = 1; i < ds.length; ++i)
-				for (j = 0; j < ds[i].length; ++j)
-					d[i][j].x += options.sumDistance;
-			// todo - compile into one dance
+				for (j = 0; j < ds[i].length; ++j) {
+					ds[i][j].x += options.sumDistance;
+					d.push(ds[i][j]);
+				}
+			d.size = d[0].size;
 			return squeezeDance(d);
 		}
 
+		// make sure a dance fits in the panel
 		function squeezeDance(d) {
 			var minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity;
 			for (var i = 0; i < d.length; ++i) {
