@@ -76,7 +76,7 @@ console.log(Object.keys(options));
 			hideDotsFrom(d.length);
 			var delay = 0, dStep = options.totalDelay / options.maxN;
 			for (var i = 0; i < d.length; ++i) {
-				delayPut(i, d[i].x, d[i].y, d.size, delay);
+				delayPut(i, d[i].x, d[i].y, d[i].size, delay);
 				delay += dStep;
 			}
 		}
@@ -91,7 +91,6 @@ console.log(Object.keys(options));
 					ds[i][j].x += options.sumDistance;
 					d.push(ds[i][j]);
 				}
-			d.size = d[0].size;
 			return squeezeDance(d);
 		}
 
@@ -101,13 +100,15 @@ console.log(Object.keys(options));
 				maxx = -Infinity,
 				miny = Infinity,
 				maxy = -Infinity,
-				margin = d.size + options.margin;
+				maxSize = -Infinity;
 			for (var i = 0; i < d.length; ++i) {
 				if (d[i].x < minx) minx = d[i].x;
 				if (d[i].x > maxx) maxx = d[i].x;
 				if (d[i].y < miny) miny = d[i].y;
 				if (d[i].y > maxy) maxy = d[i].y;
+				if (d[i].size > maxSize) maxSize = d[i].size;
 			};
+			var	margin = maxSize + options.margin
 			maxx += margin;
 			minx -= margin;
 			maxy += margin;
@@ -122,8 +123,8 @@ console.log(Object.keys(options));
 			for (var i = 0; i < d.length; ++i) {
 				d[i].x = m * d[i].x + cx;
 				d[i].y = m * d[i].y + cy;
+				d[i].size = d[i].size * m;
 			}
-			d.size = d.size * m;
 			return d;
 		}
 
@@ -136,13 +137,11 @@ console.log(Object.keys(options));
 				update = scope.$apply;
 				scope.squeezeDance = squeezeDance;
 				scope.sumDances = sumDances;
-				var nullDance = [];
-				nullDance.size = 0;
 				scope.$watch('dance', function(d) {
 					if (d)
 						dance(d);
 					else
-						dance(nullDance);
+						dance([]]);
 				});
 			}
 		};
