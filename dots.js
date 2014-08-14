@@ -22,6 +22,9 @@ console.log(Object.keys(options));
 
 (function(){
 	angular.module('dots', [])
+	.controller('dotControls', ['$scope', function(scope) {
+
+	}])
 	.directive('dotPanel', ['$timeout', function(timeout) {
 		var panel,
 			hidingTransitionTime = 300; //ms, must match css
