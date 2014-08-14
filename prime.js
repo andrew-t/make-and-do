@@ -16,7 +16,7 @@
 			return factors;
 		};
 		this.test = function(n) {
-			return factors.length == 0;
+			return factorise(n).length == 0;
 		};
 	})
 	.directive('prime', ['factorise', function(factorise) {
@@ -35,7 +35,7 @@
 					else {
 						var factors = factorise.factorise(n);
 						scope.result = n + (factors.length
-							? ' = ' + factors.join(' \u2a09 ')
+							? ' = ' + factors.join(' \u00d7 ')
 							: ' is prime');
 					}
 				});

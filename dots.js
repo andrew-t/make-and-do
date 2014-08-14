@@ -116,11 +116,12 @@ console.log(Object.keys(options));
 				w = panel.prop('clientWidth'),
 				dh = maxy - miny,
 				dw = maxx - minx,
-				m = Math.min(h / dh, w / dw);
-				// TODO - this top-lefts it and it should centre
+				m = Math.min(h / dh, w / dw),
+				cx = (w - m * dw) * 0.5,
+				cy = (h - m * dh) * 0.5;
 			for (var i = 0; i < d.length; ++i) {
-				d[i].x = m * d[i].x - minx;
-				d[i].y = m * d[i].y - miny;
+				d[i].x = m * d[i].x + cx;
+				d[i].y = m * d[i].y + cy;
 			}
 			d.size = d.size * m;
 			return d;
