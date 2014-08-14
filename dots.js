@@ -7,6 +7,7 @@ var options = {
 	generalised: [3, 4, 5, 6],
 	delayStep: 50, // ms
 	showNumbers: false,
+	indexFrom: 1,
 	margin: 0.5,
 	sumDistance: 1.2
 }, update;
@@ -132,7 +133,7 @@ console.log(Object.keys(options));
 	.directive('dotPanel', ['$timeout', 'dotService', function(timeout, service) {
 
 		function delayHide(el, d) {
-			timeout(function() {
+			return timeout(function() {
 				el.addClass('hiding');
 				timeout(function() {
 					el.remove();
@@ -162,18 +163,20 @@ console.log(Object.keys(options));
 				el.classList.add('hiding');
 				el.style.background = service.getBg(n);
 				el.id = id;
+				if (options.showNumbers)
+					el.text(n + options.indexFrom);
 				panel.append(angular.element(el));
 			}	
-			el.style.top = x + 'px';
-			el.style.left = y + 'px';
+			el.style.top = y + 'px';
+			el.style.left = x + 'px';
 			el.style.width = el.style.height = size + 'px';
-			return timeout(function() {
+			timeout(function() {
 				el.classList.remove('hiding');
 			});
 		}
 
 		function delayPut(i, x, y, size, delay) {
-			timeout(function() {
+			return timeout(function() {
 				putDot(i, x, y, size);
 			}, delay);
 		}
