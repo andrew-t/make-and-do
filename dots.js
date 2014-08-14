@@ -23,24 +23,21 @@ console.log(Object.keys(options));
 
 (function(){
 
-	var panel,
-		hidingTransitionTime = 300; //ms, must match css
-
 	// make a dance comprised of N sub-dances
 	function sumDances(ds) {
 		var d = [], i, j;
 		for (i = 0; i < ds.length; ++i)
-			squeezeDance(ds[i]);
+			squeezeDance(ds[i], 1, 1);
 		for (i = 1; i < ds.length; ++i)
 			for (j = 0; j < ds[i].length; ++j) {
 				ds[i][j].x += options.sumDistance;
 				d.push(ds[i][j]);
 			}
-		return squeezeDance(d);
+		return d;
 	}
 
 	// make sure a dance fits in the panel
-	function squeezeDance(d) {
+	function squeezeDance(d, h, w) {
 		var minx = Infinity, 
 			maxx = -Infinity,
 			miny = Infinity,
@@ -58,9 +55,7 @@ console.log(Object.keys(options));
 		minx -= margin;
 		maxy += margin;
 		miny -= margin;
-		var h = panel.prop('clientHeight'),
-			w = panel.prop('clientWidth'),
-			dh = maxy - miny,
+		var dh = maxy - miny,
 			dw = maxx - minx,
 			m = Math.min(h / dh, w / dw),
 			cx = (w - m * dw) * 0.5,
@@ -127,10 +122,13 @@ console.log(Object.keys(options));
 			scope.properties = props;
 		});
 		scope.showProperty = function(property) {
-			scope.dance = squeezeDance(property.dance());
+			scope.dance = property.dance();
 		};
 	}])
 	.directive('dotPanel', ['$timeout', 'dotService', function(timeout, service) {
+
+		var panel,
+			hidingTransitionTime = 300; //ms, must match css
 
 		function delayHide(el, d) {
 			return timeout(function() {
@@ -202,7 +200,7 @@ console.log(Object.keys(options));
 				scope.sumDances = sumDances;
 				scope.$watch('dance', function(d) {
 					if (d)
-						dance(d);
+						dance(squeezeDance(d, panel.prop('clientHeight'), panel.prop('clientWidth') ));
 					else
 						dance([]);
 				});
