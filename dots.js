@@ -21,13 +21,115 @@ console.log('Keys in `options`:');
 console.log(Object.keys(options));
 
 (function(){
-	angular.module('dots', [])
-	.controller('dotControls', ['$scope', function(scope) {
 
+	var panel,
+		hidingTransitionTime = 300; //ms, must match css
+
+	// make a dance comprised of N sub-dances
+	function sumDances(ds) {
+		var d = [], i, j;
+		for (i = 0; i < ds.length; ++i)
+			squeezeDance(ds[i]);
+		for (i = 1; i < ds.length; ++i)
+			for (j = 0; j < ds[i].length; ++j) {
+				ds[i][j].x += options.sumDistance;
+				d.push(ds[i][j]);
+			}
+		return squeezeDance(d);
+	}
+
+	// make sure a dance fits in the panel
+	function squeezeDance(d) {
+		var minx = Infinity, 
+			maxx = -Infinity,
+			miny = Infinity,
+			maxy = -Infinity,
+			maxSize = -Infinity;
+		for (var i = 0; i < d.length; ++i) {
+			if (d[i].x < minx) minx = d[i].x;
+			if (d[i].x > maxx) maxx = d[i].x;
+			if (d[i].y < miny) miny = d[i].y;
+			if (d[i].y > maxy) maxy = d[i].y;
+			if (d[i].size > maxSize) maxSize = d[i].size;
+		};
+		var	margin = maxSize + options.margin
+		maxx += margin;
+		minx -= margin;
+		maxy += margin;
+		miny -= margin;
+		var h = panel.prop('clientHeight'),
+			w = panel.prop('clientWidth'),
+			dh = maxy - miny,
+			dw = maxx - minx,
+			m = Math.min(h / dh, w / dw),
+			cx = (w - m * dw) * 0.5,
+			cy = (h - m * dh) * 0.5;
+		for (var i = 0; i < d.length; ++i) {
+			d[i].x = m * d[i].x + cx;
+			d[i].y = m * d[i].y + cy;
+			d[i].size = d[i].size * m;
+		}
+		return d;
+	}
+
+	angular.module('dots', ['prime'])
+	.service('dotService', function() {
+		// hidden maths!!
+		var phi = (1 + Math.sqrt(5)) / 2,
+			hueStep = 360 * phi;
+		this.getBg = function(i) {
+			return 'hsl(' + (hueStep * i) + ', 50%, 50%)';
+		};
+	})
+	.controller('dotControls', ['$scope', 'factorise', function(scope, factorise) {
+		var properties = [
+			function(n) {
+				var factors = factorise.factorise(n);
+				return (n < 2 || factors.length) ? undefined : {
+					name: 'Prime',
+					dance: function() {
+						var d = [];
+						for (var i = 0; i < n; ++i)
+							d.push({
+								x: i,
+								y: (i % 2) * 0.5,
+								size: 1
+							});
+						return d;
+					}
+				};
+			},
+			function(n) {
+				var root = Math.sqrt(n);
+				return (root % 1) ? undefined : {
+					name: root + ' squared',
+					dance: function() {
+						var d = [];
+						for (var y = 0; y < root; ++y)
+							for (var x = 0; x < root; ++x)
+								d.push({
+									x: x,
+									y: y,
+									size: 0.9
+								});
+						return d;
+					}
+				};
+			}
+		];
+		scope.$watch('n', function(n) {
+			var props = [];
+			for (var i = 0; i < properties.length; ++i) {
+				var property = properties[i](n);
+				if (property) props.push(property);
+			}
+			scope.properties = props;
+		});
+		scope.showProperty = function(property) {
+			scope.dance = squeezeDance(property.dance());
+		};
 	}])
-	.directive('dotPanel', ['$timeout', function(timeout) {
-		var panel,
-			hidingTransitionTime = 300; //ms, must match css
+	.directive('dotPanel', ['$timeout', 'dotService', function(timeout, service) {
 
 		// remove all dots with an index of n or above
 		function hideDotsFrom(n) {
@@ -54,6 +156,7 @@ console.log(Object.keys(options));
 				el = document.createElement('div');
 				el.classList.add('dot');
 				el.classList.add('hiding');
+				el.style.background = service.getBg(n);
 				el.id = id;
 				panel.append(angular.element(el));
 			}	
@@ -81,53 +184,6 @@ console.log(Object.keys(options));
 			}
 		}
 
-		// make a dance comprised of N sub-dances
-		function sumDances(ds) {
-			var d = [], i, j;
-			for (i = 0; i < ds.length; ++i)
-				squeezeDance(ds[i]);
-			for (i = 1; i < ds.length; ++i)
-				for (j = 0; j < ds[i].length; ++j) {
-					ds[i][j].x += options.sumDistance;
-					d.push(ds[i][j]);
-				}
-			return squeezeDance(d);
-		}
-
-		// make sure a dance fits in the panel
-		function squeezeDance(d) {
-			var minx = Infinity, 
-				maxx = -Infinity,
-				miny = Infinity,
-				maxy = -Infinity,
-				maxSize = -Infinity;
-			for (var i = 0; i < d.length; ++i) {
-				if (d[i].x < minx) minx = d[i].x;
-				if (d[i].x > maxx) maxx = d[i].x;
-				if (d[i].y < miny) miny = d[i].y;
-				if (d[i].y > maxy) maxy = d[i].y;
-				if (d[i].size > maxSize) maxSize = d[i].size;
-			};
-			var	margin = maxSize + options.margin
-			maxx += margin;
-			minx -= margin;
-			maxy += margin;
-			miny -= margin;
-			var h = panel.prop('clientHeight'),
-				w = panel.prop('clientWidth'),
-				dh = maxy - miny,
-				dw = maxx - minx,
-				m = Math.min(h / dh, w / dw),
-				cx = (w - m * dw) * 0.5,
-				cy = (h - m * dh) * 0.5;
-			for (var i = 0; i < d.length; ++i) {
-				d[i].x = m * d[i].x + cx;
-				d[i].y = m * d[i].y + cy;
-				d[i].size = d[i].size * m;
-			}
-			return d;
-		}
-
 		return {
 			scope: {
 				dance: '='
@@ -141,7 +197,7 @@ console.log(Object.keys(options));
 					if (d)
 						dance(d);
 					else
-						dance([]]);
+						dance([]);
 				});
 			}
 		};
