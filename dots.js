@@ -119,9 +119,6 @@ console.log(Object.keys(options));
 			link: function(scope, element, attrs) {
 				panel = element;
 				update = scope.$apply();
-				scope.dance = dance;
-				scope.sumDances = sumDances;
-				scope.squeezeDance = squeezeDance;
 			}
 		};
 	}]);
