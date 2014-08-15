@@ -132,7 +132,7 @@
 							};
 						case 2:
 							return {
-								name: 'Coprime',
+								name: 'Coprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
 								class: ['coprime'],
 								dance: function() {
 									return service.squareDance(factors[1], factors[0]);
@@ -145,8 +145,8 @@
 					for (var i = 1; i <= limit; ++i) {
 						var root = Math.sqrt(n - i * i);
 						if (!(root % 1))
-							results.push((function(i) { return {
-								name: i + '^2 + ' + root + '^2',
+							results.push((function(i, root) { return {
+								name: i + '\u00b2 + ' + root + '\u00b2',
 								class: 'sum-of-two-squares',
 								dance: function() {
 									return service.sumDances([
@@ -154,7 +154,7 @@
 										service.squareDance(root)
 									]);
 								}
-							}})(i));
+							}})(i, root));
 					}
 					return results;
 				}
