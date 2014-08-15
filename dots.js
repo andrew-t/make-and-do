@@ -118,6 +118,7 @@
 	})
 	.controller('dotControls', ['$scope', 'factorise', 'dotService', 'polygon', 
 		function(scope, factorise, service, polygonService) {
+			// IDEAS: Factorials, perfect numbers
 			var properties = [
 				function(n) {
 					var factors = factorise.factorise(n);
@@ -132,7 +133,7 @@
 							};
 						case 2:
 							return {
-								name: 'Coprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
+								name: 'Semiprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
 								class: ['coprime'],
 								dance: function() {
 									return service.squareDance(factors[1], factors[0]);

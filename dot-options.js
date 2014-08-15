@@ -4,7 +4,7 @@
 var options = {
 	maxN: 1000,
 	centred: [5, 6, 7],
-	generalised: [3, 4, 5, 6, 7],
+	generalised: [3, 4, 5, 7],
 	delayStep: 50, // ms
 	showNumbers: true,
 	indexFrom: 1,
