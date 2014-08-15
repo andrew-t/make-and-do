@@ -1,0 +1,15 @@
+.triangle {
+	position: relative;
+}
+.cell {
+	position: absolute;
+	line-height: 30px;
+	text-align: center;
+	width: 60px;
+}
+.cell:hover {
+	background: cyan;
+}
+.cell.hit {
+	background: yellow;
+}

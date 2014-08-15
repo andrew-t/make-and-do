@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<script src="choose.js"></script>
+		<script src="pascal.js"></script>
+		<link href="style.css" rel="stylesheet">
+		<link href="pascal.css" rel="stylesheet">
+	</head>
+	<body ng-app="pascal">
+		<section ng-scope ng-controller="pascal">
+			<label for="maxHits">Maximum hits</label> <input type="number" ng-model="maxHits" id="maxHits">
+			<label for="maxRows">Maximum rows</label> <input type="number" ng-model="maxRows" id="maxRows">
+			<label for="n">N</label> <input type="number" ng-model="n" id="n">
+			<button ng-click="hits = find(n, maxHits)">Search</button>
+			<ul>
+				<li ng-repeat="hit in hits">Row {{hit.y + 1}}, position {{hit.x + 1}} = {{hit.n}}</li>
+			</ul>
+			<div class="triangle">
+				<div class="cell"
+				     ng-repeat="cell in triangle"
+				     ng-class="{ hit: cell.n == n }"
+				     style="top: {{cell.y * 30}}px;
+				            left: {{cell.x * 60 + (rows - cell.y) * 30}}px;
+				            font-size: {{fontSize(90, 25, cell.n)}}px">
+					{{cell.n}}
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

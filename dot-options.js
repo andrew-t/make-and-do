@@ -5,8 +5,16 @@ var options = {
 	maxN: 1000,
 	centred: [5, 6, 7],
 	generalised: [3, 4, 5, 7],
-	delayStep: 50, // ms
-	hideDelayStep: 10, //ms
+	appearDelay: {
+		step: 50,
+		maxTotal: 2500,
+		minStep: 10
+	},
+	hideDelay: {
+		step: 10,
+		maxTotal: 2500,
+		minStep: 0
+	},
 	preTransitionDelay: 25, //ms
 	showNumbers: true,
 	indexFrom: 1,
@@ -30,6 +38,8 @@ console.log('Hello! Since you\'ve opened the dev console on a mathsy site, I ass
 	'thing and put all the settings on the global scope so you can play with them. ' +
 	'the object is called `options`, so feel free to play with it and see what happens. ' +
 	'Call `update()` once you\'re finished to refresh the view.');
+
+console.log('All times are in milliseconds. Saturation and lightness are in percent. Hue is in degrees.');
 
 console.log('Keys in `options`:');
 console.log(Object.keys(options));

@@ -4,15 +4,13 @@
 	angular.module('choose', [])
 	.service('combinatorics', function() {
 		this.factorial = function(a) {
-			var f = a;
-			while (a --> 2)
-				f *= a;
+			var f = 1;
+			if (a) do f *= a; while (a --> 2);
 			return f;
 		};
 		this.permutations = function(a, b) {
-			var f = a, t = a - b + 1;
-			while (a --> t)
-				f *= a;
+			var f = 1, t = a - b + 1;
+			if (b) do f *= a; while (a --> t);
 			return f;
 		};
 		this.combinations = function(a, b) {

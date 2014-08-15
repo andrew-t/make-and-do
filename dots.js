@@ -230,7 +230,12 @@
 	.directive('dotPanel', ['$timeout', 'dotService', function(timeout, service) {
 
 		var panel,
+			lastN = 0,
 			hidingTransitionTime = 300; //ms, must match css
+
+		function getDelay(params, n) {
+			return Math.max(Math.min(params.step, params.maxTotal / n), params.minStep);
+		}
 
 		function delayHide(el, d) {
 			return timeout(function() {
@@ -254,14 +259,16 @@
 
 		// remove all dots with an index of n or above
 		function hideDotsFrom(n) {
-			var d = 0;
+			var d = 0,
+				dStep = getDelay(options.hideDelay, lastN - n);
 			for (; n < options.maxN; ++n) {
 				var el = angular.element(document.getElementById('dot-' + n));
 				if (el.length) {
 					delayHide(el, d);
-					d += options.hideDelayStep;
+					d += dStep;
 				}
 			}
+			lastN = n;
 		}
 		update.hooks.push(function() {
 			hideDotsFrom(0);
@@ -305,10 +312,10 @@
 		// perform a dance
 		function dance(d) {
 			hideDotsFrom(d.length);
-			var delay = 0;
+			var delay = 0, dStep = getDelay(options.appearDelay, d.length);
 			for (var i = 0; i < d.length; ++i) {
 				delayPut(i, d[i].x, d[i].y, d[i].size, delay);
-				delay += options.delayStep;
+				delay += dStep;
 			}
 		}
 
