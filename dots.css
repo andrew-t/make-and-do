@@ -10,8 +10,11 @@
 	border-radius: 50%;
 	transition: all 0.3s; /* must match js */
 	background: red; /* should be overridden */
+	text-align: center;
+	font-family: sans-serif;
+	font-weight: bold;
+	color: white;
 }
 .hiding {
-	width: 0 !important;
-	height: 0 !important;
+	/* whatever */
 }

@@ -3,14 +3,15 @@
 
 var options = {
 	maxN: 1000,
-	centred: [/*5, 7*/],
-	generalised: [3, 4, 5, 6],
+	centred: [5, 6, 7],
+	generalised: [3, 4, 5],
 	delayStep: 50, // ms
-	showNumbers: false,
+	showNumbers: true,
 	indexFrom: 1,
 	margin: 0.5,
 	sumDistance: 1.2,
-	polygonSpacing: 0.6
+	polygonSpacing: 0.6,
+	fontSize: 0.5
 }, update;
 
 console.log('Hello! Since you\'ve opened the dev console on a mathsy site, I assume ' +

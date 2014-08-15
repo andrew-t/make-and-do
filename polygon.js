@@ -3,19 +3,19 @@
 (function(){
 	angular.module('polygon', [])
 	.service('polygon', function() {
-		this.centered = function(n) {
+		this.centred = function(n, m) {
 			// TODO - maths this into one line.
-			var m = 1;
+			var x = 1;
 			for (var i = 1; i <= n; ++i)
-				m += i * n;
-			return m;
+				x += i * m;
+			return x;
 		};
-		this.generalised = function(n) {
+		this.generalised = function(n, m) {
 			// TODO - maths this into one line.
-			var m = 1;
+			var x = 1;
 			for (var i = 1; i <= n; ++i)
-				m += i * (n - 2) + 1;
-			return m;
+				x += i * (m - 2) + 1;
+			return x;
 		};
 	});
 })();

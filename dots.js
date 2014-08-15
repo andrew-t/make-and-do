@@ -1,7 +1,7 @@
 'use strict';
 
 (function(){
-	angular.module('dots', ['prime'])
+	angular.module('dots', ['prime', 'polygon'])
 	.service('dotService', function() {
 		// hidden maths!!
 		var phi = (1 + Math.sqrt(5)) / 2,
@@ -45,8 +45,8 @@
 			var dh = maxy - miny,
 				dw = maxx - minx,
 				m = Math.min(h / dh, w / dw),
-				cx = -m * minx, // TODO - this top-lefts it
-				cy = -m * miny;
+				cx = 0.5 * (w - m * (minx + maxx)),
+				cy = 0.5 * (h - m * (miny + maxy));
 			for (var i = 0; i < d.length; ++i) {
 				d[i].x = m * d[i].x + cx;
 				d[i].y = m * d[i].y + cy;
@@ -55,7 +55,7 @@
 			return d;
 		};
 
-		this.polygonDance = function(sides, perSide, radius, firstSide, lastSide) {
+		this.polygonDance = function(sides, perSide, radius, firstSide, lastSide, centreOnCorner) {
 			if (perSide === undefined)
 				perSide = 1;
 			if (firstSide === undefined) 
@@ -63,7 +63,7 @@
 			else
 				firstSide %= sides;
 			if (lastSide === undefined)
-				lastSide = sides - 1; 
+				lastSide = firstSide; 
 			else
 				lastSide %= sides;
 			var corners = [], theta = Math.PI * 2 / sides, i;
@@ -74,7 +74,7 @@
 			for (i = 0; i < sides; ++i)
 				corners.push({
 					x: Math.sin(theta * i) * radius,
-					y: Math.cos(theta * i) * radius,
+					y: -Math.cos(theta * i) * radius,
 					size: 0.5
 				});
 			if (perSide == 1)
@@ -84,21 +84,27 @@
 			do {
 				var a = corners[i], b = corners[i = (i + 1) % sides];
 				for (var j = 0; j < perSide; ++j) {
-					var bb = j / perSide, aa = 1 - x;
-					d.push({
-						x: a.x * aa + b.x * bb,
-						y: a.y * aa + b.y * bb,
-						size: a.size * aa + b.size * bb
-					});
+					var bb = j / perSide, 
+						aa = 1 - bb,
+						dot = {
+							x: a.x * aa + b.x * bb,
+							y: a.y * aa + b.y * bb,
+							size: a.size * aa + b.size * bb
+						};
+					if (centreOnCorner !== undefined) {
+						d.x -= corners[centreOnCorner].x;
+						d.y -= corners[centreOnCorner].y;
+					}
+					d.push(dot);
 				}
 			} while (i != lastSide);
-			if (((lastSide + 1) % sides) != firstSide)
+			if (lastSide != firstSide || perSide == 0)
 				d.push(corners[lastSide]);
 			return d;
 		};
 	})
-	.controller('dotControls', ['$scope', 'factorise', 'dotService', 
-		function(scope, factorise, service) {
+	.controller('dotControls', ['$scope', 'factorise', 'dotService', 'polygon', 
+		function(scope, factorise, service, polygonService) {
 			var properties = [
 				function(n) {
 					var factors = factorise.factorise(n);
@@ -106,6 +112,7 @@
 						case 1:
 							return {
 								name: 'Prime',
+								class: ['prime'],
 								dance: function() {
 									return service.polygonDance(n);
 								}
@@ -113,6 +120,7 @@
 						case 2:
 							return {
 								name: 'Coprime',
+								class: ['coprime'],
 								dance: function() {
 									var d = [], size = 0.5 / options.polygonSpacing;
 									for (var y = 0; y < factors[0]; ++y)
@@ -122,11 +130,12 @@
 								}
 							};
 					}
-				},
+				}/*,
 				function(n) {
 					var root = Math.sqrt(n);
 					return (root % 1) ? undefined : {
 						name: root + ' squared',
+						class: ['square'],
 						dance: function() {
 							var d = [];
 							// TODO - use polygon
@@ -136,9 +145,57 @@
 							return d;
 						}
 					};
-				}
+				}*/
 			];
+			options.generalised.forEach(function(m) {
+				var values = [];
+				while (true) {
+					var next = polygonService.generalised(values.length, m);
+					if (next > options.maxN) break;
+					values.push(next);
+				}
+				properties.push(function(n) {
+					var root = values.indexOf(n);
+					return ~root ? {
+						// TODO - beter name
+						name: (root + 1) + 'th generalised ' + m + '-gonal number',
+						class: ['generalised', 'generalised-' + m],
+						dance: function() {
+							var d = [];
+							for (var i = 1; i <= root; ++i)
+								d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
+							return d;
+						}
+					} : undefined;
+				});
+			});
+			options.centred.forEach(function(m) {
+				var values = [];
+				while (true) {
+					var next = polygonService.centred(values.length, m);
+					if (next > options.maxN) break;
+					values.push(next);
+				}
+				properties.push(function(n) {
+					var root = values.indexOf(n);
+					return ~root ? {
+						// TODO - beter name
+						name: (root + 1) + 'th centred ' + m + '-gonal number',
+						class: ['centred', 'centred-' + m],
+						dance: function() {
+							var d = [];
+							for (var i = 0; i <= root; ++i)
+								d = d.concat(service.polygonDance(m, i));
+							return d;
+						}
+					} : undefined;
+				});
+			});
 			scope.$watch('n', function(n) {
+				if (n > options.maxN) {
+					scope.properties = [];
+					return;
+				}
 				var props = [];
 				for (var i = 0; i < properties.length; ++i) {
 					var property = properties[i](n);
@@ -192,17 +249,24 @@
 				el.classList.add('dot');
 				el.classList.add('hiding');
 				el.style.background = service.getBg(n);
+				el.style.top = y + 'px';
+				el.style.left = x + 'px';
+				el.style['line-height'] = el.style.width = el.style.height = '0';
+				el.style['font-size'] = '0';
 				el.id = id;
+				var ael = angular.element(el);
 				if (options.showNumbers)
-					el.text(n + options.indexFrom);
-				panel.append(angular.element(el));
-			}	
-			el.style.top = (y - size * 0.5) + 'px';
-			el.style.left = (x - size * 0.5) + 'px';
-			el.style.width = el.style.height = size + 'px';
+					ael.text(n + options.indexFrom);
+				panel.append(ael);
+			}
+			// todo - replace with css animation?
 			timeout(function() {
 				el.classList.remove('hiding');
-			});
+				el.style.top = (y - size * 0.5) + 'px';
+				el.style.left = (x - size * 0.5) + 'px';
+				el.style['line-height'] = el.style.width = el.style.height = size + 'px';
+				el.style['font-size'] = (size * options.fontSize) + 'px';
+			}, 25);
 		}
 
 		function delayPut(i, x, y, size, delay) {
@@ -232,7 +296,8 @@
 				scope.sumDances = service.sumDances;
 				scope.$watch('dance', function(d) {
 					if (d)
-						dance(service.squeezeDance(d, panel.prop('clientHeight'), panel.prop('clientWidth') ));
+						dance(service.squeezeDance(d, 
+							panel.prop('clientHeight'), panel.prop('clientWidth')));
 					else
 						dance([]);
 				});
