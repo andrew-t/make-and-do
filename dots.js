@@ -12,15 +12,15 @@
 
 		// make a dance comprised of N sub-dances
 		this.sumDances = function(ds) {
-			var d = [], i, j;
+			var i, j;
 			for (i = 0; i < ds.length; ++i)
-				squeezeDance(ds[i], 1, 1);
+				this.squeezeDance(ds[i], 1, 1);
 			for (i = 1; i < ds.length; ++i)
 				for (j = 0; j < ds[i].length; ++j) {
 					ds[i][j].x += options.sumDistance;
-					d.push(ds[i][j]);
+					ds[0].push(ds[i][j]);
 				}
-			return d;
+			return ds[0];
 		};
 
 		// make sure a dance fits in the panel
@@ -106,6 +106,15 @@
 			}
 			return d;
 		};
+
+		this.squareDance = function(a, b) {
+			if (b === undefined) b = a;
+			var d = [], size = 0.5 / options.polygonSpacing;
+			for (var y = 0; y < b; ++y)
+				for (var x = 0; x < a; ++x)
+					d.push({ x: x, y: y, size: size });
+			return d;
+		}
 	})
 	.controller('dotControls', ['$scope', 'factorise', 'dotService', 'polygon', 
 		function(scope, factorise, service, polygonService) {
@@ -126,14 +135,28 @@
 								name: 'Coprime',
 								class: ['coprime'],
 								dance: function() {
-									var d = [], size = 0.5 / options.polygonSpacing;
-									for (var y = 0; y < factors[0]; ++y)
-										for (var x = 0; x < factors[1]; ++x)
-											d.push({ x: x, y: y, size: size });
-									return d;
+									return service.squareDance(factors[1], factors[0]);
 								}
 							};
 					}
+				}, function(n) {
+					var results = [],
+						limit = Math.sqrt(n / 2);
+					for (var i = 1; i <= limit; ++i) {
+						var root = Math.sqrt(n - i * i);
+						if (!(root % 1))
+							results.push((function(i) { return {
+								name: i + '^2 + ' + root + '^2',
+								class: 'sum-of-two-squares',
+								dance: function() {
+									return service.sumDances([
+										service.squareDance(i),
+										service.squareDance(root)
+									]);
+								}
+							}})(i));
+					}
+					return results;
 				}
 			];
 			options.generalised.forEach(function(m) {
@@ -188,7 +211,10 @@
 				var props = [];
 				for (var i = 0; i < properties.length; ++i) {
 					var property = properties[i](n);
-					if (property) props.push(property);
+					if (property) {
+						if (property.dance) props.push(property);
+						else if (property.length) props = props.concat(property);
+					}
 				}
 				if (props.length == 0) {
 					props.push({
