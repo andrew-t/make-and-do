@@ -3,11 +3,8 @@
 (function(){
 	angular.module('dots', ['prime', 'polygon'])
 	.service('dotService', function() {
-		// hidden maths!!
-		var phi = (1 + Math.sqrt(5)) / 2,
-			hueStep = 360 * phi;
 		this.getBg = function(i) {
-			return 'hsl(' + (hueStep * i) + ', 50%, 50%)';
+			return 'hsl(' + (options.hueStep * i) + ', ' + options.saturation + '%, ' + options.lightness + '%)';
 		};
 
 		// make a dance comprised of N sub-dances
@@ -67,7 +64,7 @@
 			else
 				lastSide %= sides;
 			var corners = [], theta = Math.PI * 2 / sides, i;
-			// more hidden maths!!
+			// hidden maths!!
 			if (!radius)
 				radius = options.polygonSpacing * 0.5 * perSide / 
 					Math.cos((Math.PI - theta) * 0.5);
@@ -79,31 +76,27 @@
 				});
 			var d = [], i = firstSide;
 			i = firstSide;
-			do {
-				var a = corners[i], b = corners[i = (i + 1) % sides];
-				for (var j = 0; j < perSide; ++j) {
-					var bb = j / perSide, 
-						aa = 1 - bb,
-						dot = {
-							x: a.x * aa + b.x * bb,
-							y: a.y * aa + b.y * bb,
-							size: a.size * aa + b.size * bb
-						};
-					if (centreOnCorner !== undefined) {
-						dot.x -= corners[centreOnCorner].x;
-						dot.y -= corners[centreOnCorner].y;
-					}
-					d.push(dot);
-				}
-			} while (i != lastSide);
-			if (lastSide != firstSide || perSide == 0) {
-				dot = corners[lastSide];
+			function addDot(dot) {
 				if (centreOnCorner !== undefined) {
 					dot.x -= corners[centreOnCorner].x;
 					dot.y -= corners[centreOnCorner].y;
 				}
 				d.push(dot);
 			}
+			do {
+				var a = corners[i], b = corners[i = (i + 1) % sides];
+				for (var j = 0; j < perSide; ++j) {
+					var bb = j / perSide, 
+						aa = 1 - bb;
+					addDot({
+						x: a.x * aa + b.x * bb,
+						y: a.y * aa + b.y * bb,
+						size: a.size * aa + b.size * bb
+					});
+				}
+			} while (i != lastSide);
+			if (lastSide != firstSide || perSide == 0)
+				addDot(corners[lastSide]);
 			return d;
 		};
 
@@ -118,92 +111,96 @@
 	})
 	.controller('dotControls', ['$scope', 'factorise', 'dotService', 'polygon', 
 		function(scope, factorise, service, polygonService) {
-			// IDEAS: Factorials, perfect numbers
-			var properties = [
-				function(n) {
-					var factors = factorise.factorise(n);
-					switch (factors.length) {
-						case 1:
-							return {
-								name: 'Prime',
-								class: ['prime'],
-								dance: function() {
-									return service.polygonDance(n);
-								}
-							};
-						case 2:
-							return {
-								name: 'Semiprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
-								class: ['coprime'],
-								dance: function() {
-									return service.squareDance(factors[1], factors[0]);
-								}
-							};
-					}
-				}, function(n) {
-					var results = [],
-						limit = Math.sqrt(n / 2);
-					for (var i = 1; i <= limit; ++i) {
-						var root = Math.sqrt(n - i * i);
-						if (!(root % 1))
-							results.push((function(i, root) { return {
-								name: i + '\u00b2 + ' + root + '\u00b2',
-								class: 'sum-of-two-squares',
-								dance: function() {
-									return service.sumDances([
-										service.squareDance(i),
-										service.squareDance(root)
-									]);
-								}
-							}})(i, root));
-					}
-					return results;
-				}
-			];
-			options.generalised.forEach(function(m) {
-				var values = [];
-				while (true) {
-					var next = polygonService.generalised(values.length, m);
-					if (next > options.maxN) break;
-					values.push(next);
-				}
-				properties.push(function(n) {
-					var root = values.indexOf(n);
-					return ~root ? {
-						// TODO - beter name
-						name: (root + 1) + 'th generalised ' + m + '-gonal number',
-						class: ['generalised', 'generalised-' + m],
-						dance: function() {
-							var d = [];
-							for (var i = 0; i <= root; ++i)
-								d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
-							return d;
+			var properties, generateProperties = function() {
+				// IDEAS: Factorials, perfect numbers
+				properties = [
+					function(n) {
+						var factors = factorise.factorise(n);
+						switch (factors.length) {
+							case 1:
+								return {
+									name: 'Prime',
+									class: ['prime'],
+									dance: function() {
+										return service.polygonDance(n);
+									}
+								};
+							case 2:
+								return {
+									name: 'Semiprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
+									class: ['coprime'],
+									dance: function() {
+										return service.squareDance(factors[1], factors[0]);
+									}
+								};
 						}
-					} : undefined;
-				});
-			});
-			options.centred.forEach(function(m) {
-				var values = [];
-				while (true) {
-					var next = polygonService.centred(values.length, m);
-					if (next > options.maxN) break;
-					values.push(next);
-				}
-				properties.push(function(n) {
-					var root = values.indexOf(n);
-					return ~root ? {
-						// TODO - beter name
-						name: (root + 1) + 'th centred ' + m + '-gonal number',
-						class: ['centred', 'centred-' + m],
-						dance: function() {
-							var d = [];
-							for (var i = 0; i <= root; ++i)
-								d = d.concat(service.polygonDance(m, i));
-							return d;
+					}, function(n) {
+						var results = [],
+							limit = Math.sqrt(n / 2);
+						for (var i = 1; i <= limit; ++i) {
+							var root = Math.sqrt(n - i * i);
+							if (!(root % 1))
+								results.push((function(i, root) { return {
+									name: i + '\u00b2 + ' + root + '\u00b2',
+									class: 'sum-of-two-squares',
+									dance: function() {
+										return service.sumDances([
+											service.squareDance(i),
+											service.squareDance(root)
+										]);
+									}
+								}})(i, root));
 						}
-					} : undefined;
+						return results;
+					}
+				];
+				options.generalised.forEach(function(m) {
+					var values = [];
+					while (true) {
+						var next = polygonService.generalised(values.length, m);
+						if (next > options.maxN) break;
+						values.push(next);
+					}
+					properties.push(function(n) {
+						var root = values.indexOf(n);
+						return ~root ? {
+							// TODO - beter name
+							name: (root + 1) + 'th generalised ' + m + '-gonal number',
+							class: ['generalised', 'generalised-' + m],
+							dance: function() {
+								var d = [];
+								for (var i = 0; i <= root; ++i)
+									d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
+								return d;
+							}
+						} : undefined;
+					});
 				});
-			});
+				options.centred.forEach(function(m) {
+					var values = [];
+					while (true) {
+						var next = polygonService.centred(values.length, m);
+						if (next > options.maxN) break;
+						values.push(next);
+					}
+					properties.push(function(n) {
+						var root = values.indexOf(n);
+						return ~root ? {
+							// TODO - beter name
+							name: (root + 1) + 'th centred ' + m + '-gonal number',
+							class: ['centred', 'centred-' + m],
+							dance: function() {
+								var d = [];
+								for (var i = 0; i <= root; ++i)
+									d = d.concat(service.polygonDance(m, i));
+								return d;
+							}
+						} : undefined;
+					});
+				});
+			};
+			update.hooks.push(generateProperties);
+			generateProperties();
 			scope.$watch('n', function(n) {
 				if (n > options.maxN) {
 					scope.properties = [];
@@ -238,6 +235,17 @@
 		function delayHide(el, d) {
 			return timeout(function() {
 				el.addClass('hiding');
+				var size = parseInt(el.css('line-height'), 10) * 0.5,
+					x = parseInt(el.css('left'), 10),
+					y = parseInt(el.css('top'), 10);
+				el.css({
+					left: (x + size) + 'px',
+					top: (y + size) + 'px',
+					'line-height': size + 'px',
+					width: '0',
+					height: '0',
+					'font-size': '0'			
+				});
 				timeout(function() {
 					el.remove();
 				}, hidingTransitionTime);
@@ -251,10 +259,13 @@
 				var el = angular.element(document.getElementById('dot-' + n));
 				if (el.length) {
 					delayHide(el, d);
-					d += options.delayStep;
+					d += options.hideDelayStep;
 				}
 			}
 		}
+		update.hooks.push(function() {
+			hideDotsFrom(0);
+		});
 
 		// make sure a dot exists and is in the right place
 		function putDot(n, x, y, size) {
@@ -282,7 +293,7 @@
 				el.style.left = (x - size * 0.5) + 'px';
 				el.style['line-height'] = el.style.width = el.style.height = size + 'px';
 				el.style['font-size'] = (size * options.fontSize) + 'px';
-			}, 25);
+			}, options.preTransitionDelay);
 		}
 
 		function delayPut(i, x, y, size, delay) {
@@ -307,7 +318,6 @@
 			},
 			link: function(scope, element, attrs) {
 				panel = element;
-				update = scope.$apply;
 				scope.squeezeDance = service.squeezeDance;
 				scope.sumDances = service.sumDances;
 				scope.$watch('dance', function(d) {
