@@ -73,12 +73,10 @@
 					Math.cos((Math.PI - theta) * 0.5);
 			for (i = 0; i < sides; ++i)
 				corners.push({
-					x: Math.sin(theta * i) * radius,
+					x: -Math.sin(theta * i) * radius,
 					y: -Math.cos(theta * i) * radius,
 					size: 0.5
 				});
-			if (perSide == 1)
-				return corners;
 			var d = [], i = firstSide;
 			i = firstSide;
 			do {
@@ -92,14 +90,20 @@
 							size: a.size * aa + b.size * bb
 						};
 					if (centreOnCorner !== undefined) {
-						d.x -= corners[centreOnCorner].x;
-						d.y -= corners[centreOnCorner].y;
+						dot.x -= corners[centreOnCorner].x;
+						dot.y -= corners[centreOnCorner].y;
 					}
 					d.push(dot);
 				}
 			} while (i != lastSide);
-			if (lastSide != firstSide || perSide == 0)
-				d.push(corners[lastSide]);
+			if (lastSide != firstSide || perSide == 0) {
+				dot = corners[lastSide];
+				if (centreOnCorner !== undefined) {
+					dot.x -= corners[centreOnCorner].x;
+					dot.y -= corners[centreOnCorner].y;
+				}
+				d.push(dot);
+			}
 			return d;
 		};
 	})
@@ -130,22 +134,7 @@
 								}
 							};
 					}
-				}/*,
-				function(n) {
-					var root = Math.sqrt(n);
-					return (root % 1) ? undefined : {
-						name: root + ' squared',
-						class: ['square'],
-						dance: function() {
-							var d = [];
-							// TODO - use polygon
-							for (var y = 0; y < root; ++y)
-								for (var x = 0; x < root; ++x)
-									d.push({ x: x, y: y, size: 0.9 });
-							return d;
-						}
-					};
-				}*/
+				}
 			];
 			options.generalised.forEach(function(m) {
 				var values = [];
@@ -162,7 +151,7 @@
 						class: ['generalised', 'generalised-' + m],
 						dance: function() {
 							var d = [];
-							for (var i = 1; i <= root; ++i)
+							for (var i = 0; i <= root; ++i)
 								d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
 							return d;
 						}
