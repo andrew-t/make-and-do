@@ -1,73 +1,6 @@
 'use strict';
-// look up sass from http://codepen.io/thebabydino/pen/IdJCi
-
-var options = {
-	maxN: 1000,
-	centred: [/*5, 7*/],
-	generalised: [3, 4, 5, 6],
-	delayStep: 50, // ms
-	showNumbers: false,
-	indexFrom: 1,
-	margin: 0.5,
-	sumDistance: 1.2
-}, update;
-
-console.log('Hello! Since you\'ve opened the dev console on a mathsy site, I assume ' +
-	'you\re my kind of person, so I\'m going to tell you a secret: I have done a naughty ' +
-	'thing and put all the settings on the global scope so you can play with them. ' +
-	'the object is called `options`, so feel free to play with it and see what happens. ' +
-	'Call `update()` once you\'re finished to refresh the view.');
-
-console.log('Keys in `options`:');
-console.log(Object.keys(options));
 
 (function(){
-
-	// make a dance comprised of N sub-dances
-	function sumDances(ds) {
-		var d = [], i, j;
-		for (i = 0; i < ds.length; ++i)
-			squeezeDance(ds[i], 1, 1);
-		for (i = 1; i < ds.length; ++i)
-			for (j = 0; j < ds[i].length; ++j) {
-				ds[i][j].x += options.sumDistance;
-				d.push(ds[i][j]);
-			}
-		return d;
-	}
-
-	// make sure a dance fits in the panel
-	function squeezeDance(d, h, w) {
-		var minx = Infinity, 
-			maxx = -Infinity,
-			miny = Infinity,
-			maxy = -Infinity,
-			maxSize = -Infinity;
-		for (var i = 0; i < d.length; ++i) {
-			if (d[i].x < minx) minx = d[i].x;
-			if (d[i].x > maxx) maxx = d[i].x;
-			if (d[i].y < miny) miny = d[i].y;
-			if (d[i].y > maxy) maxy = d[i].y;
-			if (d[i].size > maxSize) maxSize = d[i].size;
-		};
-		var	margin = maxSize + options.margin
-		maxx += margin;
-		minx -= margin;
-		maxy += margin;
-		miny -= margin;
-		var dh = maxy - miny,
-			dw = maxx - minx,
-			m = Math.min(h / dh, w / dw),
-			cx = (w - m * dw) * 0.5,
-			cy = (h - m * dh) * 0.5;
-		for (var i = 0; i < d.length; ++i) {
-			d[i].x = m * d[i].x + cx;
-			d[i].y = m * d[i].y + cy;
-			d[i].size = d[i].size * m;
-		}
-		return d;
-	}
-
 	angular.module('dots', ['prime'])
 	.service('dotService', function() {
 		// hidden maths!!
@@ -76,55 +9,154 @@ console.log(Object.keys(options));
 		this.getBg = function(i) {
 			return 'hsl(' + (hueStep * i) + ', 50%, 50%)';
 		};
-	})
-	.controller('dotControls', ['$scope', 'factorise', function(scope, factorise) {
-		var properties = [
-			function(n) {
-				var factors = factorise.factorise(n);
-				return (n < 2 || factors.length) ? undefined : {
-					name: 'Prime',
-					dance: function() {
-						var d = [];
-						for (var i = 0; i < n; ++i)
-							d.push({
-								x: i,
-								y: (i % 2) * 0.5,
-								size: 1
-							});
-						return d;
-					}
-				};
-			},
-			function(n) {
-				var root = Math.sqrt(n);
-				return (root % 1) ? undefined : {
-					name: root + ' squared',
-					dance: function() {
-						var d = [];
-						for (var y = 0; y < root; ++y)
-							for (var x = 0; x < root; ++x)
-								d.push({
-									x: x,
-									y: y,
-									size: 0.9
-								});
-						return d;
-					}
-				};
-			}
-		];
-		scope.$watch('n', function(n) {
-			var props = [];
-			for (var i = 0; i < properties.length; ++i) {
-				var property = properties[i](n);
-				if (property) props.push(property);
-			}
-			scope.properties = props;
-		});
-		scope.showProperty = function(property) {
-			scope.dance = property.dance();
+
+		// make a dance comprised of N sub-dances
+		this.sumDances = function(ds) {
+			var d = [], i, j;
+			for (i = 0; i < ds.length; ++i)
+				squeezeDance(ds[i], 1, 1);
+			for (i = 1; i < ds.length; ++i)
+				for (j = 0; j < ds[i].length; ++j) {
+					ds[i][j].x += options.sumDistance;
+					d.push(ds[i][j]);
+				}
+			return d;
 		};
-	}])
+
+		// make sure a dance fits in the panel
+		this.squeezeDance = function(d, h, w) {
+			var minx = Infinity, 
+				maxx = -Infinity,
+				miny = Infinity,
+				maxy = -Infinity,
+				maxSize = -Infinity;
+			for (var i = 0; i < d.length; ++i) {
+				if (d[i].x < minx) minx = d[i].x;
+				if (d[i].x > maxx) maxx = d[i].x;
+				if (d[i].y < miny) miny = d[i].y;
+				if (d[i].y > maxy) maxy = d[i].y;
+				if (d[i].size > maxSize) maxSize = d[i].size;
+			};
+			var	margin = maxSize + options.margin
+			maxx += margin;
+			minx -= margin;
+			maxy += margin;
+			miny -= margin;
+			var dh = maxy - miny,
+				dw = maxx - minx,
+				m = Math.min(h / dh, w / dw),
+				cx = -m * minx, // TODO - this top-lefts it
+				cy = -m * miny;
+			for (var i = 0; i < d.length; ++i) {
+				d[i].x = m * d[i].x + cx;
+				d[i].y = m * d[i].y + cy;
+				d[i].size = d[i].size * m;
+			}
+			return d;
+		};
+
+		this.polygonDance = function(sides, perSide, radius, firstSide, lastSide) {
+			if (perSide === undefined)
+				perSide = 1;
+			if (firstSide === undefined) 
+				firstSide = 0;
+			else
+				firstSide %= sides;
+			if (lastSide === undefined)
+				lastSide = sides - 1; 
+			else
+				lastSide %= sides;
+			var corners = [], theta = Math.PI * 2 / sides, i;
+			// more hidden maths!!
+			if (!radius)
+				radius = options.polygonSpacing * 0.5 * perSide / 
+					Math.cos((Math.PI - theta) * 0.5);
+			for (i = 0; i < sides; ++i)
+				corners.push({
+					x: Math.sin(theta * i) * radius,
+					y: Math.cos(theta * i) * radius,
+					size: 0.5
+				});
+			if (perSide == 1)
+				return corners;
+			var d = [], i = firstSide;
+			i = firstSide;
+			do {
+				var a = corners[i], b = corners[i = (i + 1) % sides];
+				for (var j = 0; j < perSide; ++j) {
+					var bb = j / perSide, aa = 1 - x;
+					d.push({
+						x: a.x * aa + b.x * bb,
+						y: a.y * aa + b.y * bb,
+						size: a.size * aa + b.size * bb
+					});
+				}
+			} while (i != lastSide);
+			if (((lastSide + 1) % sides) != firstSide)
+				d.push(corners[lastSide]);
+			return d;
+		};
+	})
+	.controller('dotControls', ['$scope', 'factorise', 'dotService', 
+		function(scope, factorise, service) {
+			var properties = [
+				function(n) {
+					var factors = factorise.factorise(n);
+					switch (factors.length) {
+						case 1:
+							return {
+								name: 'Prime',
+								dance: function() {
+									return service.polygonDance(n);
+								}
+							};
+						case 2:
+							return {
+								name: 'Coprime',
+								dance: function() {
+									var d = [], size = 0.5 / options.polygonSpacing;
+									for (var y = 0; y < factors[0]; ++y)
+										for (var x = 0; x < factors[1]; ++x)
+											d.push({ x: x, y: y, size: size });
+									return d;
+								}
+							};
+					}
+				},
+				function(n) {
+					var root = Math.sqrt(n);
+					return (root % 1) ? undefined : {
+						name: root + ' squared',
+						dance: function() {
+							var d = [];
+							// TODO - use polygon
+							for (var y = 0; y < root; ++y)
+								for (var x = 0; x < root; ++x)
+									d.push({ x: x, y: y, size: 0.9 });
+							return d;
+						}
+					};
+				}
+			];
+			scope.$watch('n', function(n) {
+				var props = [];
+				for (var i = 0; i < properties.length; ++i) {
+					var property = properties[i](n);
+					if (property) props.push(property);
+				}
+				if (props.length == 0) {
+					props.push({
+						name: n,
+						dance: function() {
+							return service.polygonDance(n);
+						}});
+				}
+				scope.properties = props;
+			});
+			scope.showProperty = function(property) {
+				scope.dance = property.dance();
+			};
+		}])
 	.directive('dotPanel', ['$timeout', 'dotService', function(timeout, service) {
 
 		var panel,
@@ -165,8 +197,8 @@ console.log(Object.keys(options));
 					el.text(n + options.indexFrom);
 				panel.append(angular.element(el));
 			}	
-			el.style.top = y + 'px';
-			el.style.left = x + 'px';
+			el.style.top = (y - size * 0.5) + 'px';
+			el.style.left = (x - size * 0.5) + 'px';
 			el.style.width = el.style.height = size + 'px';
 			timeout(function() {
 				el.classList.remove('hiding');
@@ -196,11 +228,11 @@ console.log(Object.keys(options));
 			link: function(scope, element, attrs) {
 				panel = element;
 				update = scope.$apply;
-				scope.squeezeDance = squeezeDance;
-				scope.sumDances = sumDances;
+				scope.squeezeDance = service.squeezeDance;
+				scope.sumDances = service.sumDances;
 				scope.$watch('dance', function(d) {
 					if (d)
-						dance(squeezeDance(d, panel.prop('clientHeight'), panel.prop('clientWidth') ));
+						dance(service.squeezeDance(d, panel.prop('clientHeight'), panel.prop('clientWidth') ));
 					else
 						dance([]);
 				});

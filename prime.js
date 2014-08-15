@@ -4,6 +4,8 @@
 	angular.module('prime', [])
 	.service('factorise', function() {
 		this.factorise = function(n) {
+			if (n < 1)
+				return [];
 			var factors = [];
 			n = n | 0;
 			var l = Math.ceil(Math.sqrt(n)) | 0;
@@ -13,10 +15,12 @@
 					n = (n / i) | 0;
 					i = 1;
 				}
+			if (n > 1)
+				factors.push(n);
 			return factors;
 		};
 		this.test = function(n) {
-			return factorise(n).length == 0;
+			return factorise(n).length == 1;
 		};
 	})
 	.directive('prime', ['factorise', function(factorise) {
@@ -28,13 +32,15 @@
 			},
 			link: function(scope, element, attrs) {
 				scope.$watch('n', function(n) {
-					if (n > 0x8fffffff)
+					if (!n)
+						scope.result = '';
+					else if (n > 0x8fffffff)
 						scope.result = n + ' is too large.';
 					else if (n < 2)
 						scope.result = n + ' is too small';
 					else {
 						var factors = factorise.factorise(n);
-						scope.result = n + (factors.length
+						scope.result = n + (factors.length > 1
 							? ' = ' + factors.join(' \u00d7 ')
 							: ' is prime');
 					}
