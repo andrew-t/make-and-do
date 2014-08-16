@@ -111,6 +111,29 @@
 	})
 	.controller('dotControls', ['$scope', 'factorise', 'dotService', 'polygon', 
 		function(scope, factorise, service, polygonService) {
+			function namePolygon(n, m, adjective) {
+				n++;
+				if (m == 4)
+					return n + '\u00b2';
+				switch (n.toString(10).replace(/^.*(\d)$/, '$1')) {
+					case '1': n = n + 'st'; break;
+					case '2': n = n + 'nd'; break;
+					case '3': n = n + 'rd'; break;
+					default: n = n + 'th'; break;
+				}
+				switch (m) {
+					case 3: m = 'triangular'; break;
+					case 5: m = 'pentagonal'; break;
+					case 6: m = 'hexagonal'; break;
+					case 7: m = 'heptagonal'; break;
+					case 8: m = 'octagonal'; break;
+					case 9: m = 'nonagonal'; break;
+					case 10: m = 'decagonal'; break;
+					case 12: m = 'dodecagonal'; break;
+					default: m += '-gonal'; break;
+				}
+				return 'The ' + n + ' ' + adjective + ' ' + m + ' number';
+			}
 			var properties, generateProperties = function() {
 				// IDEAS: Factorials, perfect numbers
 				properties = [
@@ -163,17 +186,17 @@
 					}
 					properties.push(function(n) {
 						var root = values.indexOf(n);
-						return ~root ? {
-							// TODO - beter name
-							name: (root + 1) + 'th generalised ' + m + '-gonal number',
-							class: ['generalised', 'generalised-' + m],
-							dance: function() {
-								var d = [];
-								for (var i = 0; i <= root; ++i)
-									d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
-								return d;
-							}
-						} : undefined;
+						if (~root)
+							return {
+								name: namePolygon(root, m, 'generalised'),
+								class: ['generalised', 'generalised-' + m],
+								dance: function() {
+									var d = [];
+									for (var i = 0; i <= root; ++i)
+										d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
+									return d;
+								}
+							};
 					});
 				});
 				options.centred.forEach(function(m) {
@@ -186,8 +209,7 @@
 					properties.push(function(n) {
 						var root = values.indexOf(n);
 						return ~root ? {
-							// TODO - beter name
-							name: (root + 1) + 'th centred ' + m + '-gonal number',
+							name: namePolygon(root, m, 'centred'),
 							class: ['centred', 'centred-' + m],
 							dance: function() {
 								var d = [];
