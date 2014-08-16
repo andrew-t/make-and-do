@@ -36,8 +36,10 @@
 				if (frac.gte(0.5)) {
 					var maxDigit = this.digits[radix - 1];
 					str = str.replace(new RegExp('\.?' + maxDigit + '+$'), '');
+					str = str.replace(/\.$/, '');
 					str = str.substr(0, str.length - 1) + this.digits[this.digits.indexOf(str[str.length - 1]) + 1];
-				}
+				} else
+					str = str.replace(/\.$/, '');
 			}
 			return prefix + str;
 		};
@@ -81,7 +83,12 @@
 					if (scope.base > 1 && scope.base <= 36 && scope.number !== undefined) {
 						ignoreBased = true;
 						console.log('converting ' + scope.number + ' to base ' + scope.base);
-						if (force || !scope.based || !service.fromString(scope.based, scope.base).eq(scope.number))
+						if (!force) {
+							var parsed = scope.based && service.fromString(scope.based, scope.base);
+							if (!parsed || !parsed.eq(scope.number))
+								force = true;
+						}
+						if (force)
 							scope.based = service.toString(scope.number, scope.base, scope.$parent.decimalPlaces);
 						scope.invalid = false;
 						timeout(function() {
@@ -119,13 +126,13 @@
 		scope.addBase = function(base) {
 			scope.bases.push({
 				id: id++,
-				base: parseInt(base, 10) || 10,
-				remove: function(id) {
-					for (var i = 0; i < scope.bases.length; ++i)
-						if (scope.bases[i].id == id)
-							scope.bases.splice(i, 1);
-				}
+				base: parseInt(base, 10) || 10
 			});
+		};
+		scope.remove = function(id) {
+			for (var i = 0; i < scope.bases.length; ++i)
+				if (scope.bases[i].id == id)
+					scope.bases.splice(i, 1);
 		};
 		[2, 10, 16, 36].forEach(scope.addBase);
 	}]);

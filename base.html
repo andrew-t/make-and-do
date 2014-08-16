@@ -16,6 +16,7 @@
 			<div ng-repeat="b in bases">
 				<label for="base-editor-{{b.id}}">Base</label>
 				<input type="number" ng-model="b.base" id="base-editor-{{b.id}}" 
+				       min="2" max="36"
 				       ng-class="{ invalid: b.base <= 1 || b.base > 36 }"></input>
 				<div base="b.base" number="$parent.number"></div>
 				<button ng-click="remove(b.id)">Remove</button>
