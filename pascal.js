@@ -1,9 +1,7 @@
 'use strict';
 
-// TODO - this could use big int support.
-
 (function(){
-	angular.module('pascal', [])
+	angular.module('pascal', ['big'])
 	.controller('pascal', ['$scope', function(scope) {
 		scope.maxRows = 20;
 		scope.maxHits = 10;
@@ -42,15 +40,7 @@
 			return hits;
 		};
 		scope.search = function() {
-			var n;
-			try {
-				n = new Big(scope.rawN);
-			} catch(e) {
-				scope.nInvalid = true;
-				return;
-			}
-			scope.n = n;
-			scope.hits = scope.find(n, scope.maxHits);
+			scope.hits = scope.find(scope.n, scope.maxHits);
 		};
 		scope.mouseIn = function(cell) {
 			scope.hoverValue = cell;
