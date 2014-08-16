@@ -3,6 +3,7 @@
 	width: 500px;
 	height: 500px;
 	border: 1px solid black;
+	background: #eee;
 }
 .dot {
 	display: block;
@@ -17,5 +18,6 @@
 	border: 2px solid white;
 }
 .hiding {
+	border: 0px solid white;
 	/* whatever */
 }
