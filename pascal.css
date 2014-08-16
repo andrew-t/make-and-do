@@ -3,9 +3,12 @@
 }
 .cell {
 	position: absolute;
-	line-height: 30px;
+	line-height: 29px;
 	text-align: center;
-	width: 60px;
+	width: 59px;
+	height: 29px;
+	border: 1px solid black;
+	background: white;
 }
 .cell:hover {
 	background: cyan;

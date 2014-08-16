@@ -1,8 +1,6 @@
 'use strict';
 
-// TODO - this should calculate the triangle like a kid, really.
-// The combinatorics module doesn't help if we're generating the whole thing anyway.
-// Also it probably needs big int support.
+// TODO - this could use big int support.
 
 (function(){
 	angular.module('pascal', ['choose'])
@@ -18,7 +16,9 @@
 					var cell = {
 						x: x,
 						y: y,
-						n: combinatorics.combinations(y, x)
+						n: x == 0 || x == y 
+							? 1 
+							: scope.triangle[scope.triangle.length - y - 1].n + scope.triangle[scope.triangle.length - y].n
 					};
 					scope.triangle.push(cell);
 					if (x != end)
