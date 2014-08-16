@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
@@ -6,10 +7,11 @@
 		<script src="prime.js"></script>
 		<script src="primeapp.js"></script>
 		<link href="style.css" rel="stylesheet">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	</head>
 	<body>
 		<section ng-app="prime-app">
-			<div big model="n" disabled="processing"></div>
+			<div big model="n" big-disabled="processing"></div>
 			<span prime n="n" processing="processing"></span>
 			<span ng-if="processing">Processing&#x2026;</span>
 		</section>

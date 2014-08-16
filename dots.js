@@ -350,8 +350,6 @@
 				el = document.getElementById(id);
 			if (!el) {
 				el = document.createElement('div');
-				el.classList.add('dot');
-				el.classList.add('hiding');
 				el.style.background = service.getBg(n);
 				el.style.top = y + 'px';
 				el.style.left = x + 'px';
@@ -359,13 +357,15 @@
 				el.style['font-size'] = '0';
 				el.id = id;
 				var ael = angular.element(el);
+				ael.addClass('dot');
+				ael.addClass('hiding');
 				if (options.showNumbers)
 					ael.text(n + options.indexFrom);
 				panel.append(ael);
 			}
 			// todo - replace with css animation?
 			timeout(function() {
-				el.classList.remove('hiding');
+				(ael || angular.element(el)).removeClass('hiding');
 				el.style.top = (y - size * 0.5) + 'px';
 				el.style.left = (x - size * 0.5) + 'px';
 				el.style['line-height'] = el.style.width = el.style.height = size + 'px';

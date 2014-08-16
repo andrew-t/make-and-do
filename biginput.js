@@ -6,7 +6,7 @@
 		return {
 			scope: {
 				model: '=',
-				disabled: '='
+				disabled: '=bigDisabled'
 			},
 			template: '<input type="text" pattern="^\\d+$" ng-model="raw" ng-class="{invalid: invalid}" ng-disabled="disabled" />',
 			link: function(scope, element, attributes) {

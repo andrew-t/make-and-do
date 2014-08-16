@@ -10,6 +10,10 @@
 	position: absolute;
 	border-radius: 50%;
 	transition: all 0.3s; /* must match js */
+	-webkit-transition: all 0.3s; 
+	-moz-transition: all 0.3s; 
+	-ms-transition: all 0.3s; 
+	-o-transition: all 0.3s; 
 	background: red; /* should be overridden */
 	text-align: center;
 	font-family: sans-serif;

@@ -60,22 +60,24 @@
 				},
 				template: '{{result}} <button ng-if="slow" ng-click="startSlow(n)">Calculate</button>',
 				link: function(scope, element, attrs) {
-					var worker = new Worker('primeworker.js');
-					worker.postMessage('');
-					worker.addEventListener('message', function(e) {
-						scope.$apply(function() {
-							if (e.data.error)
-								scope.result = 'Error: ' + e.data.error;
-							else if (e.data.done)
-								scope.result = e.data.error || 
-									(scope.n + (e.data.factors.length > 1
-										? ' = ' + e.data.factors.join(' \u00d7 ')
-										: ' is prime'));
-							else
-								scope.result = scope.n + ' = ' + e.data.factors.join(' \u00d7 ') + ' \u2026';
-							scope.processing = !e.data.done;
+					var worker = self.Worker && new Worker('primeworker.js');
+					if (worker) {
+						worker.postMessage('');
+						worker.addEventListener('message', function(e) {
+							scope.$apply(function() {
+								if (e.data.error)
+									scope.result = 'Error: ' + e.data.error;
+								else if (e.data.done)
+									scope.result = e.data.error || 
+										(scope.n + (e.data.factors.length > 1
+											? ' = ' + e.data.factors.join(' \u00d7 ')
+											: ' is prime'));
+								else
+									scope.result = scope.n + ' = ' + e.data.factors.join(' \u00d7 ') + ' \u2026';
+								scope.processing = !e.data.done;
+							});
 						});
-					});
+					}
 					scope.startSlow = function(n) {
 						worker.postMessage(n.toFixed(10));
 						scope.result = 'Processing\u2026';
@@ -91,7 +93,7 @@
 							scope.slow = false;
 						} else if (n.gt(1000000000)) { 
 							scope.result = '';
-							scope.slow = true;
+							scope.slow = worker !== undefined;
 						} else {
 							scope.slow = false;
 							var factors = factorise.factoriseBig(n);
