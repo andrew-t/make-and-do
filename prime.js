@@ -19,7 +19,7 @@
 				factors.push(n);
 			return factors;
 		},
-		factoriseBig: function(n) {
+		factoriseBig: function(n, callback) {
 			if (n.lt(1))
 				return [];
 			n = n.round(0);
@@ -28,6 +28,8 @@
 			for (var i = new Big(2); i.lte(l); i = i.plus(1))
 				if (n.mod(i).eq(0)) {
 					factors.push(i);
+					if (callback)
+						callback(factors);
 					n = n.div(i);
 					i = new Big(1);
 				}
@@ -61,16 +63,21 @@
 					worker.postMessage('');
 					worker.addEventListener('message', function(e) {
 						scope.$apply(function() {
-							scope.result = e.data.error || 
-								(scope.n + (e.data.length > 1
-									? ' = ' + e.data.join(' \u00d7 ')
-									: ' is prime'));
-							scope.slow = false;
-							scope.processing = false;
+							if (e.data.error)
+								scope.result = 'Error: ' + e.data.error;
+							else if (e.data.done)
+								scope.result = e.data.error || 
+									(scope.n + (e.data.factors.length > 1
+										? ' = ' + e.data.factors.join(' \u00d7 ')
+										: ' is prime'));
+							else
+								scope.result = scope.n + ' = ' + e.data.factors.join(' \u00d7 ') + ' \u2026';
+							scope.processing = !e.data.done;
 						});
 					});
 					scope.startSlow = function(n) {
 						worker.postMessage(n.toFixed(10));
+						scope.result = 'Processing\u2026';
 						scope.slow = false;
 						scope.processing = true;
 					};
