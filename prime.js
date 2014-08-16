@@ -13,6 +13,7 @@
 				if (!(n % i)) {
 					factors.push(i);
 					n = (n / i) | 0;
+					l = Math.ceil(Math.sqrt(n)) | 0;
 					i = 1;
 				}
 			if (n > 1)
@@ -31,6 +32,7 @@
 					if (callback)
 						callback(factors);
 					n = n.div(i);
+					l = n.sqrt().round(0).plus(1);
 					i = new Big(1);
 				}
 			if (n.gt(1))
