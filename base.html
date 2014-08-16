@@ -1,15 +1,21 @@
 <html>
 	<head>
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<script src="big.js/big.js"></script>
 		<script src="base.js"></script>
 		<link href="style.css" rel="stylesheet">
 		<link href="base.css" rel="stylesheet">
 	</head>
 	<body ng-app="base">
 		<section ng-scope ng-controller="number">
+			Current number: {{number}}
+			<div>
+				<label for="dp">Number of &lsquo;decimal&rsquo; places</label>
+				<input type="number" ng-model="decimalPlaces" id="dp"></input>
+			</div>
 			<div ng-repeat="b in bases">
 				<label for="base-editor-{{b.id}}">Base</label>
-				<input type="number" ng-model="b.base" name="base-editor-{{b.id}}" 
+				<input type="number" ng-model="b.base" id="base-editor-{{b.id}}" 
 				       ng-class="{ invalid: b.base <= 1 || b.base > 36 }"></input>
 				<div base="b.base" number="$parent.number"></div>
 				<button ng-click="remove(b.id)">Remove</button>
