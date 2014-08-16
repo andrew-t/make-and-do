@@ -5,6 +5,22 @@ var options = {
 	maxN: 1000,
 	centred: [5, 6, 7],
 	generalised: [3, 4, 5, 7],
+	cubes: true,
+	cubeDimensions: {
+		x: {
+			x: 1,
+			y: 0.2
+		},
+		y: {
+			x: 0,
+			y: 1.1
+		},
+		z: {
+			x: -0.8,
+			y: 0.3
+		},
+		size: 1
+	},
 	appearDelay: {
 		step: 50,
 		maxTotal: 2500,

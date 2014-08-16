@@ -14,6 +14,7 @@
 	font-family: sans-serif;
 	font-weight: bold;
 	color: white;
+	border: 2px solid white;
 }
 .hiding {
 	/* whatever */

@@ -11,7 +11,7 @@
 			Current number: {{number}}
 			<div>
 				<label for="dp">Number of &lsquo;decimal&rsquo; places</label>
-				<input type="number" ng-model="decimalPlaces" id="dp"></input>
+				<input type="number" ng-model="decimalPlaces" id="dp" min="0"></input>
 			</div>
 			<div ng-repeat="b in bases">
 				<label for="base-editor-{{b.id}}">Base</label>

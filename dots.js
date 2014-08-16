@@ -107,7 +107,24 @@
 				for (var x = 0; x < a; ++x)
 					d.push({ x: x, y: y, size: size });
 			return d;
-		}
+		};
+
+		this.cubeDance = function(n) {
+			var d = [];
+			for (var x = 0; x < n; ++x)
+				for (var y = 0; y < n; ++y)
+					for (var z = 0; z < n; ++z)
+						d.push({
+							x: x * options.cubeDimensions.x.x + 
+								y * options.cubeDimensions.y.x + 
+								z * options.cubeDimensions.z.x,
+							y: x * options.cubeDimensions.x.y + 
+								y * options.cubeDimensions.y.y + 
+								z * options.cubeDimensions.z.y,
+							size: options.cubeDimensions.size
+						});
+			return d;
+		};
 	})
 	.controller('dotControls', ['$scope', 'factorise', 'dotService', 'polygon', 
 		function(scope, factorise, service, polygonService) {
@@ -175,6 +192,37 @@
 								}})(i, root));
 						}
 						return results;
+					}, function(n) {
+						if (!options.cubes) return;
+						// rounding errors, so dick about a little:
+						var root = Math.round(Math.pow(n, 1/3));
+						if (root * root * root == n)
+							return {
+								name: root + '\u00b3',
+								class: 'cube',
+								dance: function() {
+									return service.cubeDance(root);
+								}
+							};
+					}, function(n) {
+						var results = [],
+							limit = Math.pow(n / 2, 1 / 3) + 1;
+						for (var i = 1; i <= limit; ++i) {
+							var rest = n - i * i * i,
+								root = Math.round(Math.pow(rest, 1 / 3));
+							if (root > i && root * root * root == rest)
+								results.push((function(i, root) { return {
+									name: i + '\u00b3 + ' + root + '\u00b3',
+									class: 'sum-of-two-cubes',
+									dance: function() {
+										return service.sumDances([
+											service.cubeDance(i),
+											service.cubeDance(root)
+										]);
+									}
+								}})(i, root));
+						}
+						return results;
 					}
 				];
 				options.generalised.forEach(function(m) {
@@ -224,7 +272,7 @@
 			update.hooks.push(generateProperties);
 			generateProperties();
 			scope.$watch('n', function(n) {
-				if (n > options.maxN) {
+				if (n < 0 && n > options.maxN) {
 					scope.properties = [];
 					return;
 				}
