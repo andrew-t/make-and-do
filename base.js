@@ -5,6 +5,11 @@
 	.service('baseConverter', function() {
 		this.digits = '0123456789abcdefghijklmnopqrstuvwxyz';
 		this.toString = function(n, radix, dp) {
+			var prefix = '';
+			if (n.lt(0)) {
+				n = n.times(-1);
+				prefix = '-';
+			}
 			var str = '',
 				frac = n.mod(1),
 				integer = n.minus(frac);
@@ -23,7 +28,7 @@
 							str += this.digits[p];
 							frac = frac.minus(x).times(radix);
 							if (frac.lte(0))
-								return str;
+								return prefix + str;
 							break;
 						}
 					}
@@ -34,11 +39,16 @@
 					str = str.substr(0, str.length - 1) + this.digits[this.digits.indexOf(str[str.length - 1]) + 1];
 				}
 			}
-			return str;
+			return prefix + str;
 		};
 		this.fromString = function(n, radix) {
 			var value = new Big(0),
-				digits = n.split('');
+				factor = 1;
+			if (/^-/.test(n)) {
+				n = n.substr(1);
+				factor = -1;
+			}
+			var digits = n.split('');
 			for (var i = 0; i < digits.length; ++i) {
 				if (/[\.,]/.test(digits[i])) {
 					var n = new Big(1);
@@ -51,7 +61,7 @@
 					return;
 				value = value.times(radix).plus(d);
 			}
-			return value;
+			return value.times(factor);
 		};
 	})
 	.directive('base', ['baseConverter', '$timeout', function(service, timeout) {
