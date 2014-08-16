@@ -9,10 +9,22 @@
 	height: 29px;
 	border: 1px solid black;
 	background: white;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .cell:hover {
 	background: cyan;
 }
 .cell.hit {
 	background: yellow;
+}
+.tooltip {
+	border: 1px solid black;
+	border-radius: 5px;
+	background: #ffd;
+	position: fixed;
+	top: 15px;
+	right: 15px;
+	box-shadow: 0 3px 8px black;
+	padding: 15px;
 }

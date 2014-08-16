@@ -3,8 +3,8 @@
 // TODO - this could use big int support.
 
 (function(){
-	angular.module('pascal', ['choose'])
-	.controller('pascal', ['$scope', 'combinatorics', function(scope, combinatorics) {
+	angular.module('pascal', [])
+	.controller('pascal', ['$scope', function(scope) {
 		scope.maxRows = 20;
 		scope.maxHits = 10;
 		scope.find = function(n, maxHits) {
@@ -17,8 +17,8 @@
 						x: x,
 						y: y,
 						n: x == 0 || x == y 
-							? 1 
-							: scope.triangle[scope.triangle.length - y - 1].n + scope.triangle[scope.triangle.length - y].n
+							? new Big(1)
+							: scope.triangle[scope.triangle.length - y - 1].n.plus(scope.triangle[scope.triangle.length - y].n)
 					};
 					scope.triangle.push(cell);
 					if (x != end)
@@ -27,8 +27,11 @@
 							y: y,
 							n: cell.n
 						});
-					if (cell.n == n)
+					if (cell.n.eq(n)) {
 						hits.push(cell);
+						if (x != end)
+							hits.push(backrow[backrow.length - 1]);
+					}
 				}
 				while (backrow.length)
 					scope.triangle.push(backrow.pop());
@@ -38,8 +41,28 @@
 			scope.rows = y;
 			return hits;
 		};
-		scope.fontSize = function(cellSize, max, n) {
-			return Math.min(max, cellSize / n.toString(10).length);
+		scope.search = function() {
+			var n;
+			try {
+				n = new Big(scope.rawN);
+			} catch(e) {
+				scope.nInvalid = true;
+				return;
+			}
+			scope.n = n;
+			scope.hits = scope.find(n, scope.maxHits);
+		};
+		scope.mouseIn = function(cell) {
+			scope.hoverValue = cell;
+		};
+		scope.mouseOut = function(cell) {
+			if (scope.hoverValue == cell)
+				scope.hoverValue = undefined;
+		};
+		scope.fontSize = function(n) {
+			return Math.max(10, // Font never smaller than 10px
+				Math.min(25, // Font never larger than 25px
+					90 /* = assumed cell size, pixels */ / n.toFixed(0).length));
 		};
 	}]);
 })();

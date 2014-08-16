@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
-		<script src="choose.js"></script>
+		<script src="big.js/big.js"></script>
 		<script src="pascal.js"></script>
 		<link href="style.css" rel="stylesheet">
 		<link href="pascal.css" rel="stylesheet">
@@ -10,19 +10,25 @@
 		<section ng-scope ng-controller="pascal">
 			<label for="maxHits">Maximum hits</label> <input type="number" ng-model="maxHits" id="maxHits">
 			<label for="maxRows">Maximum rows</label> <input type="number" ng-model="maxRows" id="maxRows">
-			<label for="n">N</label> <input type="number" ng-model="n" id="n">
-			<button ng-click="hits = find(n, maxHits)">Search</button>
+			<label for="rawN">N</label>
+			<input type="text" pattern="^\d+$" ng-model="rawN" id="n" ng-focus="nInvalid = false" ng-class="{ invalid: nInvalid }">
+			<button ng-click="search()">Search</button>
 			<ul>
-				<li ng-repeat="hit in hits">Row {{hit.y + 1}}, position {{hit.x + 1}} = {{hit.n}}</li>
+				<li ng-repeat="hit in hits">Row {{hit.y + 1}}, position {{hit.x + 1}} = {{hit.n.toFixed(0)}}</li>
 			</ul>
 			<div class="triangle">
 				<div class="cell"
 				     ng-repeat="cell in triangle"
-				     ng-class="{ hit: cell.n == n }"
+				     ng-class="{ hit: cell.n.eq(n) }"
+				     ng-mouseenter="mouseIn(cell)"
+				     ng-mouseleave="mouseOut(cell)"
 				     style="top: {{cell.y * 30}}px;
 				            left: {{cell.x * 60 + (rows - cell.y) * 30}}px;
-				            font-size: {{fontSize(90, 25, cell.n)}}px">
-					{{cell.n}}
+				            font-size: {{fontSize(cell.n)}}px">
+					{{cell.n.toFixed(0)}}
+				</div>
+				<div class="tooltip" ng-if="hoverValue">
+					Cell {{hoverValue.x + 1}} of row {{hoverValue.y + 1}} = {{hoverValue.n.toFixed(0)}}
 				</div>
 			</div>
 		</section>
