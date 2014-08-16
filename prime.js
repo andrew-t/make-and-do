@@ -9,7 +9,6 @@
 			n = n | 0;
 			var l = Math.ceil(Math.sqrt(n)) | 0;
 			for (var i = 2; i <= l; ++i)
-			for (var i = new Big(2); i.lte(l); i = i.plus(1))
 				if (!(n % i)) {
 					factors.push(i);
 					n = (n / i) | 0;
@@ -48,7 +47,7 @@
 	};
 
 	if (self.angular)
-		angular.module('prime', ['big'])
+		angular.module('prime', [])
 		.service('factorise', function() {
 			return factoriser;
 		})
