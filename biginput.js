@@ -5,9 +5,10 @@
 	.directive('big', ['$timeout', function(timeout) {
 		return {
 			scope: {
-				model: '='
+				model: '=',
+				disabled: '='
 			},
-			template: '<input type="text" pattern="^\\d+$" ng-model="raw" ng-class="{invalid: invalid}" />',
+			template: '<input type="text" pattern="^\\d+$" ng-model="raw" ng-class="{invalid: invalid}" ng-disabled="disabled" />',
 			link: function(scope, element, attributes) {
 				var ignoreBig, ignoreRaw;
 				scope.$watch('raw', function(raw) {
