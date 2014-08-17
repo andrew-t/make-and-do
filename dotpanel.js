@@ -11,20 +11,21 @@ angular.module('dot-panel', ['dances'])
 		return Math.max(Math.min(params.step, params.maxTotal / n), params.minStep);
 	}
 
+	function hide(el, x, y) {
+		el.addClass('hiding').css({
+			left: x + 'px',
+			top: y + 'px',
+			'line-height': '0',
+			width: '0',
+			height: '0',
+			'font-size': '0'			
+		});
+	}
+
 	function delayHide(el, d) {
 		return timeout(function() {
-			el.addClass('hiding');
-			var size = parseInt(el.css('line-height'), 10) * 0.5,
-				x = parseInt(el.css('left'), 10),
-				y = parseInt(el.css('top'), 10);
-			el.css({
-				left: (x + size) + 'px',
-				top: (y + size) + 'px',
-				'line-height': '0',
-				width: '0',
-				height: '0',
-				'font-size': '0'			
-			});
+			var size = parseInt(el.css('line-height'), 10) * 0.5;
+			hide(el, parseInt(el.css('left'), 10) + size, parseInt(el.css('top'), 10) + size);
 			timeout(function() {
 				el.remove();
 			}, hidingTransitionTime);
@@ -55,13 +56,8 @@ angular.module('dot-panel', ['dances'])
 		if (!el) {
 			el = document.createElement('div');
 			var ael = angular.element(el);
-			ael.css({
-				background: service.getBg(n),
-				top: y + 'px',
-				left: x + 'px',
-				'line-height': '0',
-				'font-size': '0',
-			}).addClass('dot').addClass('hiding');
+			ael.addClass('dot');
+			hide(ael, x, y, size);
 			el.id = id;
 			if (options.showNumbers)
 				ael.text(n + options.indexFrom);
