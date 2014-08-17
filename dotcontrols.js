@@ -4,7 +4,10 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 .controller('dotControls', ['$scope', 'factorise', 'dances', 'polygon', 
 	function(scope, factorise, service, polygonService) {
 		scope.th = function(n) {
-			if (!n) return '';
+			if (!n)
+				return '';
+			if (n >= 10 && n <= 20)
+				return 'th';
 			switch (n.toString(10).replace(/^.*(\d)$/, '$1')) {
 				case '1': return 'st'; break;
 				case '2': return 'nd'; break;

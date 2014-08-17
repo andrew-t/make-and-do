@@ -32,11 +32,11 @@ var options = {
 	},
 	preTransitionDelay: 25, //ms
 	showNumbers: true,
-	indexFrom: 1,
-	margin: 0.5,
-	sumDistance: 1.2,
-	polygonSpacing: 0.6,
-	fontSize: 0.4,
+	indexFrom: 1, // the number on the first dot
+	margin: 0.5, // in dot diameters, I think
+	sumDistance: 1, // 1 is the smallest sane number
+	polygonSpacing: 0.6, // in radii
+	fontSize: 0.4, // Multiplied by the dot size
 	hueStep: 180 * (1 + Math.sqrt(5)), // hidden maths!!
 	saturation: 50,
 	lightness: 50
@@ -51,7 +51,7 @@ update.hooks = [];
 console.log('Hello! Since you\'ve opened the dev console on a mathsy site, I assume ' +
 	'you\'re my kind of person, so I\'m going to tell you a secret: I have done a naughty ' +
 	'thing and put all the settings on the global scope so you can play with them. ' +
-	'the object is called `options`, so feel free to play with it and see what happens. ' +
+	'The object is called `options`, so feel free to play with it and see what happens. ' +
 	'Call `update()` once you\'re finished to refresh the view.');
 
 console.log('All times are in milliseconds. Saturation and lightness are in percent. Hue is in degrees.');
