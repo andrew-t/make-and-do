@@ -20,7 +20,7 @@ angular.module('dot-panel', ['dances'])
 			el.css({
 				left: (x + size) + 'px',
 				top: (y + size) + 'px',
-				'line-height': size + 'px',
+				'line-height': '0',
 				width: '0',
 				height: '0',
 				'font-size': '0'			
@@ -54,27 +54,31 @@ angular.module('dot-panel', ['dances'])
 			el = document.getElementById(id);
 		if (!el) {
 			el = document.createElement('div');
-			el.style.background = service.getBg(n);
-			el.style.top = y + 'px';
-			el.style.left = x + 'px';
-			el.style['line-height'] = el.style.width = el.style.height = '0';
-			el.style['font-size'] = '0';
-			el.id = id;
 			var ael = angular.element(el);
-			ael.addClass('dot');
-			ael.addClass('hiding');
+			ael.css({
+				background: service.getBg(n),
+				top: y + 'px',
+				left: x + 'px',
+				'line-height': '0',
+				'font-size': '0',
+			}).addClass('dot').addClass('hiding');
+			el.id = id;
 			if (options.showNumbers)
 				ael.text(n + options.indexFrom);
 			panel.append(ael);
 		}
 		// todo - replace with css animation?
 		timeout(function() {
-			(ael || angular.element(el)).removeClass('hiding');
-			el.style.top = (y - size * 0.5) + 'px';
-			el.style.left = (x - size * 0.5) + 'px';
-			el.style['line-height'] = size - borderWidth + 'px';
-			el.style.width = el.style.height = size + 'px';
-			el.style['font-size'] = (size * options.fontSize) + 'px';
+			(ael || angular.element(el)).removeClass('hiding')
+				.css({
+					background: service.getBg(n),
+					top: (y - size * 0.5) + 'px',
+					left: (x - size * 0.5)  + 'px',
+					'line-height': size - borderWidth + 'px',
+					'font-size': (size * options.fontSize) + 'px',
+					width: size + 'px',
+					height: size + 'px'
+				});
 		}, options.preTransitionDelay);
 	}
 
