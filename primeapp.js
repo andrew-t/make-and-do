@@ -1,5 +1,3 @@
 'use strict';
 
-(function(){
-	angular.module('prime-app', ['prime', 'big']);
-})();
+angular.module('prime-app', ['prime', 'big']);

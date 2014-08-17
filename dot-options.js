@@ -1,5 +1,4 @@
 'use strict';
-// look up sass from http://codepen.io/thebabydino/pen/IdJCi
 
 var options = {
 	maxN: 1000,
