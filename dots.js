@@ -1,145 +1,28 @@
 'use strict';
 
 (function(){
-	angular.module('dots', ['prime', 'polygon'])
-	.service('dotService', function() {
-		this.getBg = function(i) {
-			return 'hsl(' + (options.hueStep * i) + ', ' + options.saturation + '%, ' + options.lightness + '%)';
-		};
-
-		// make a dance comprised of N sub-dances
-		this.sumDances = function(ds) {
-			var i, j;
-			for (i = 0; i < ds.length; ++i)
-				this.squeezeDance(ds[i], 1, 1);
-			for (i = 1; i < ds.length; ++i)
-				for (j = 0; j < ds[i].length; ++j) {
-					ds[i][j].x += options.sumDistance;
-					ds[0].push(ds[i][j]);
-				}
-			return ds[0];
-		};
-
-		// make sure a dance fits in the panel
-		this.squeezeDance = function(d, h, w) {
-			var minx = Infinity, 
-				maxx = -Infinity,
-				miny = Infinity,
-				maxy = -Infinity,
-				maxSize = -Infinity;
-			for (var i = 0; i < d.length; ++i) {
-				if (d[i].x < minx) minx = d[i].x;
-				if (d[i].x > maxx) maxx = d[i].x;
-				if (d[i].y < miny) miny = d[i].y;
-				if (d[i].y > maxy) maxy = d[i].y;
-				if (d[i].size > maxSize) maxSize = d[i].size;
-			};
-			var	margin = maxSize + options.margin
-			maxx += margin;
-			minx -= margin;
-			maxy += margin;
-			miny -= margin;
-			var dh = maxy - miny,
-				dw = maxx - minx,
-				m = Math.min(h / dh, w / dw),
-				cx = 0.5 * (w - m * (minx + maxx)),
-				cy = 0.5 * (h - m * (miny + maxy));
-			for (var i = 0; i < d.length; ++i) {
-				d[i].x = m * d[i].x + cx;
-				d[i].y = m * d[i].y + cy;
-				d[i].size = d[i].size * m;
-			}
-			return d;
-		};
-
-		this.polygonDance = function(sides, perSide, radius, firstSide, lastSide, centreOnCorner) {
-			if (perSide === undefined)
-				perSide = 1;
-			if (firstSide === undefined) 
-				firstSide = 0;
-			else
-				firstSide %= sides;
-			if (lastSide === undefined)
-				lastSide = firstSide; 
-			else
-				lastSide %= sides;
-			var corners = [], theta = Math.PI * 2 / sides, i;
-			// hidden maths!!
-			if (!radius)
-				radius = options.polygonSpacing * 0.5 * perSide / 
-					Math.cos((Math.PI - theta) * 0.5);
-			for (i = 0; i < sides; ++i)
-				corners.push({
-					x: -Math.sin(theta * i) * radius,
-					y: -Math.cos(theta * i) * radius,
-					size: 0.5
-				});
-			var d = [], i = firstSide;
-			i = firstSide;
-			function addDot(dot) {
-				if (centreOnCorner !== undefined) {
-					dot.x -= corners[centreOnCorner].x;
-					dot.y -= corners[centreOnCorner].y;
-				}
-				d.push(dot);
-			}
-			do {
-				var a = corners[i], b = corners[i = (i + 1) % sides];
-				for (var j = 0; j < perSide; ++j) {
-					var bb = j / perSide, 
-						aa = 1 - bb;
-					addDot({
-						x: a.x * aa + b.x * bb,
-						y: a.y * aa + b.y * bb,
-						size: a.size * aa + b.size * bb
-					});
-				}
-			} while (i != lastSide);
-			if (lastSide != firstSide || perSide == 0)
-				addDot(corners[lastSide]);
-			return d;
-		};
-
-		this.squareDance = function(a, b) {
-			if (b === undefined) b = a;
-			var d = [], size = 0.5 / options.polygonSpacing;
-			for (var y = 0; y < b; ++y)
-				for (var x = 0; x < a; ++x)
-					d.push({ x: x, y: y, size: size });
-			return d;
-		};
-
-		this.cubeDance = function(n) {
-			var d = [];
-			for (var x = 0; x < n; ++x)
-				for (var y = 0; y < n; ++y)
-					for (var z = 0; z < n; ++z)
-						d.push({
-							x: x * options.cubeDimensions.x.x + 
-								y * options.cubeDimensions.y.x + 
-								z * options.cubeDimensions.z.x,
-							y: x * options.cubeDimensions.x.y + 
-								y * options.cubeDimensions.y.y + 
-								z * options.cubeDimensions.z.y,
-							size: options.cubeDimensions.size
-						});
-			return d;
-		};
-	})
+	angular.module('dots', ['prime', 'polygon', 'dances'])
 	.controller('dotControls', ['$scope', 'factorise', 'dotService', 'polygon', 
 		function(scope, factorise, service, polygonService) {
-			function namePolygon(n, m, adjective) {
-				n++;
-				if (m == 4)
-					return n + '\u00b2';
+			scope.th = function(n) {
+				if (!n) return '';
 				switch (n.toString(10).replace(/^.*(\d)$/, '$1')) {
-					case '1': n = n + 'st'; break;
-					case '2': n = n + 'nd'; break;
-					case '3': n = n + 'rd'; break;
-					default: n = n + 'th'; break;
+					case '1': return 'st'; break;
+					case '2': return 'nd'; break;
+					case '3': return 'rd'; break;
+					default: return 'th'; break;
+				}
+			}
+			function namePolygon(n, m, adjective) {
+				if (n) {
+					n++;
+					if (m == 4)
+						return n + '\u00b2';
+					if (n) n += scope.th(n);
 				}
 				switch (m) {
 					case 3: m = 'triangular'; break;
+					case 4: m = 'square'; break;
 					case 5: m = 'pentagonal'; break;
 					case 6: m = 'hexagonal'; break;
 					case 7: m = 'heptagonal'; break;
@@ -149,80 +32,75 @@
 					case 12: m = 'dodecagonal'; break;
 					default: m += '-gonal'; break;
 				}
-				return 'The ' + n + ' ' + adjective + ' ' + m + ' number';
+				return (n ? 'The ' + n + ' ' : '') + adjective + ' ' + m + ' number';
 			}
-			var properties, generateProperties = function() {
+			var properties;
+			function generateProperties() {
 				// IDEAS: Factorials, perfect numbers
 				properties = [
-					function(n) {
-						var factors = factorise.factorise(n);
-						switch (factors.length) {
-							case 1:
-								return {
-									name: 'Prime',
-									class: ['prime'],
-									dance: function() {
-										return service.polygonDance(n);
-									}
-								};
-							case 2:
-								return {
-									name: 'Semiprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
-									class: ['coprime'],
-									dance: function() {
-										return service.squareDance(factors[1], factors[0]);
-									}
-								};
+					{
+						test: function(n) {
+							var factors = factorise.factorise(n);
+							switch (factors.length) {
+								case 1:
+									return {
+										name: 'Prime',
+										class: ['prime'],
+										dance: function() {
+											return service.polygonDance(n);
+										}
+									};
+								case 2:
+									return {
+										name: 'Semiprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
+										class: ['coprime'],
+										dance: function() {
+											return service.squareDance(factors[1], factors[0]);
+										}
+									};
+							}
 						}
-					}, function(n) {
-						var results = [],
-							limit = Math.sqrt(n / 2);
-						for (var i = 1; i <= limit; ++i) {
-							var root = Math.sqrt(n - i * i);
-							if (!(root % 1))
-								results.push((function(i, root) { return {
-									name: i + '\u00b2 + ' + root + '\u00b2',
-									class: 'sum-of-two-squares',
-									dance: function() {
-										return service.sumDances([
-											service.squareDance(i),
-											service.squareDance(root)
-										]);
-									}
-								}})(i, root));
+					}, {
+						test: function(n) {
+							var results = [],
+								limit = Math.sqrt(n / 2);
+							for (var i = 1; i <= limit; ++i) {
+								var root = Math.sqrt(n - i * i);
+								if (!(root % 1))
+									results.push((function(i, root) { return {
+										name: i + '\u00b2 + ' + root + '\u00b2',
+										class: 'sum-of-two-squares',
+										dance: function() {
+											return service.sumDances([
+												service.squareDance(i),
+												service.squareDance(root)
+											]);
+										}
+									}})(i, root));
+							}
+							return results;
 						}
-						return results;
-					}, function(n) {
-						if (!options.cubes) return;
-						// rounding errors, so dick about a little:
-						var root = Math.round(Math.pow(n, 1/3));
-						if (root * root * root == n)
-							return {
-								name: root + '\u00b3',
-								class: 'cube',
-								dance: function() {
-									return service.cubeDance(root);
-								}
-							};
-					}, function(n) {
-						var results = [],
-							limit = Math.pow(n / 2, 1 / 3) + 1;
-						for (var i = 1; i <= limit; ++i) {
-							var rest = n - i * i * i,
-								root = Math.round(Math.pow(rest, 1 / 3));
-							if (root > i && root * root * root == rest)
-								results.push((function(i, root) { return {
-									name: i + '\u00b3 + ' + root + '\u00b3',
-									class: 'sum-of-two-cubes',
-									dance: function() {
-										return service.sumDances([
-											service.cubeDance(i),
-											service.cubeDance(root)
-										]);
-									}
-								}})(i, root));
+					}, {
+						test: function(n) {
+							var results = [],
+								limit = Math.pow(n / 2, 1 / 3) + 1;
+							for (var i = 1; i <= limit; ++i) {
+								var rest = n - i * i * i,
+									root = Math.round(Math.pow(rest, 1 / 3));
+								if (root > i && root * root * root == rest)
+									results.push((function(i, root) { return {
+										name: i + '\u00b3 + ' + root + '\u00b3',
+										class: 'sum-of-two-cubes',
+										dance: function() {
+											return service.sumDances([
+												service.cubeDance(i),
+												service.cubeDance(root)
+											]);
+										}
+									}})(i, root));
+							}
+							return results;
 						}
-						return results;
 					}
 				];
 				options.generalised.forEach(function(m) {
@@ -232,19 +110,25 @@
 						if (next > options.maxN) break;
 						values.push(next);
 					}
-					properties.push(function(n) {
-						var root = values.indexOf(n);
-						if (~root)
-							return {
-								name: namePolygon(root, m, 'generalised'),
-								class: ['generalised', 'generalised-' + m],
-								dance: function() {
-									var d = [];
-									for (var i = 0; i <= root; ++i)
-										d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
-									return d;
-								}
-							};
+					properties.push({
+						name: namePolygon(undefined, m, 'generalised'),
+						generate: function(n) {
+							return polygonService.generalised(n, m);
+						},
+						test: function(n) {
+							var root = values.indexOf(n);
+							if (~root)
+								return {
+									name: namePolygon(root, m, 'generalised'),
+									class: ['generalised', 'generalised-' + m],
+									dance: function() {
+										var d = [];
+										for (var i = 0; i <= root; ++i)
+											d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
+										return d;
+									}
+								};
+						}
 					});
 				});
 				options.centred.forEach(function(m) {
@@ -254,21 +138,51 @@
 						if (next > options.maxN) break;
 						values.push(next);
 					}
-					properties.push(function(n) {
-						var root = values.indexOf(n);
-						return ~root ? {
-							name: namePolygon(root, m, 'centred'),
-							class: ['centred', 'centred-' + m],
-							dance: function() {
-								var d = [];
-								for (var i = 0; i <= root; ++i)
-									d = d.concat(service.polygonDance(m, i));
-								return d;
-							}
-						} : undefined;
+					properties.push({
+						name: namePolygon(undefined, m, 'centred'),
+						generate: function(n) {
+							return polygonService.centred(n, m);
+						},
+						test: function(n) {
+							var root = values.indexOf(n);
+							return ~root ? {
+								name: namePolygon(root, m, 'centred'),
+								class: ['centred', 'centred-' + m],
+								dance: function() {
+									var d = [];
+									for (var i = 0; i <= root; ++i)
+										d = d.concat(service.polygonDance(m, i));
+									return d;
+								}
+							} : undefined;
+						}
 					});
 				});
-			};
+				if (options.cubes)
+					properties.push({
+						name: 'cube number',
+						generate: function(n) {
+							return n * n * n;
+						},
+						test: function(n) {
+							// rounding errors, so dick about a little:
+							var root = Math.round(Math.pow(n, 1/3));
+							if (root * root * root == n)
+								return {
+									name: root + '\u00b3',
+									class: 'cube',
+									dance: function() {
+										return service.cubeDance(root);
+									}
+								};
+						}
+					});
+				scope.namedProperties = [];
+				properties.forEach(function(property) {
+					if (property.name)
+						scope.namedProperties.push(property.name);
+				});
+			}
 			update.hooks.push(generateProperties);
 			generateProperties();
 			scope.$watch('n', function(n) {
@@ -278,7 +192,7 @@
 				}
 				var props = [];
 				for (var i = 0; i < properties.length; ++i) {
-					var property = properties[i](n);
+					var property = properties[i].test(n);
 					if (property) {
 						if (property.dance) props.push(property);
 						else if (property.length) props = props.concat(property);
@@ -296,11 +210,25 @@
 			scope.showProperty = function(property) {
 				scope.dance = property.dance();
 			};
+			scope.get = function(name, n) {
+				properties.forEach(function(property) {
+					if (property.name == name) {
+						var m = property.generate(n);
+						if (m > 0 && m <= options.maxN) {
+							scope.n = m;
+							scope.dance = property.test(m).dance();
+						} else {
+							console.log(m + ' is out of range.')
+						}
+					}
+				});
+			}
 		}])
 	.directive('dotPanel', ['$timeout', 'dotService', function(timeout, service) {
 
 		var panel,
 			lastN = 0,
+			borderWidth = 2, // px, must match css
 			hidingTransitionTime = 300; //ms, must match css
 
 		function getDelay(params, n) {
@@ -368,7 +296,8 @@
 				(ael || angular.element(el)).removeClass('hiding');
 				el.style.top = (y - size * 0.5) + 'px';
 				el.style.left = (x - size * 0.5) + 'px';
-				el.style['line-height'] = el.style.width = el.style.height = size + 'px';
+				el.style['line-height'] = size - borderWidth + 'px';
+				el.style.width = el.style.height = size + 'px';
 				el.style['font-size'] = (size * options.fontSize) + 'px';
 			}, options.preTransitionDelay);
 		}

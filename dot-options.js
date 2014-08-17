@@ -37,7 +37,7 @@ var options = {
 	margin: 0.5,
 	sumDistance: 1.2,
 	polygonSpacing: 0.6,
-	fontSize: 0.5,
+	fontSize: 0.4,
 	hueStep: 180 * (1 + Math.sqrt(5)), // hidden maths!!
 	saturation: 50,
 	lightness: 50
