@@ -45,8 +45,9 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 						var factors = factorise.factorise(n);
 						switch (factors.length) {
 							case 1:
+								var m = n.toString(2).length - 1;
 								return {
-									name: 'Prime',
+									name: n &-~ n ? 'Prime' : (m + scope.th(m) + ' Mersenne prime'),
 									class: ['prime'],
 									dance: function() {
 										return service.polygonDance(n);

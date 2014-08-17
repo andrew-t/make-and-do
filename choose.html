@@ -3,10 +3,13 @@
 	<head>
 		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
 		<script src="choose.js"></script>
+		<script src="big.js/big.js"></script>
+		<script src="biginput.js"></script>
+		<script src="choose-big.js"></script>
 		<link href="style.css" rel="stylesheet">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	</head>
-	<body ng-app="choose">
+	<body ng-app="chooseBig">
 		<section ng-scope ng-controller="choose">
 			<input type="number" ng-model="a"> choose 
 			<input type="number" ng-model="b"> = 
@@ -14,6 +17,18 @@
 
 			<div>{{a}} pick {{b}} = {{permutations(a, b)}}</div>
 			<div>{{a}}! = {{factorial(a)}}</div>
+		</section>
+
+		<section ng-scope ng-controller="choose">
+			<h1>big.js version</h1>
+
+			<div big model="a"></div> choose
+			<div big model="b"></div>
+			<div ng-if="a && b"> =
+				<span>{{combinationsBig(a, b).toFixed(0)}}</span>
+				<div>{{a.toFixed(0)}} pick {{b.toFixed(0)}} = {{permutationsBig(a, b).toFixed(0)}}</div>
+				<div>{{a.toFixed(0)}}! = {{factorialBig(a).toFixed(0)}}</div>
+			</div>
 		</section>
 	</body>
 </html>

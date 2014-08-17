@@ -33,7 +33,7 @@ var options = {
 	preTransitionDelay: 25, //ms
 	showNumbers: true,
 	indexFrom: 1, // the number on the first dot
-	margin: 0.5, // in dot diameters, I think
+	margin: 0.1, // in dot diameters, I think
 	sumDistance: 1, // 1 is the smallest sane number
 	polygonSpacing: 0.6, // in radii
 	fontSize: 0.4, // Multiplied by the dot size
