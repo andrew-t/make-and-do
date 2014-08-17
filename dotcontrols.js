@@ -185,7 +185,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 		update.hooks.push(generateProperties);
 		generateProperties();
 		scope.$watch('n', function(n) {
-			if (n < 0 && n > options.maxN) {
+			if (n < 0 || n > options.maxN) {
 				scope.properties = [];
 				return;
 			}
@@ -212,13 +212,9 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 		scope.get = function(name, n) {
 			properties.forEach(function(property) {
 				if (property.name == name) {
-					var m = property.generate(n);
-					if (m > 0 && m <= options.maxN) {
-						scope.n = m;
-						scope.dance = property.test(m).dance();
-					} else {
-						console.log(m + ' is out of range.')
-					}
+					scope.n = property.generate(n);
+					if (scope.n > 0 && scope.n <= options.maxN)
+						scope.dance = property.test(scope.n).dance();
 				}
 			});
 		}
