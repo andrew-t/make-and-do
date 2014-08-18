@@ -21,7 +21,7 @@
 				<select ng-model="generateProperty">
 					<option ng-repeat="p in namedProperties" value="{{p}}">{{p}}</option>
 				</select>
-				<button ng-click="get(generateProperty, m)">Go</button>
+				<button ng-click="get(generateProperty, m - 1)">Go</button>
 			</div>
 			<div dot-panel class="dot-panel" dance="dance"></div>
 			<ul>

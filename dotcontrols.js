@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('dot-controls', ['prime', 'polygon', 'dances'])
-.controller('dotControls', ['$scope', 'factorise', 'dances', 'polygon', 
-	function(scope, factorise, service, polygonService) {
+.controller('dotControls', ['$scope', 'factorise', 'dances', 'polygon', '$timeout', 
+	function(scope, factorise, service, polygonService, timeout) {
 		scope.th = function(n) {
 			if (!n)
 				return '';
@@ -188,6 +188,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 		}
 		update.hooks.push(generateProperties);
 		generateProperties();
+		var autoUpdate, noUpdate;
 		scope.$watch('n', function(n) {
 			if (n < 0 || n > options.maxN) {
 				scope.properties = [];
@@ -209,16 +210,32 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 					}});
 			}
 			scope.properties = props;
+			if (autoUpdate) {
+				timeout.cancel(autoUpdate);
+				autoUpdate = undefined;
+			}
+			if (noUpdate)
+				noUpdate = false;
+			else
+				autoUpdate = timeout(function() {
+					scope.dance = props[0].dance();
+				}, options.autoUpdateDelay);
 		});
 		scope.showProperty = function(property) {
+			if (autoUpdate) {
+				timeout.cancel(autoUpdate);
+				autoUpdate = undefined;
+			}
 			scope.dance = property.dance();
 		};
 		scope.get = function(name, n) {
 			properties.forEach(function(property) {
 				if (property.name == name) {
 					scope.n = property.generate(n);
-					if (scope.n > 0 && scope.n <= options.maxN)
+					if (scope.n > 0 && scope.n <= options.maxN) {
+						noUpdate = true;
 						scope.dance = property.test(scope.n).dance();
+					}
 				}
 			});
 		}
