@@ -84,6 +84,9 @@
 						scope.slow = false;
 						scope.processing = true;
 					};
+					function useSlow(n) {
+						return n.gt(1000000000);
+					}
 					scope.$watch('n', function(n) {
 						if (!n) {
 							scope.result = '';
@@ -104,6 +107,12 @@
 								: ' is prime');
 						}
 					});
+					// load from URL
+					if (window.location.hash) {
+						scope.n = new Big(window.location.hash.substr(1));
+						if (useSlow(scope.n))
+							scope.startSlow(scope.n);
+					}
 				}
 			};
 		}]);

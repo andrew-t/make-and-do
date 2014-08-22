@@ -10,8 +10,9 @@ angular.module('big', [])
 		template: '<input type="text" pattern="^\\d+$" ng-model="raw" ng-class="{invalid: invalid}" ng-disabled="disabled" />',
 		link: function(scope, element, attributes) {
 			var ignoreBig, ignoreRaw;
+			if (scope.model)
+				scope.raw = scope.model.toString();
 			scope.$watch('raw', function(raw) {
-				ignoreBig = true;
 				if (!ignoreRaw)
 					try {
 						scope.model = new Big(raw || 0);
@@ -27,7 +28,7 @@ angular.module('big', [])
 			scope.$watch('model', function(model) {
 				ignoreRaw = true;
 				if (!ignoreBig) {
-					scope.raw = model.toFixed(0);
+					scope.raw = model.toString();
 					scope.invalid = false
 				}
 				timeout(function() {

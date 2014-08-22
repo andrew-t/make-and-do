@@ -10,15 +10,16 @@ function package(factors, done) {
 }
 
 self.addEventListener('message', function(e) {
-	try {
-		var big = new Big(e.data),
-			factors = factorise.factoriseBig(big, function(factors) {
-				self.postMessage(package(factors, false));
+	if (e.data)
+		try {
+			var big = new Big(e.data),
+				factors = factorise.factoriseBig(big, function(factors) {
+					self.postMessage(package(factors, false));
+				});
+			self.postMessage(package(factors, true));
+		} catch(e) {
+			self.postMessage({
+				error: e
 			});
-		self.postMessage(package(factors, true));
-	} catch(e) {
-		self.postMessage({
-			error: e
-		});
-	}
+		}
 });
