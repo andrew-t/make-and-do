@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script-->
+		<script src="angular.min.js"></script>
+		<script src="parse-numbers.js"></script>
+		<script src="unicode.js"></script>
+		<link href="style.css" rel="stylesheet">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	</head>
+	<body id="ng-app" ng-app="unicode">
+		<section ng-scope ng-controller="unicode">
+			<div>
+				<label for="unicode">Unicode</label>
+				<textarea name="unicode" ng-model="unicode" ng-class="{ invalid: unicodeInvalid }"></textarea>
+			</div>
+			<div>
+				<label for="decimal">Decimal</label>
+				<textarea name="decimal" ng-model="decimal" ng-class="{ invalid: decimalInvalid }"></textarea>
+			</div>
+		</section>
+	</body>
+</html>

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('ascii', [])
-.controller('ascii', ['$scope', function(scope) {
+angular.module('ascii', ['parseNumbers'])
+.controller('ascii', ['$scope', 'parseNumbers', function(scope, parseNumbers) {
 	function setDecimal(numbers) {
 		scope.decimal = numbers.map(function(number) {
 			return number.toString(10);
@@ -21,23 +21,8 @@ angular.module('ascii', [])
 	function setAscii(numbers) {
 		scope.ascii = String.fromCharCode.apply(null, numbers);
 	}
-	function parseNumbers(value, radix, digits) {
-		var numbers = [];
-		if (!value)
-			return numbers;
-		value = value.split(/[^0-9a-fA-F]+/);
-		for (var i = 0; i < value.length; ++i) {
-			if (digits && value[i].length != digits)
-				return;
-			var number = parseInt(value[i], radix);
-			if (number < 1 || number > 127)
-				return;
-			numbers.push(number);
-		}
-		return numbers;
-	}
 	scope.$watch('binary', function(value) {
-		var numbers = parseNumbers(value, 2, 8);
+		var numbers = parseNumbers(value, 2, 8, 127);
 		if (!(scope.binaryInvalid = !numbers)) {
 			setAscii(numbers);
 			setDecimal(numbers);
@@ -45,7 +30,7 @@ angular.module('ascii', [])
 		}
 	});
 	scope.$watch('decimal', function(value) {
-		var numbers = parseNumbers(value, 10);
+		var numbers = parseNumbers(value, 10, undefined, 127);
 		if (!(scope.decimalInvalid = !numbers)) {
 			setAscii(numbers);
 			setBinary(numbers);
@@ -53,6 +38,7 @@ angular.module('ascii', [])
 		}
 	});
 	scope.$watch('hex', function(value) {
+		// this is A LOT like parseNumbers:
 		var numbers = [];
 		if (value) {
 			if (scope.hexInvalid = value.length & 1)
