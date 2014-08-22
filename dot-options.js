@@ -39,7 +39,8 @@ var options = {
 	fontSize: 0.4, // Multiplied by the dot size
 	hueStep: 180 * (1 + Math.sqrt(5)), // hidden maths!!
 	saturation: 50,
-	lightness: 50
+	lightness: 50,
+	autoArrangeDelay: 450
 }, update = function() {
 	update.hooks.forEach(function(h) {
 		h();

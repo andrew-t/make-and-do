@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('dot-controls', ['prime', 'polygon', 'dances'])
-.controller('dotControls', ['$scope', 'factorise', 'dances', 'polygon', 
-	function(scope, factorise, service, polygonService) {
+.controller('dotControls', ['$scope', 'factorise', 'dances', 'polygon', '$timeout', 
+	function(scope, factorise, service, polygonService, timeout) {
 		scope.th = function(n) {
 			if (!n)
 				return '';
@@ -188,6 +188,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 		}
 		update.hooks.push(generateProperties);
 		generateProperties();
+		var autoArrange;
 		scope.$watch('n', function(n) {
 			if (n < 0 || n > options.maxN) {
 				scope.properties = [];
@@ -209,8 +210,17 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 					}});
 			}
 			scope.properties = props;
+			if (autoArrange)
+				timeout.cancel(autoArrange);
+			autoArrange = timeout(function() {
+				scope.$apply(function() {
+					scope.dance = props[0].dance();
+				});
+			}, options.autoArrangeDelay);
 		});
 		scope.showProperty = function(property) {
+			if (autoArrange)
+				timeout.cancel(autoArrange);
 			scope.dance = property.dance();
 		};
 		scope.get = function(name, n) {
