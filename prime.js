@@ -106,6 +106,7 @@
 									}).join(' \u00d7 ')
 								: ' is prime');
 						}
+						window.location.hash = '#' + scope.n.toFixed(0);
 					});
 					// load from URL
 					if (window.location.hash) {
