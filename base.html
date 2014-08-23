@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script>
+		<!--script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script-->
+		<script src="angular.min.js"></script>
 		<script src="big.js/big.js"></script>
 		<script src="base.js"></script>
 		<link href="style.css" rel="stylesheet">
@@ -24,6 +25,7 @@
 				<button ng-click="remove(b.id)">Remove</button>
 			</div>
 			<button ng-click="addBase()">Add</button>
+			<a href="{{hash}}">Link to this result</a>
 		</section>
 	</body>
 </html>

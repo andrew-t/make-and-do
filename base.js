@@ -120,8 +120,6 @@ angular.module('base', [])
 	scope.bases = [];
 	scope.decimalPlaces = 10;
 	var id = 1;
-	if (scope.number == undefined)
-		scope.number = new Big(643934984);
 	scope.addBase = function(base) {
 		scope.bases.push({
 			id: id++,
@@ -133,5 +131,20 @@ angular.module('base', [])
 			if (scope.bases[i].id == id)
 				scope.bases.splice(i, 1);
 	};
-	[2, 10, 16, 36].forEach(scope.addBase);
+	scope.$watch(function() {
+		scope.hash = '#' + scope.number.toString() +
+			'-in-' + scope.bases.map(function(i) { return i.base; }).join(',') +
+			'-to-' + scope.decimalPlaces;
+	});
+	var bases;
+	if (window.location.hash) {
+		var bits = window.location.hash.substr(1).split('-');
+		scope.number = new Big(bits[0]);
+		bases = bits[2].split(',').map(function(i) { return parseInt(i, 10); });
+		scope.decimalPlaces = parseInt(bits[4], 10);
+	} else {
+		scope.number = new Big(643934984);
+		bases = [2, 10, 16, 36];
+	}
+	bases.forEach(scope.addBase);
 }]);
