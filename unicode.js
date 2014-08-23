@@ -19,6 +19,7 @@ angular.module('unicode', ['parseNumbers'])
 		}
 	});
 	scope.$watch('unicode', function(value) {
+		scope.hash = encodeURIComponent(value);
 		var numbers = [];
 		scope.unicodeInvalid = false;
 		if (value)
@@ -33,4 +34,6 @@ angular.module('unicode', ['parseNumbers'])
 			}
 		setDecimal(numbers);
 	});
+	if (window.location.hash)
+		scope.unicode = decodeURIComponent(window.location.hash.substr(1));
 }]);

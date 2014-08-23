@@ -60,6 +60,7 @@ angular.module('ascii', ['parseNumbers'])
 		}
 	});
 	scope.$watch('ascii', function(value) {
+		scope.hash = encodeURIComponent(value);
 		var numbers = [];
 		scope.asciiInvalid = false;
 		if (value)
@@ -75,4 +76,6 @@ angular.module('ascii', ['parseNumbers'])
 		setBinary(numbers);
 		setHex(numbers);
 	});
+	if (window.location.hash)
+		scope.ascii = decodeURIComponent(window.location.hash.substr(1));
 }]);
