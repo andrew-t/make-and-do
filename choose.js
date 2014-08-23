@@ -2,6 +2,7 @@
 
 angular.module('choose', [])
 .service('combinatorics', function() {
+	var self = this;
 	this.factorial = function(a) {
 		var f = 1;
 		if (a) do f *= a; while (a --> 2);
@@ -29,13 +30,29 @@ angular.module('choose', [])
 		return f;
 	};
 	this.combinations = function(a, b) {
-		return this.permutations(a, b) / this.factorial(b);
+		return self.permutations(a, b) / self.factorial(b);
 	};
 	this.combinationsBig = function(a, b) {
-		return this.permutationsBig(a, b).div(this.factorialBig(b));
+		return self.permutationsBig(a, b).div(self.factorialBig(b));
 	};
 })
 .controller('choose', ['combinatorics', '$scope', function(combinatorics, scope) {
 	for (var key in combinatorics)
-		scope[key] = combinatorics[key];
+		if (!/Big$/.test(key))
+			scope[key] = combinatorics[key];
+	if (window.location.hash) {
+		var bits = window.location.hash.substr(1).split('C');
+		scope.a = parseInt(bits[0], 10);
+		scope.b = parseInt(bits[1], 10);
+	}
+}])
+.controller('choose-big', ['combinatorics', '$scope', function(combinatorics, scope) {
+	for (var key in combinatorics)
+		if (/Big$/.test(key))
+			scope[key.substr(0, key.length - 3)] = combinatorics[key];
+	if (window.location.hash) {
+		var bits = window.location.hash.substr(1).split('C');
+		scope.a = new Big(bits[0]);
+		scope.b = new Big(bits[1]);
+	}
 }]);

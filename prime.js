@@ -94,7 +94,7 @@
 						} else if (n.lt(2)) {
 							scope.result = n + ' is too small';
 							scope.slow = false;
-						} else if (n.gt(1000000000)) { 
+						} else if (useSlow(n)) { 
 							scope.result = '';
 							scope.slow = worker !== undefined;
 						} else {
@@ -106,7 +106,6 @@
 									}).join(' \u00d7 ')
 								: ' is prime');
 						}
-						window.location.hash = '#' + scope.n.toFixed(0);
 					});
 					// load from URL
 					if (window.location.hash) {
