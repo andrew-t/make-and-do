@@ -37,9 +37,9 @@ angular.module('dot-panel', ['dances'])
 		var d = 0,
 			dStep = getDelay(options.hideDelay, lastN - n);
 		for (; n < options.maxN; ++n) {
-			var el = angular.element(document.getElementById('dot-' + n));
-			if (el.length) {
-				delayHide(el, d);
+			var el = document.getElementById('dot-' + n);
+			if (el) {
+				delayHide(angular.element(el), d);
 				d += dStep;
 			}
 		}

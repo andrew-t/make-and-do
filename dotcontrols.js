@@ -36,6 +36,9 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 			}
 			return (n ? 'The ' + n + ' ' : '') + adjective + ' ' + m + ' number';
 		}
+		function hash(n, property) {
+			return '#' + n + '-' + property.stub;
+		}
 		var properties;
 		function generateProperties() {
 			// IDEAS: Factorials, perfect numbers
@@ -49,6 +52,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 								return {
 									name: n &-~ n ? 'Prime' : (m + scope.th(m) + ' Mersenne prime'),
 									class: ['prime'],
+									stub: 'prime',
 									dance: function() {
 										return service.polygonDance(n);
 									}
@@ -57,6 +61,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 								return {
 									name: 'Semiprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
 									class: ['coprime'],
+									stub: 'coprime',
 									dance: function() {
 										return service.squareDance(factors[1], factors[0]);
 									}
@@ -73,6 +78,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 								results.push((function(i, root) { return {
 									name: i + '\u00b2 + ' + root + '\u00b2',
 									class: 'sum-of-two-squares',
+									stub: 'squares-' + i + '-' + root,
 									dance: function() {
 										return service.sumDances([
 											service.squareDance(i),
@@ -94,6 +100,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 								results.push((function(i, root) { return {
 									name: i + '\u00b3 + ' + root + '\u00b3',
 									class: 'sum-of-two-cubes',
+									stub: 'cubes-' + i + '-' + root,
 									dance: function() {
 										return service.sumDances([
 											service.cubeDance(i),
@@ -124,6 +131,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 							return {
 								name: namePolygon(root, m, 'generalised'),
 								class: ['generalised', 'generalised-' + m],
+								stub: 'generalised-' + m,
 								dance: function() {
 									var d = [];
 									for (var i = 0; i <= root; ++i)
@@ -151,6 +159,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 						return ~root ? {
 							name: namePolygon(root, m, 'centred'),
 							class: ['centred', 'centred-' + m],
+							stub: 'centred-' + m,
 							dance: function() {
 								var d = [];
 								for (var i = 0; i <= root; ++i)
@@ -174,6 +183,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 							return {
 								name: root + '\u00b3',
 								class: 'cube',
+								stub: 'cube',
 								dance: function() {
 									return service.cubeDance(root);
 								}
@@ -188,7 +198,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 		}
 		update.hooks.push(generateProperties);
 		generateProperties();
-		var autoArrange;
+		var autoArrange, danceStub;
 		scope.$watch('n', function(n) {
 			if (n < 0 || n > options.maxN) {
 				scope.properties = [];
@@ -205,6 +215,8 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 			if (props.length == 0) {
 				props.push({
 					name: n,
+					class: 'boring-number',
+					stub: 'n',
 					dance: function() {
 						return service.polygonDance(n);
 					}});
@@ -212,8 +224,15 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 			scope.properties = props;
 			if (autoArrange)
 				timeout.cancel(autoArrange);
+			if (danceStub)
+				for (var i = 0; i < props.length ; ++i)
+					if (props[i].stub == danceStub) {
+						scope.showProperty(props[i]);
+						return;
+					}
 			autoArrange = timeout(function() {
 				scope.$apply(function() {
+					scope.hash = hash(scope.n, props[0]);
 					scope.dance = props[0].dance();
 				});
 			}, options.autoArrangeDelay);
@@ -221,6 +240,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 		scope.showProperty = function(property) {
 			if (autoArrange)
 				timeout.cancel(autoArrange);
+			scope.hash = hash(scope.n, property);
 			scope.dance = property.dance();
 		};
 		scope.get = function(name, n) {
@@ -231,5 +251,13 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 						scope.dance = property.test(scope.n).dance();
 				}
 			});
+		}
+		// Read from URL
+		if (window.location.hash) {
+			var i = window.location.hash.indexOf('-');
+			if (~i) {
+				scope.n = parseInt(window.location.hash.substr(1, i - 1), 10);
+				danceStub = window.location.hash.substr(i + 1);
+			}
 		}
 	}]);
