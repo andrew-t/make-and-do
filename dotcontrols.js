@@ -3,44 +3,7 @@
 angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 .controller('dotControls', ['$scope', 'factorise', 'dances', 'polygon', '$timeout', 
 	function(scope, factorise, service, polygonService, timeout) {
-		scope.th = function(n) {
-			if (!n)
-				return '';
-			if (n >= 10 && n <= 20)
-				return 'th';
-			switch (n.toString(10).replace(/^.*(\d)$/, '$1')) {
-				case '1': return 'st'; break;
-				case '2': return 'nd'; break;
-				case '3': return 'rd'; break;
-				default: return 'th'; break;
-			}
-		}
-		function namePolygon(n, m, adjective) {
-			if (n) {
-				n++;
-				if (m == 4)
-					return n + '\u00b2';
-				if (n) n += scope.th(n);
-			}
-			var mgonal;
-			switch (m) {
-				case 3: mgonal = 'triangular'; break;
-				case 4: mgonal = 'square'; break;
-				case 5: mgonal = 'pentagonal'; break;
-				case 6: mgonal = 'hexagonal'; break;
-				case 7: mgonal = 'heptagonal'; break;
-				case 8: mgonal = 'octagonal'; break;
-				case 9: mgonal = 'nonagonal'; break;
-				case 10: mgonal = 'decagonal'; break;
-				case 12: mgonal = 'dodecagonal'; break;
-				default: mgonal += '-gonal'; break;
-			}
-			return ((n ? 'The ' + n + ' ' : '') +
-				(((adjective == 'generalised') && (m == 3 || m == 4)) ||
-					((adjective == 'centred') && (m == 6))
-						? '' : (adjective + ' ')) + 
-				mgonal + ' number');
-		}
+		scope.th = polygonService.th;
 		function hash(n, property) {
 			return '#' + n + '-' + property.stub;
 		}
@@ -126,7 +89,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 					values.push(next);
 				}
 				properties.push({
-					name: namePolygon(undefined, m, 'generalised'),
+					name: polygonService.name(undefined, m, 'generalised'),
 					generate: function(n) {
 						return polygonService.generalised(n, m);
 					},
@@ -134,7 +97,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 						var root = values.indexOf(n);
 						if (~root)
 							return {
-								name: namePolygon(root - 1, m, 'generalised'),
+								name: polygonService.name(root - 1, m, 'generalised'),
 								class: ['generalised', 'generalised-' + m],
 								stub: 'generalised-' + m,
 								dance: function() {
@@ -155,14 +118,14 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 					values.push(next);
 				}
 				properties.push({
-					name: namePolygon(undefined, m, 'centred'),
+					name: polygonService.name(undefined, m, 'centred'),
 					generate: function(n) {
 						return polygonService.centred(n, m);
 					},
 					test: function(n) {
 						var root = values.indexOf(n);
 						return ~root ? {
-							name: namePolygon(root - 1, m, 'centred'),
+							name: polygonService.name(root - 1, m, 'centred'),
 							class: ['centred', 'centred-' + m],
 							stub: 'centred-' + m,
 							dance: function() {
