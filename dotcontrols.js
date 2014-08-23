@@ -22,19 +22,24 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 					return n + '\u00b2';
 				if (n) n += scope.th(n);
 			}
+			var mgonal;
 			switch (m) {
-				case 3: m = 'triangular'; break;
-				case 4: m = 'square'; break;
-				case 5: m = 'pentagonal'; break;
-				case 6: m = 'hexagonal'; break;
-				case 7: m = 'heptagonal'; break;
-				case 8: m = 'octagonal'; break;
-				case 9: m = 'nonagonal'; break;
-				case 10: m = 'decagonal'; break;
-				case 12: m = 'dodecagonal'; break;
-				default: m += '-gonal'; break;
+				case 3: mgonal = 'triangular'; break;
+				case 4: mgonal = 'square'; break;
+				case 5: mgonal = 'pentagonal'; break;
+				case 6: mgonal = 'hexagonal'; break;
+				case 7: mgonal = 'heptagonal'; break;
+				case 8: mgonal = 'octagonal'; break;
+				case 9: mgonal = 'nonagonal'; break;
+				case 10: mgonal = 'decagonal'; break;
+				case 12: mgonal = 'dodecagonal'; break;
+				default: mgonal += '-gonal'; break;
 			}
-			return (n ? 'The ' + n + ' ' : '') + adjective + ' ' + m + ' number';
+			return ((n ? 'The ' + n + ' ' : '') +
+				(((adjective == 'generalised') && (m == 3 || m == 4)) ||
+					((adjective == 'centred') && (m == 6))
+						? '' : (adjective + ' ')) + 
+				mgonal + ' number');
 		}
 		function hash(n, property) {
 			return '#' + n + '-' + property.stub;
@@ -129,12 +134,12 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 						var root = values.indexOf(n);
 						if (~root)
 							return {
-								name: namePolygon(root, m, 'generalised'),
+								name: namePolygon(root - 1, m, 'generalised'),
 								class: ['generalised', 'generalised-' + m],
 								stub: 'generalised-' + m,
 								dance: function() {
 									var d = [];
-									for (var i = 0; i <= root; ++i)
+									for (var i = 0; i < root; ++i)
 										d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
 									return d;
 								}
@@ -157,12 +162,12 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 					test: function(n) {
 						var root = values.indexOf(n);
 						return ~root ? {
-							name: namePolygon(root, m, 'centred'),
+							name: namePolygon(root - 1, m, 'centred'),
 							class: ['centred', 'centred-' + m],
 							stub: 'centred-' + m,
 							dance: function() {
 								var d = [];
-								for (var i = 0; i <= root; ++i)
+								for (var i = 0; i < root; ++i)
 									d = d.concat(service.polygonDance(m, i));
 								return d;
 							}
@@ -248,7 +253,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 				if (property.name == name) {
 					scope.n = property.generate(n);
 					if (scope.n > 0 && scope.n <= options.maxN)
-						scope.dance = property.test(scope.n).dance();
+						danceStub = property.test(scope.n).stub;
 				}
 			});
 		}
@@ -259,5 +264,5 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 				scope.n = parseInt(window.location.hash.substr(1, i - 1), 10);
 				danceStub = window.location.hash.substr(i + 1);
 			}
-		}
+		} else scope.n = 1;
 	}]);

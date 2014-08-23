@@ -27,7 +27,7 @@
 			<div dot-panel class="dot-panel" dance="dance"></div>
 			<ul>
 				<li ng-repeat="p in properties">
-					<a href="#" ng-click="showProperty(p); $event.preventDefault();">{{p.name}}</a>
+					<a href="#{{n}}-{{p.stub}}" ng-click="showProperty(p); $event.preventDefault();">{{p.name}}</a>
 				</li>
 			</ul>
 			<a href="{{hash}}">Link to this pattern</a>

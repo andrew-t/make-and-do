@@ -38,7 +38,7 @@ var options = {
 	polygonSpacing: 0.6, // in radii
 	fontSize: 0.4, // Multiplied by the dot size
 	hueStep: 180 * (1 + Math.sqrt(5)), // hidden maths!!
-	saturation: 50,
+	saturation: 70,
 	lightness: 50,
 	autoArrangeDelay: 450
 }, update = function() {

@@ -4,8 +4,15 @@ angular.module('dot-panel', ['dances'])
 .directive('dotPanel', ['$timeout', 'dances', function(timeout, service) {
 	var panel,
 		lastN = 0,
-		borderWidth = 2, // px, must match css
-		hidingTransitionTime = 300; //ms, must match css
+		borderWidth = 0, // px, must match css
+		hidingTransitionTime = 300, //ms, must match css
+		promises = [];
+
+	function defer(n, action, time) {
+		if (promises[n]) 
+			timeout.cancel(promises[n]);
+		return promises[n] = timeout(action, time);
+	}
 
 	function getDelay(params, n) {
 		return Math.max(Math.min(params.step, params.maxTotal / n), params.minStep);
@@ -22,26 +29,29 @@ angular.module('dot-panel', ['dances'])
 		});
 	}
 
-	function delayHide(el, d) {
-		return timeout(function() {
-			var size = parseInt(el.css('line-height'), 10) * 0.5;
-			hide(el, parseInt(el.css('left'), 10) + size, parseInt(el.css('top'), 10) + size);
-			timeout(function() {
-				el.remove();
-			}, hidingTransitionTime);
-		}, d);
+	function delayHide(n, el, d) {
+		return defer(n, function() {
+			var el = angular.element(document.getElementById('dot-' + n));
+			if (el.length) {
+				var size = parseInt(el.css('line-height'), 10) * 0.5;
+				hide(el, parseInt(el.css('left'), 10) + size, parseInt(el.css('top'), 10) + size);
+				defer(n, function() {
+					el.remove();
+				}, hidingTransitionTime);
+			}
+		}, d).then(function() {
+			for (var x = promises.length - 1; promises[x] === undefined; --x);
+			promises.length = x;
+		});
 	};
 
 	// remove all dots with an index of n or above
 	function hideDotsFrom(n) {
 		var d = 0,
 			dStep = getDelay(options.hideDelay, lastN - n);
-		for (; n < options.maxN; ++n) {
-			var el = document.getElementById('dot-' + n);
-			if (el) {
-				delayHide(angular.element(el), d);
-				d += dStep;
-			}
+		for (; n < promises.length; ++n) {
+			delayHide(n, d);
+			d += dStep;
 		}
 		lastN = n;
 	}
@@ -64,7 +74,7 @@ angular.module('dot-panel', ['dances'])
 			panel.append(ael);
 		}
 		// todo - replace with css animation?
-		timeout(function() {
+		promises[n] = timeout(function() {
 			(ael || angular.element(el)).removeClass('hiding')
 				.css({
 					background: service.getBg(n),
@@ -79,7 +89,7 @@ angular.module('dot-panel', ['dances'])
 	}
 
 	function delayPut(i, x, y, size, delay) {
-		return timeout(function() {
+		defer(i, function() {
 			putDot(i, x, y, size);
 		}, delay);
 	}

@@ -5,14 +5,14 @@ angular.module('polygon', [])
 	this.centred = function(n, m) {
 		// TODO - maths this into one line.
 		var x = 1;
-		for (var i = 1; i <= n; ++i)
+		for (var i = 1; i < n; ++i)
 			x += i * m;
 		return x;
 	};
 	this.generalised = function(n, m) {
 		// TODO - maths this into one line.
 		var x = 1;
-		for (var i = 1; i <= n; ++i)
+		for (var i = 1; i < n; ++i)
 			x += i * (m - 2) + 1;
 		return x;
 	};
