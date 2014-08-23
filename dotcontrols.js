@@ -28,8 +28,8 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 							case 2:
 								return {
 									name: 'Semiprime (' + factors[0] + ' \u00d7 ' + factors[1] + ')',
-									class: ['coprime'],
-									stub: 'coprime',
+									class: ['semiprime'],
+									stub: 'semiprime',
 									dance: function() {
 										return service.squareDance(factors[1], factors[0]);
 									}
@@ -51,28 +51,6 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 										return service.sumDances([
 											service.squareDance(i),
 											service.squareDance(root)
-										]);
-									}
-								}})(i, root));
-						}
-						return results;
-					}
-				}, {
-					test: function(n) {
-						var results = [],
-							limit = Math.pow(n / 2, 1 / 3) + 1;
-						for (var i = 1; i <= limit; ++i) {
-							var rest = n - i * i * i,
-								root = Math.round(Math.pow(rest, 1 / 3));
-							if (root > i && root * root * root == rest)
-								results.push((function(i, root) { return {
-									name: i + '\u00b3 + ' + root + '\u00b3',
-									class: 'sum-of-two-cubes',
-									stub: 'cubes-' + i + '-' + root,
-									dance: function() {
-										return service.sumDances([
-											service.cubeDance(i),
-											service.cubeDance(root)
 										]);
 									}
 								}})(i, root));
@@ -138,7 +116,7 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 					}
 				});
 			});
-			if (options.cubes)
+			if (options.cubes) {
 				properties.push({
 					name: 'cube number',
 					generate: function(n) {
@@ -158,6 +136,30 @@ angular.module('dot-controls', ['prime', 'polygon', 'dances'])
 							};
 					}
 				});
+				properties.push({
+					test: function(n) {
+						var results = [],
+							limit = Math.pow(n / 2, 1 / 3) + 1;
+						for (var i = 1; i <= limit; ++i) {
+							var rest = n - i * i * i,
+								root = Math.round(Math.pow(rest, 1 / 3));
+							if (root >= i && root * root * root == rest)
+								results.push((function(i, root) { return {
+									name: i + '\u00b3 + ' + root + '\u00b3',
+									class: 'sum-of-two-cubes',
+									stub: 'cubes-' + i + '-' + root,
+									dance: function() {
+										return service.sumDances([
+											service.cubeDance(i),
+											service.cubeDance(root)
+										]);
+									}
+								}})(i, root));
+						}
+						return results;
+					}
+				});
+			}
 			scope.namedProperties = [];
 			properties.forEach(function(property) {
 				if (property.name)
