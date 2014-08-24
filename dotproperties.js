@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('properties', ['prime', 'polygon', 'dances'])
-.service('properties', ['factorise', 'dances', 'polygon', 
-	function(factorise, service, polygonService) {
+angular.module('properties', ['prime', 'polygon', 'dances', 'fibonacci'])
+.service('properties', ['factorise', 'dances', 'polygon', 'fibonacci',
+	function(factorise, service, polygonService, fibonacci) {
 		return function() {
 			// IDEAS: Factorials, perfect numbers
 			var properties = [
@@ -57,7 +57,7 @@ angular.module('properties', ['prime', 'polygon', 'dances'])
 			options.generalised.forEach(function(m) {
 				var values = [];
 				while (true) {
-					var next = polygonService.generalised(values.length, m);
+					var next = polygonService.generalised(values.length + 1, m);
 					if (next > options.maxN) break;
 					values.push(next);
 				}
@@ -70,12 +70,12 @@ angular.module('properties', ['prime', 'polygon', 'dances'])
 						var root = values.indexOf(n);
 						if (~root)
 							return {
-								name: polygonService.name(root - 1, m, 'generalised'),
+								name: polygonService.name(root, m, 'generalised'),
 								class: ['generalised', 'generalised-' + m],
 								stub: 'generalised-' + m,
 								dance: function() {
 									var d = [];
-									for (var i = 0; i < root; ++i)
+									for (var i = 0; i <= root; ++i)
 										d = d.concat(service.polygonDance(m, i, undefined, 1, m - 1, 0));
 									return d;
 								}
@@ -93,23 +93,47 @@ angular.module('properties', ['prime', 'polygon', 'dances'])
 				properties.push({
 					name: polygonService.name(undefined, m, 'centred'),
 					generate: function(n) {
-						return polygonService.centred(n, m);
+						return polygonService.centred(n - 1, m);
 					},
 					test: function(n) {
 						var root = values.indexOf(n);
 						return ~root ? {
-							name: polygonService.name(root - 1, m, 'centred'),
+							name: polygonService.name(root, m, 'centred'),
 							class: ['centred', 'centred-' + m],
 							stub: 'centred-' + m,
 							dance: function() {
 								var d = [];
-								for (var i = 0; i < root; ++i)
+								for (var i = 0; i <= root; ++i)
 									d = d.concat(service.polygonDance(m, i));
 								return d;
 							}
 						} : undefined;
 					}
 				});
+			});
+			options.fibonacci.forEach(function(init) {
+				var values = fibonacci.allFibonacci(init, options.maxN),
+					property = {
+						test: function(n) {
+							var root = values.indexOf(n);
+							return ~root ? {
+								name: fibonacci.name(root + 1, init),
+								class: ['fibonacci', 'fibonacci-' + init.join('-')],
+								stub: 'fibonacci-' + init.join('-'),
+								dance: function() {
+									// TODOOOO
+									return service.polygonDance(n);
+								}
+							} : undefined;
+						}
+					};
+				if (init.length == 2 && init[0] == 1 && init[1] == 1) {
+					property.generate = function(n) {
+						return fibonacci.fibonacci(init, n);
+					};
+					property.name = 'Fibonacci number';
+				}
+				properties.push(property);
 			});
 			if (options.cubes) {
 				properties.push({

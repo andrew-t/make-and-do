@@ -4,6 +4,7 @@ var options = {
 	maxN: 1000,
 	centred: [5, 6, 7],
 	generalised: [3, 4, 5, 7],
+	fibonacci: [ [1, 1] ],
 	cubes: true,
 	cubeDimensions: {
 		x: {

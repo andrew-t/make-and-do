@@ -52,6 +52,8 @@ angular.module('dances', [])
 	};
 
 	this.polygonDance = function(sides, perSide, radius, firstSide, lastSide, centreOnCorner) {
+		if ((sides <= 1) || !perSide)
+			return [{ x: 0, y: 0, size: 0.5 }];
 		if (perSide === undefined)
 			perSide = 1;
 		if (firstSide === undefined) 

@@ -1,25 +1,13 @@
 'use strict';
 
-angular.module('polygon', [])
-.service('polygon', function() {
-	this.th = function(n) {
-		if (!n)
-			return '';
-		if (n >= 10 && n <= 20)
-			return 'th';
-		switch (n.toString(10).replace(/^.*(\d)$/, '$1')) {
-			case '1': return 'st'; break;
-			case '2': return 'nd'; break;
-			case '3': return 'rd'; break;
-			default: return 'th'; break;
-		}
-	};
+angular.module('polygon', ['th'])
+.service('polygon', ['th', function(th) {
 	this.name = function(n, m, adjective) {
-		if (n) {
+		if (n !== undefined) {
 			n++;
 			if (m == 4)
 				return n + '\u00b2';
-			if (n) n += this.th(n);
+			if (n !== undefined) n += th(n);
 		}
 		var mgonal;
 		switch (m) {
@@ -32,7 +20,7 @@ angular.module('polygon', [])
 			case 9: mgonal = 'nonagonal'; break;
 			case 10: mgonal = 'decagonal'; break;
 			case 12: mgonal = 'dodecagonal'; break;
-			default: mgonal += '-gonal'; break;
+			default: mgonal = m + '-gonal'; break;
 		}
 		return ((n ? 'The ' + n + ' ' : '') +
 			(((adjective == 'generalised') && (m == 3 || m == 4)) ||
@@ -41,9 +29,9 @@ angular.module('polygon', [])
 			mgonal + ' number');
 	};
 	this.centred = function(n, m) {
-		return 1 + m * n * (n - 1) * 0.5;
+		return 1 + m * n * (n + 1) * 0.5;
 	};
 	this.generalised = function(n, m) {
 		return n * ((m - 2) * (n - 1) * 0.5 + 1);
 	};
-});
+}]);

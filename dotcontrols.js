@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('dot-controls', ['polygon', 'dances', 'properties'])
-.controller('dotControls', ['$scope', 'dances', 'polygon', '$timeout', 'properties',
-	function(scope, service, polygonService, timeout, getProperties) {
-		scope.th = polygonService.th;
+angular.module('dot-controls', ['th', 'dances', 'properties'])
+.controller('dotControls', ['$scope', 'dances', 'th', '$timeout', 'properties',
+	function(scope, service, th, timeout, getProperties) {
+		scope.th = th;
 		function hash(n, property) {
 			return '#' + n + '-' + property.stub;
 		}
