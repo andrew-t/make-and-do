@@ -18,8 +18,7 @@ angular.module('dot-controls', ['th', 'dances', 'properties'])
 		}
 		update.hooks.push(generateProperties);
 		generateProperties();
-		var autoArrange, danceStub;
-		scope.$watch('n', function(n) {
+		var autoArrange, danceStub, handler = function(n) {
 			if (n < 0 || n > options.maxN) {
 				scope.properties = [];
 				return;
@@ -56,7 +55,8 @@ angular.module('dot-controls', ['th', 'dances', 'properties'])
 					scope.dance = props[0].dance();
 				});
 			}, options.autoArrangeDelay);
-		});
+		};
+		scope.$watch('n', handler);
 		scope.showProperty = function(property) {
 			if (autoArrange)
 				timeout.cancel(autoArrange);
@@ -67,11 +67,13 @@ angular.module('dot-controls', ['th', 'dances', 'properties'])
 			properties.forEach(function(property) {
 				if (property.name == name) {
 					scope.n = property.generate(n);
-					if (scope.n > 0 && scope.n <= options.maxN)
+					if (scope.n > 0 && scope.n <= options.maxN) {
 						danceStub = property.test(scope.n).stub;
+						handler(scope.n);
+					}
 				}
 			});
-		}
+		};
 		// Read from URL
 		if (window.location.hash) {
 			var i = window.location.hash.indexOf('-');
