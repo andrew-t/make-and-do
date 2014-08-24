@@ -131,57 +131,62 @@ angular.module('dances', ['fibonacci'])
 		var numbers = fibonacci.allFibonacci([1, 1], undefined, m - 1);
 		if (m < 0)
 			return [];
+		// The first two positions are kind of a hack -- it's wherever they fit, really:
 		var d = [{
-				x: 0,
-				y: 0,
+				x: 0.25 * options.fibonacciSpacing,
+				y: -0.55 * options.fibonacciSpacing,
 				size: options.fibonacciRadius
 			}];
 		if (m < 1)
 			return d;
 		d.push({
-			x: 1,
-			y: 0,
+			x: 1.35 * options.fibonacciSpacing,
+			y: -0.1 * options.fibonacciSpacing,
 			size: options.fibonacciRadius
 		});
-		var top = 0, bottom = 0, left = 1, right = 1,
+		var top = 0, bottom = 0, left = options.fibonacciSpacing, right = options.fibonacciSpacing,
 			centreX, centreY, r;
 		for (var i = 2; i < m; ++i) {
 			switch (i & 3) {
 				case 0: // draw above
 					centreX = right;
-					centreY = top - 1;
+					centreY = top - options.fibonacciSpacing;
 					r = right - left;
-					top -= r + 1;
+					top -= r + options.fibonacciSpacing;
 					break;
 				case 1: // draw right
-					centreX = right + 1;
+					centreX = right + options.fibonacciSpacing;
 					centreY = bottom;
 					r = bottom - top;
-					right += r + 1;
+					right += r + options.fibonacciSpacing;
 					break;
 				case 2: // draw below
 					centreX = left;
-					centreY = bottom + 1;
+					centreY = bottom + options.fibonacciSpacing;
 					r = right - left;
-					bottom += r + 1;
+					bottom += r + options.fibonacciSpacing;
 					break;
 				case 3: // draw left
-					centreX = left - 1;
+					centreX = left - options.fibonacciSpacing;
 					centreY = top;
 					r = bottom - top;
-					left -= r + 1;
+					left -= r + options.fibonacciSpacing;
 					break;
 			}
 			var p = numbers[i - 1] - 1;
-			if (p)
+			if (p) {
+				var distance = Math.PI * 0.5 + options.fibonacciSpacing / (r),
+					move = distance / (p + 1),
+					theta = move - (options.fibonacciSpacing / p) + Math.PI * 0.5 * (i + 1);
 				for (var n = 0; n <= p; ++n) {
-					var theta = (i + 1) * Math.PI * 0.5 + n * Math.PI / (2 * p);
 					d.push({
 						x: centreX - Math.sin(theta) * r,
 						y: centreY + Math.cos(theta) * r,
 						size: options.fibonacciRadius
 					});
+					theta += move;
 				}
+			}
 			else d.push({
 				x: centreX,
 				y: centreY,
