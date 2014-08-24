@@ -5,35 +5,41 @@ angular.module('pascal', ['big'])
 	scope.maxRows = 20;
 	scope.maxHits = 10;
 	scope.find = function(n, maxHits) {
-		var hits = [];
+		var hits = [], row, lastRow, triangle = [];
 		scope.triangle = [];
 		for (var y = 0; y < scope.maxRows; ++y) {
-			var end = y * 0.5, backrow = [];
+			row = [];
+			var end = Math.min(y >> 1, lastRow ? lastRow.length + 1 : Infinity), backrow = [];
 			for (var x = 0; x <= end; ++x) {
 				var cell = {
 					x: x,
-					y: y,
-					n: x == 0 || x == y 
-						? new Big(1)
-						: scope.triangle[scope.triangle.length - y - 1].n.plus(scope.triangle[scope.triangle.length - y].n)
+					y: y
 				};
+				if (x == 0 || x == y)
+					cell.n = new Big(1);
+				else {
+					var left = lastRow[x - 1], // y = lastRow's ideal length
+						right = lastRow[x] || lastRow[y - x - 1];
+					if (!left || !right)
+						break;
+					cell.n = left.n.plus(right.n);
+				}
+				row.push(cell);
 				scope.triangle.push(cell);
-				if (x != end)
-					backrow.push({
-						x: y - x,
-						y: y,
-						n: cell.n
-					});
 				if (cell.n.eq(n)) {
 					hits.push(cell);
-					if (x != end)
-						hits.push(backrow[backrow.length - 1]);
-				}
+					if (x != y * 0.5)
+						hits.push({
+							x: y - x - 1,
+							y: y,
+							n: n
+						});
+				} else if (cell.n.gt(n))
+					break;
 			}
-			while (backrow.length)
-				scope.triangle.push(backrow.pop());
-			if (hits.length >= maxHits)
+			if (hits.length >= maxHits || n.lt(y))
 				break;
+			lastRow = row;
 		}
 		scope.rows = y;
 		return hits;

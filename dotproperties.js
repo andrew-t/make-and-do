@@ -112,8 +112,8 @@ angular.module('properties', ['prime', 'polygon', 'dances', 'fibonacci'])
 				});
 			});
 			options.fibonacci.forEach(function(init) {
-				var normal = init.length == 2 && init[0] == 1 && init[1] == 1;
-				var values = fibonacci.allFibonacci(init, options.maxN);
+				var normal = init.length == 2 && init[0] == 1 && init[1] == 1,
+					values = fibonacci.allFibonacci(init, options.maxN);
 				properties.push({
 					test: function(n) {
 						var root = values.indexOf(n);
