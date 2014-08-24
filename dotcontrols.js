@@ -49,6 +49,7 @@ angular.module('dot-controls', ['th', 'dances', 'properties'])
 						scope.showProperty(props[i]);
 						return;
 					}
+			danceStub = undefined;
 			autoArrange = timeout(function() {
 				scope.$apply(function() {
 					scope.hash = hash(scope.n, props[0]);
@@ -67,10 +68,8 @@ angular.module('dot-controls', ['th', 'dances', 'properties'])
 			properties.forEach(function(property) {
 				if (property.name == name) {
 					scope.n = property.generate(n);
-					if (scope.n > 0 && scope.n <= options.maxN) {
+					if (scope.n > 0 && scope.n <= options.maxN)
 						danceStub = property.test(scope.n).stub;
-						handler(scope.n);
-					}
 				}
 			});
 		};
@@ -80,6 +79,10 @@ angular.module('dot-controls', ['th', 'dances', 'properties'])
 			if (~i) {
 				scope.n = parseInt(window.location.hash.substr(1, i - 1), 10);
 				danceStub = window.location.hash.substr(i + 1);
+				// Not sure why we need this but we do:
+				timeout(function() {
+					danceStub = undefined;
+				});
 			}
 		} else scope.n = 1;
 	}]);

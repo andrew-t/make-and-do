@@ -121,8 +121,7 @@ angular.module('properties', ['prime', 'polygon', 'dances', 'fibonacci'])
 								class: ['fibonacci', 'fibonacci-' + init.join('-')],
 								stub: 'fibonacci-' + init.join('-'),
 								dance: function() {
-									// TODOOOO
-									return service.polygonDance(n);
+									return service.fibonacciDance(root);
 								}
 							} : undefined;
 						}

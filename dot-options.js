@@ -37,6 +37,7 @@ var options = {
 	margin: 0.1, // in dot diameters, I think
 	sumDistance: 1, // 1 is the smallest sane number
 	polygonSpacing: 0.6, // in radii
+	fibonacciRadius: 0.9,
 	fontSize: 0.5, // Multiplied by the dot size
 	hueStep: 180 * (1 + Math.sqrt(5)), // hidden maths!!
 	saturation: 70,

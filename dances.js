@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('dances', [])
-.service('dances', function() {
+angular.module('dances', ['fibonacci'])
+.service('dances', ['fibonacci', function(fibonacci) {
 	this.getBg = function(i) {
 		return 'hsl(' + (options.hueStep * i) + ', ' + options.saturation + '%, ' + options.lightness + '%)';
 	};
@@ -52,7 +52,7 @@ angular.module('dances', [])
 	};
 
 	this.polygonDance = function(sides, perSide, radius, firstSide, lastSide, centreOnCorner) {
-		if ((sides <= 1) || !perSide)
+		if ((sides <= 1) || (perSide === 0))
 			return [{ x: 0, y: 0, size: 0.5 }];
 		if (perSide === undefined)
 			perSide = 1;
@@ -126,4 +126,68 @@ angular.module('dances', [])
 					});
 		return d;
 	};
-});
+
+	this.fibonacciDance = function(m) {
+		var numbers = fibonacci.allFibonacci([1, 1], undefined, m - 1);
+		if (m < 1)
+			return [];
+		var d = [{
+				x: 0,
+				y: 0,
+				size: options.fibonacciRadius
+			}];
+		if (m < 2)
+			return d;
+		d.push({
+			x: 1,
+			y: 0,
+			size: options.fibonacciRadius
+		});
+		var top = 0, bottom = 0, left = 1, right = 1,
+			centreX, centreY, r;
+		for (var i = 2; i < m; ++i) {
+			switch (i & 3) {
+				case 0: // draw above
+					centreX = right;
+					centreY = top - 1;
+					r = right - left;
+					top -= r + 1;
+					break;
+				case 1: // draw right
+					centreX = right + 1;
+					centreY = bottom;
+					r = bottom - top;
+					right += r + 1;
+					break;
+				case 2: // draw below
+					centreX = left;
+					centreY = bottom + 1;
+					r = right - left;
+					bottom += r + 1;
+					break;
+				case 3: // draw left
+					centreX = left - 1;
+					centreY = top;
+					r = bottom - top;
+					left -= r + 1;
+					break;
+			}
+			var p = numbers[i - 1] - 1;
+			if (p)
+				for (var n = 0; n <= p; ++n) {
+					var theta = (i + 1) * Math.PI * 0.5 + n * Math.PI / (2 * p);
+					d.push({
+						x: centreX - Math.sin(theta) * r,
+						y: centreY + Math.cos(theta) * r,
+						size: options.fibonacciRadius
+					});
+				}
+			else d.push({
+				x: centreX,
+				y: centreY,
+				size: options.fibonacciRadius
+			});
+		}
+		return d;
+	};
+}]);
