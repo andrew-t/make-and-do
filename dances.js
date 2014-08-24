@@ -129,14 +129,14 @@ angular.module('dances', ['fibonacci'])
 
 	this.fibonacciDance = function(m) {
 		var numbers = fibonacci.allFibonacci([1, 1], undefined, m - 1);
-		if (m < 1)
+		if (m < 0)
 			return [];
 		var d = [{
 				x: 0,
 				y: 0,
 				size: options.fibonacciRadius
 			}];
-		if (m < 2)
+		if (m < 1)
 			return d;
 		d.push({
 			x: 1,
