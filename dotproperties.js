@@ -112,27 +112,25 @@ angular.module('properties', ['prime', 'polygon', 'dances', 'fibonacci'])
 				});
 			});
 			options.fibonacci.forEach(function(init) {
-				var values = fibonacci.allFibonacci(init, options.maxN),
-					property = {
-						test: function(n) {
-							var root = values.indexOf(n);
-							return ~root ? {
-								name: fibonacci.name(root + 1, init),
-								class: ['fibonacci', 'fibonacci-' + init.join('-')],
-								stub: 'fibonacci-' + init.join('-'),
-								dance: function() {
-									return service.fibonacciDance(root);
-								}
-							} : undefined;
-						}
-					};
-				if (init.length == 2 && init[0] == 1 && init[1] == 1) {
-					property.generate = function(n) {
+				var normal = init.length == 2 && init[0] == 1 && init[1] == 1;
+				var values = fibonacci.allFibonacci(init, options.maxN);
+				properties.push({
+					test: function(n) {
+						var root = values.indexOf(n);
+						return ~root ? {
+							name: fibonacci.name(root + 1, init),
+							class: ['fibonacci', 'fibonacci-' + init.join('-')],
+							stub: 'fibonacci-' + init.join('-'),
+							dance: function() {
+								return normal ? service.fibonacciDance(root) : service.polygonDance(n);
+							}
+						} : undefined;
+					},
+					name: fibonacci.name(undefined, init),
+					generate: function(n) {
 						return fibonacci.fibonacci(init, n);
-					};
-					property.name = 'Fibonacci number';
-				}
-				properties.push(property);
+					}
+				});
 			});
 			if (options.cubes) {
 				properties.push({

@@ -11,15 +11,10 @@ angular.module('fibonacci', ['th'])
 			case 3: monacci = 'tribonacci'; break;
 			default: monacci = init.length + '-onacci'; break;
 		}
-		var terms;
-		for (var i = 0; i < init.length; ++i)
-			if (init[i] != 1) {
-				terms = init.join(', ');
-				break;
-			}
+		var terms = init.join(', ');
 		return (n ? 'The ' + n + ' ' : '') +
 			monacci + ' number' + 
-			(terms ? ' with initial terms ' + terms : '');
+			(terms != '1, 1' ? ' with initial terms ' + terms : '');
 	};
 	this.centred = function(n, m) {
 		return 1 + m * n * (n - 1) * 0.5;
