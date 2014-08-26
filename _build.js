@@ -65,7 +65,11 @@ files.forEach(function(filename) {
 	var file = fs.statSync(filename);
 	if (file.isDirectory())
 		return;
-	fs.writeFileSync(outDir + '/' + filename, fs.readFileSync(filename, 'utf8'));
+	fs.writeFileSync(outDir + '/' + filename, 
+		fs.readFileSync(filename, 'utf8')
+		.replace(/\/\*.*?\*\//gm, '')
+		.replace(/;?\s*([{:;}])\s*/g, '$1')
+		.replace(/\s+/g, ' '));
 });
 
 // dependencies
