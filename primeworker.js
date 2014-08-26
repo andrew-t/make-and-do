@@ -1,4 +1,4 @@
-importScripts('big.js/big.js', 'prime.js');
+importScripts('big.js/big.js', 'factorise.js');
 
 function package(factors, done) {
 	return {

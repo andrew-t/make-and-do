@@ -4,8 +4,9 @@ var mangle = true,
 	liftVars = true,
 	outDir = 'dist',
 	output = 'gadgets.min.js',
+	errContext = 10,
 	dependencies = ['angular.min.js', 'big.js/big.min.js'],
-	noConcat = [/worker\.js$/i, /^prime\.js$/];
+	noConcat = [/worker\.js$/i, /\.min\.js$/i, /^factorise\.js$/i];
 
 var fs = require('fs'),
 	uglify = require('./UglifyJS/uglify-js.js'),
@@ -41,7 +42,15 @@ function isConcat(filename) {
 // JavaScript
 
 function minify(code, fn) {
-	var ast = uglify.parser.parse(code);
+	var ast;
+	try {
+		ast = uglify.parser.parse(code);
+	} catch (e) {
+		console.log(e);
+		for (var l = e.line - errContext; l <= e.line + errContext; ++l)
+			console.log(code.split('\n')[l]);
+		throw 'Balls.';
+	}
 
 	if (liftVars)
 		ast = uglify.uglify.ast_lift_variables(ast);
@@ -74,11 +83,11 @@ forEachFile('js', function(filename) {
 	if (!/\.min\.js$/i.test(filename)) {
 		var content = fs.readFileSync(filename, 'utf8')
 				.replace(/['"]use strict['"];/gi, '')
-				.replace(/['"][^'"]+\/([^\/]+)\.js['"]/gi, "'$1.min.js'") + '\n\n';
+				.replace(/['"]([^'"]+\/)?([^\/'"]+)\.js['"]/gi, "'$2.min.js'") + '\n\n';
 		if (isConcat(filename))
 			code += content;
 		else
-			minify(content, filename);
+			minify(content, filename.replace(/\.js$/i, '.min.js'));
 	}
 });
 
@@ -104,8 +113,8 @@ forEachFile('html', function(filename) {
 			}
 		} else
 			// strip dirs from dependencies:
-			out += line.replace(/<script src=".*\/([^\/]+).min.js"><\/script>/i, 
-				'<script src="$1.min.js"></script>') + '\n';
+			out += line.replace(/<script src="([^"]*\/)?([^\/]+)\.js"><\/script>/i, 
+				'<script src="$2.min.js"></script>').replace(/\.min\.min\.js/ig, '.min.js') + '\n';
 	});
 	fs.writeFileSync(outDir + '/' + filename, out);
 });

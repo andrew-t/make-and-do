@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('properties', ['prime', 'polygon', 'dances', 'fibonacci'])
+angular.module('properties', ['factorise', 'polygon', 'dances', 'fibonacci'])
 .service('properties', ['factorise', 'dances', 'polygon', 'fibonacci',
 	function(factorise, service, polygonService, fibonacci) {
 		return function() {
