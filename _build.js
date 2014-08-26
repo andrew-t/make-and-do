@@ -29,6 +29,15 @@ function forEachFile(extension, callback) {
 	});
 }
 
+function isConcat(filename) {
+	var concat = true;
+	noConcat.forEach(function(filter) {
+		if (filter.test(filename))
+			concat = false;
+	});
+	return concat;
+}
+
 // JavaScript
 
 function minify(code, fn) {
@@ -63,13 +72,10 @@ var code = '';
 
 forEachFile('js', function(filename) {
 	if (!/\.min\.js$/i.test(filename)) {
-		var content = fs.readFileSync(filename, 'utf8').replace(/['"]use strict['"];/gi, '') + '\n\n',
-			concat = true;
-		noConcat.forEach(function(filter) {
-			if (filter.test(filename))
-				concat = false;
-		});
-		if (concat)
+		var content = fs.readFileSync(filename, 'utf8')
+				.replace(/['"]use strict['"];/gi, '')
+				.replace(/['"][^'"]+\/([^\/]+)\.js['"]/gi, "'$1.min.js'") + '\n\n';
+		if (isConcat(filename))
 			code += content;
 		else
 			minify(content, filename);
@@ -85,9 +91,23 @@ console.log('Compression ratio: ' + (totalOut / totalIn));
 // HTML
 
 forEachFile('html', function(filename) {
-	fs.writeFileSync(outDir + '/' + filename, fs.readFileSync(filename, 'utf8')
-		.replace(/<script src=".*\/([^\/]+).min.js"><\/script>/ig, 
-				'<script src="$1.min.js"></script>'));
+	var lines = fs.readFileSync(filename, 'utf8').split('\n'),
+		out = '',
+		done = false,
+		getFn = /^\s*<script src="([^"]+)"><\/script>$/i;
+	lines.forEach(function(line) {
+		var fn = line.replace(getFn, '$1');
+		if (fn != line && isConcat(fn)) {
+			if (!done) {
+				out += '\t\t<script src="' + output + '"></script>';
+				done = true;
+			}
+		} else
+			// strip dirs from dependencies:
+			out += line.replace(/<script src=".*\/([^\/]+).min.js"><\/script>/i, 
+				'<script src="$1.min.js"></script>') + '\n';
+	});
+	fs.writeFileSync(outDir + '/' + filename, out);
 });
 
 // CSS
