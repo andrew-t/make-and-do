@@ -1,3 +1,6 @@
 [submodule "big.js"]
 	path = big.js
 	url = https://github.com/MikeMcl/big.js
+[submodule "UglifyJS"]
+	path = UglifyJS
+	url = https://github.com/mishoo/UglifyJS/
