@@ -14,8 +14,10 @@
 		<section ng-scope ng-controller="pascal">
 			<label for="maxHits">Maximum hits</label> <input type="number" ng-model="maxHits" id="maxHits">
 			<label for="maxRows">Maximum rows</label> <input type="number" ng-model="maxRows" id="maxRows">
+			<label for="maxRows">Maximum cells</label> <input type="number" ng-model="maxCells" id="maxCells">
 			<label for="rawN">N</label> <div big model="n"></div>
-			<button ng-click="search()">Search</button>
+			<button ng-click="search(n)">Search</button>
+			<button ng-click="search()">Draw All</button>
 			<ul>
 				<li ng-repeat="hit in hits">Row {{hit.y + 1}}, position {{hit.x + 1}} = {{hit.n.toFixed(0)}}</li>
 			</ul>
