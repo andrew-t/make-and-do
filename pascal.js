@@ -3,8 +3,8 @@
 angular.module('pascal', ['big'])
 .controller('pascal', ['$scope', function(scope) {
 	scope.maxRows = 20;
-	scope.maxHits = 10;
-	scope.find = function(n, maxHits) {
+	scope.maxCells = 1000;
+	scope.search = function(n) {
 		var hits = [], row, lastRow, triangle = [];
 		scope.triangle = [];
 		for (var y = 0; y < scope.maxRows; ++y) {
@@ -26,26 +26,32 @@ angular.module('pascal', ['big'])
 				}
 				row.push(cell);
 				scope.triangle.push(cell);
-				if (cell.n.eq(n)) {
-					hits.push(cell);
-					if (x != y * 0.5)
-						hits.push({
-							x: y - x - 1,
-							y: y,
-							n: n
-						});
-				} else if (cell.n.gt(n))
+				if (n) {
+					if (cell.n.eq(n)) {
+						hits.push(cell);
+						if (x != y * 0.5)
+							hits.push({
+								x: y - x - 1,
+								y: y,
+								n: n
+							});
+					} else if (cell.n.gt(n))
+						break;
+				} else if ((x << 1) != y)
+					backrow.push(cell);
+			}			
+			if (n) {
+				if (hits.length >= scope.maxHits || n.lt(y))
 					break;
-			}
-			if (hits.length >= maxHits || n.lt(y))
+			} else
+				while (backrow.length)
+					row.push(backrow.pop());
+			if (scope.triangle.length >= scope.maxCells)
 				break;
 			lastRow = row;
 		}
 		scope.rows = y;
-		return hits;
-	};
-	scope.search = function() {
-		scope.hits = scope.find(scope.n, scope.maxHits);
+		return n && hits;
 	};
 	scope.mouseIn = function(cell) {
 		scope.hoverValue = cell;
