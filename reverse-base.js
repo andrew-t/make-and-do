@@ -7,7 +7,7 @@ angular.module('reverseBase', ['rebase'])
 		scope.rebased = scope.rebases &&
 			service.allYourBase(scope.string, scope.rebases.split(/[,;]\s*/g).map(function(n) { return parseInt(n, 10); }));
 		scope.rebased.forEach(function (b) {
-			b.number = b.number.toFixed(scope.decimalPlaces).replace(/([^0])0+$/, '$1');
+			b.number = b.number.toFixed(scope.decimalPlaces).replace(/(\..*?)0+$/, '$1').replace(/\.$/, '');
 		});
 	};
 	scope.$watch('string', handler);
