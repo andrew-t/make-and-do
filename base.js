@@ -15,7 +15,7 @@ angular.module('base', ['rebase'])
 			var ignoreBased = false;
 			scope.id = id++;
 			function update(force) {
-				if (scope.base > 1 && scope.base <= 36 && scope.number !== undefined) {
+				if (scope.base > 1 && scope.number !== undefined) {
 					ignoreBased = true;
 					//console.log('converting ' + scope.number + ' to base ' + scope.base);
 					if (!force) {
@@ -52,7 +52,7 @@ angular.module('base', ['rebase'])
 		}
 	};
 }])
-.controller('number', ['$scope', function(scope) {
+.controller('number', ['$scope', 'baseConverter', function(scope, service) {
 	scope.bases = [];
 	scope.decimalPlaces = 10;
 	var id = 1;
@@ -67,6 +67,14 @@ angular.module('base', ['rebase'])
 			if (scope.bases[i].id == id)
 				scope.bases.splice(i, 1);
 	};
+	var handler = function() {
+		scope.rebased = scope.rebases &&
+			service.allYourBase(scope.string, scope.rebases.split(/[,;]\s*/g).map(function(n) { return parseInt(n, 10); }));
+	};
+	scope.$watch('string', handler);
+	scope.$watch('rebases', handler);
+	for (var i = 2; i <= 36; ++i)
+		scope.rebases = (scope.rebases ? scope.rebases + '; ' : '') + i;
 	scope.$watch(function() {
 		scope.hash = '#' + scope.number.toString() +
 			'-in-' + scope.bases.map(function(i) { return i.base; }).join(',') +
