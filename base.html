@@ -12,30 +12,20 @@
 	</head>
 	<body ng-app="base">
 		<section ng-scope ng-controller="number">
+			Current number: {{number}}
 			<div>
-				Current number: {{number}}
-				<div>
-					<label for="dp">Number of &lsquo;decimal&rsquo; places</label>
-					<input type="number" ng-model="decimalPlaces" id="dp" min="0"></input>
-				</div>
-				<div ng-repeat="b in bases">
-					<label for="base-editor-{{b.id}}">Base</label>
-					<input type="number" ng-model="b.base" id="base-editor-{{b.id}}" 
-					       min="2" g-class="{ invalid: b.base <= 1 }"></input>
-					<div base="b.base" number="$parent.number"></div>
-					<button ng-click="remove(b.id)">Remove</button>
-				</div>
-				<button ng-click="addBase()">Add</button>
-				<a href="{{hash}}">Link to this result</a>
+				<label for="dp">Number of &lsquo;decimal&rsquo; places</label>
+				<input type="number" ng-model="decimalPlaces" id="dp" min="0"></input>
 			</div>
-			<div>
-				<label for="string">String</label> <input type="text" id="string" ng-model="string">
-				<label for="bases">Bases</label> <input type="text" id="bases" ng-model="rebases">
-				<p>{{string}} means...</p>
-				<ol>
-					<li ng-repeat="b in rebased">{{b.number.toString(decimalPlaces)}} in base {{b.base}}.</li>
-				</ol>
+			<div ng-repeat="b in bases">
+				<label for="base-editor-{{b.id}}">Base</label>
+				<input type="number" ng-model="b.base" id="base-editor-{{b.id}}" 
+				       min="2" g-class="{ invalid: b.base <= 1 }"></input>
+				<div base="b.base" number="$parent.number"></div>
+				<button ng-click="remove(b.id)">Remove</button>
 			</div>
+			<button ng-click="addBase()">Add</button>
+			<a href="{{hash}}">Link to this result</a>
 		</section>
 	</body>
 </html>

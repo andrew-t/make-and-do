@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js"></script-->
+		<script src="angular.min.js"></script>
+		<script src="big.js/big.min.js"></script>
+		<script src="rebase.js"></script>
+		<script src="reverse-base.js"></script>
+		<link href="style.css" rel="stylesheet">
+		<link href="base.css" rel="stylesheet">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	</head>
+	<body ng-app="reverseBase">
+		<section ng-scope ng-controller="reverseBase">
+			<label for="string">String</label> <input type="text" id="string" ng-model="string">
+			<label for="bases">Bases</label> <input type="text" id="bases" ng-model="rebases">
+			<label for="dp">Number of &lsquo;decimal&rsquo; places</label>
+			<input type="number" ng-model="decimalPlaces" id="dp" min="0"></input>
+			<p>{{string}} means...</p>
+			<ol>
+				<li ng-repeat="b in rebased">{{b.number.toString(decimalPlaces)}} in base {{b.base}}.</li>
+			</ol>
+			<a href="{{hash}}">Link to this result</a>
+		</section>
+	</body>
+</html>
