@@ -7,13 +7,14 @@ angular.module('base', ['rebase'])
 		restrict: 'A',
 		scope: {
 			base: '=',
-			number: '='	
+			number: '='
 		},
 		transclude: true,
-		template: '<label for="base-{{id}}">Value</label><input name="base-{{id}}" type="text" ng-model="based" ng-class="{ invalid: invalid }"></input>',
+		template: '<label for="base-{{id}}">{{label}}</label><input name="base-{{id}}" type="text" ng-model="based" ng-class="{ invalid: invalid }"></input>',
 		link: function (scope, element, attrs) {
 			var ignoreBased = false;
 			scope.id = id++;
+			scope.label = attrs.label;
 			function update(force) {
 				if (scope.base > 1 && scope.number !== undefined) {
 					ignoreBased = true;

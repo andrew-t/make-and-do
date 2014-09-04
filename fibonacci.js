@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('fibonacci', ['th'])
-.service('fibonacci', function(th) {
+.service('fibonacci', ['th', function(th) {
 	this.name = function(n, init) {
 		if (n)
 			n += th(n);
@@ -35,4 +35,4 @@ angular.module('fibonacci', ['th'])
 	this.fibonacci = function(init, n) {
 		return this.allFibonacci(init, undefined, n).pop();
 	}
-});
+}]);
