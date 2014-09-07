@@ -25,7 +25,6 @@ angular.module('unicode', ['parseNumbers'])
 		if (value)
 			for (var i = 0; i < value.length; ++i) {
 				var number = value.charCodeAt(i);
-				// TODO - check upper limit on unicode
 				if (number < 1 || number > unicodeMax) {
 					scope.unicodeInvalid = true;
 					return;

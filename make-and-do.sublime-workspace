@@ -1,0 +1,1442 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"igno",
+				"ignoreBig"
+			],
+			[
+				"ins",
+				"instructions"
+			],
+			[
+				"inst",
+				"instruction"
+			],
+			[
+				"in",
+				"instruction"
+			],
+			[
+				"stroke",
+				"strokeStyle"
+			],
+			[
+				"ou",
+				"outputContext"
+			],
+			[
+				"re",
+				"rebased"
+			],
+			[
+				"fr",
+				"fracPart"
+			],
+			[
+				"spl",
+				"split"
+			],
+			[
+				"digit",
+				"digitArray"
+			],
+			[
+				"digi",
+				"digitArray"
+			],
+			[
+				"d",
+				"digits"
+			],
+			[
+				"r",
+				"radix"
+			],
+			[
+				"dig",
+				"digitArray"
+			],
+			[
+				"l",
+				"line"
+			],
+			[
+				"file",
+				"filename"
+			],
+			[
+				"tot",
+				"totalIn"
+			],
+			[
+				"tota",
+				"totalIn"
+			],
+			[
+				"for",
+				"forEach"
+			],
+			[
+				"ex",
+				"extension"
+			],
+			[
+				"la",
+				"lastRow"
+			],
+			[
+				"fi",
+				"fibonacci"
+			],
+			[
+				"cen",
+				"centreY"
+			],
+			[
+				"cent",
+				"centreX"
+			],
+			[
+				"f",
+				"fibonacciRadius"
+			],
+			[
+				"centr",
+				"centreY"
+			],
+			[
+				"si",
+				"size"
+			],
+			[
+				"pol",
+				"polygonDance"
+			],
+			[
+				"gen",
+				"generate"
+			],
+			[
+				"pro",
+				"property"
+			],
+			[
+				"por",
+				"properties"
+			],
+			[
+				"s",
+				"service"
+			],
+			[
+				"p",
+				"properties"
+			],
+			[
+				"time",
+				"timeout	setTimeout function"
+			],
+			[
+				"pr",
+				"property"
+			],
+			[
+				"dan",
+				"danceStub"
+			],
+			[
+				"prop",
+				"property"
+			],
+			[
+				"uni",
+				"unicodeMax"
+			],
+			[
+				"un",
+				"unicodeMax"
+			],
+			[
+				"st",
+				"startSlow"
+			],
+			[
+				"updat",
+				"updateProperties"
+			],
+			[
+				"prope",
+				"properties"
+			],
+			[
+				"na",
+				"namedProperties"
+			],
+			[
+				"fo",
+				"forEach"
+			],
+			[
+				"ge",
+				"generate"
+			],
+			[
+				"cu",
+				"cubeDance"
+			],
+			[
+				"num",
+				"numberController"
+			],
+			[
+				"fro",
+				"fromString"
+			],
+			[
+				"ign",
+				"ignoreNumber"
+			],
+			[
+				"name",
+				"namePolygon"
+			],
+			[
+				"fa",
+				"factoriser"
+			],
+			[
+				"fac",
+				"factorise"
+			],
+			[
+				"ig",
+				"ignoreRaw"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"max",
+				"maxHits"
+			],
+			[
+				"g",
+				"getDelay"
+			],
+			[
+				"hi",
+				"hideDelay"
+			],
+			[
+				"del",
+				"delayStep"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"te",
+				"template"
+			],
+			[
+				"h",
+				"href	Attr"
+			],
+			[
+				"lineS",
+				"lineSegmentCanvas"
+			],
+			[
+				"unde",
+				"underlyingShapeCanvas"
+			],
+			[
+				"fn",
+				"function"
+			],
+			[
+				"menu",
+				"menuClick"
+			],
+			[
+				"cl",
+				"classList"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"add",
+				"addEventListener"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"z",
+				"zoomdelay"
+			],
+			[
+				"maxc",
+				"maxcolmult"
+			],
+			[
+				"tra",
+				"transform"
+			],
+			[
+				"tr",
+				"transition"
+			],
+			[
+				"web",
+				"webkitTransform"
+			],
+			[
+				"trans",
+				"transform"
+			],
+			[
+				"zoo",
+				"zoomfactor"
+			],
+			[
+				"ca",
+				"calculating"
+			],
+			[
+				"ben",
+				"benoirsLastJob"
+			],
+			[
+				"colour",
+				"colourloop"
+			],
+			[
+				"beno",
+				"benoirsDeferred"
+			],
+			[
+				"inte",
+				"[pub] ○ intersect (ray: any): any"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "base.js",
+			"settings":
+			{
+				"buffer_size": 3173,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "choose.js",
+			"settings":
+			{
+				"buffer_size": 1832,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dot-options.js",
+			"settings":
+			{
+				"buffer_size": 2090,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "th.js",
+			"settings":
+			{
+				"buffer_size": 455,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "factorise.js",
+			"settings":
+			{
+				"buffer_size": 1612,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "fibonacci.js",
+			"settings":
+			{
+				"buffer_size": 1299,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parse-numbers.js",
+			"settings":
+			{
+				"buffer_size": 557,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pascal.js",
+			"settings":
+			{
+				"buffer_size": 1880,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "polygon.js",
+			"settings":
+			{
+				"buffer_size": 1317,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "prime.js",
+			"settings":
+			{
+				"buffer_size": 2713,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "primeapp.js",
+			"settings":
+			{
+				"buffer_size": 197,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dotproperties.js",
+			"settings":
+			{
+				"buffer_size": 6808,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "dotpanel.js",
+			"settings":
+			{
+				"buffer_size": 3613,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "'use strict';\n\nangular.module('dances', ['fibonacci'])\n.service('dances', ['fibonacci', function(fibonacci) {\n	this.getBg = function(i) {\n		// This generates a reasonable colour for dot i.\n		return 'hsl(' + (options.hueStep * i) + ', ' + options.saturation + '%, ' + options.lightness + '%)';\n	};\n\n	// This takes an array of dances, and puts them side by side.\n	this.sumDances = function(ds) {\n		var i, j;\n		for (i = 0; i < ds.length; ++i)\n			this.squeezeDance(ds[i], 1, 1);\n		for (i = 1; i < ds.length; ++i)\n			for (j = 0; j < ds[i].length; ++j) {\n				ds[i][j].x += options.sumDistance;\n				ds[0].push(ds[i][j]);\n			}\n		return ds[0];\n	};\n\n	// This normalizes a dance to fit in a w \n	this.squeezeDance = function(d, h, w) {\n		var minx = Infinity, \n			maxx = -Infinity,\n			miny = Infinity,\n			maxy = -Infinity,\n			maxSize = -Infinity;\n		for (var i = 0; i < d.length; ++i) {\n			if (d[i].x < minx) minx = d[i].x;\n			if (d[i].x > maxx) maxx = d[i].x;\n			if (d[i].y < miny) miny = d[i].y;\n			if (d[i].y > maxy) maxy = d[i].y;\n			if (d[i].size > maxSize) maxSize = d[i].size;\n		};\n		var	margin = maxSize + options.margin\n		maxx += margin;\n		minx -= margin;\n		maxy += margin;\n		miny -= margin;\n		var dh = maxy - miny,\n			dw = maxx - minx,\n			m = Math.min(h / dh, w / dw),\n			cx = 0.5 * (w - m * (minx + maxx)),\n			cy = 0.5 * (h - m * (miny + maxy));\n		for (var i = 0; i < d.length; ++i) {\n			d[i].x = m * d[i].x + cx;\n			d[i].y = m * d[i].y + cy;\n			d[i].size = d[i].size * m;\n		}\n		return d;\n	};\n\n	this.polygonDance = function(sides, perSide, radius, firstSide, lastSide, centreOnCorner) {\n		if ((sides <= 1) || (perSide === 0))\n			return [{ x: 0, y: 0, size: 0.5 }];\n		if (perSide === undefined)\n			perSide = 1;\n		if (firstSide === undefined) \n			firstSide = 0;\n		else\n			firstSide %= sides;\n		if (lastSide === undefined)\n			lastSide = firstSide; \n		else\n			lastSide %= sides;\n		var corners = [], theta = Math.PI * 2 / sides, i;\n		// hidden maths!!\n		if (!radius)\n			radius = options.polygonSpacing * 0.5 * perSide / \n				Math.cos((Math.PI - theta) * 0.5);\n		for (i = 0; i < sides; ++i)\n			corners.push({\n				x: -Math.sin(theta * i) * radius,\n				y: -Math.cos(theta * i) * radius,\n				size: 0.5\n			});\n		var d = [], i = firstSide;\n		i = firstSide;\n		function addDot(dot) {\n			if (centreOnCorner !== undefined) {\n				dot.x -= corners[centreOnCorner].x;\n				dot.y -= corners[centreOnCorner].y;\n			}\n			d.push(dot);\n		}\n		do {\n			var a = corners[i], b = corners[i = (i + 1) % sides];\n			for (var j = 0; j < perSide; ++j) {\n				var bb = j / perSide, \n					aa = 1 - bb;\n				addDot({\n					x: a.x * aa + b.x * bb,\n					y: a.y * aa + b.y * bb,\n					size: a.size * aa + b.size * bb\n				});\n			}\n		} while (i != lastSide);\n		if (lastSide != firstSide || perSide == 0)\n			addDot(corners[lastSide]);\n		return d;\n	};\n\n	this.squareDance = function(a, b) {\n		if (b === undefined) b = a;\n		var d = [], size = 0.5 / options.polygonSpacing;\n		for (var y = 0; y < b; ++y)\n			for (var x = 0; x < a; ++x)\n				d.push({ x: x, y: y, size: size });\n		return d;\n	};\n\n	this.cubeDance = function(n) {\n		var d = [];\n		for (var x = 0; x < n; ++x)\n			for (var y = 0; y < n; ++y)\n				for (var z = 0; z < n; ++z)\n					d.push({\n						x: x * options.cubeDimensions.x.x + \n							y * options.cubeDimensions.y.x + \n							z * options.cubeDimensions.z.x,\n						y: x * options.cubeDimensions.x.y + \n							y * options.cubeDimensions.y.y + \n							z * options.cubeDimensions.z.y,\n						size: options.cubeDimensions.size\n					});\n		return d;\n	};\n\n	this.fibonacciDance = function(m) {\n		var numbers = fibonacci.allFibonacci([1, 1], undefined, m - 1);\n		if (m < 0)\n			return [];\n		// The first two positions are kind of a hack -- it's wherever they fit, really:\n		var d = [{\n				x: 0.25 * options.fibonacciSpacing,\n				y: -0.55 * options.fibonacciSpacing,\n				size: options.fibonacciRadius\n			}];\n		if (m < 1)\n			return d;\n		d.push({\n			x: 1.35 * options.fibonacciSpacing,\n			y: -0.1 * options.fibonacciSpacing,\n			size: options.fibonacciRadius\n		});\n		var top = 0, bottom = 0, left = options.fibonacciSpacing, right = options.fibonacciSpacing,\n			centreX, centreY, r;\n		for (var i = 2; i < m; ++i) {\n			switch (i & 3) {\n				case 0: // draw above\n					centreX = right;\n					centreY = top - options.fibonacciSpacing;\n					r = right - left;\n					top -= r + options.fibonacciSpacing;\n					break;\n				case 1: // draw right\n					centreX = right + options.fibonacciSpacing;\n					centreY = bottom;\n					r = bottom - top;\n					right += r + options.fibonacciSpacing;\n					break;\n				case 2: // draw below\n					centreX = left;\n					centreY = bottom + options.fibonacciSpacing;\n					r = right - left;\n					bottom += r + options.fibonacciSpacing;\n					break;\n				case 3: // draw left\n					centreX = left - options.fibonacciSpacing;\n					centreY = top;\n					r = bottom - top;\n					left -= r + options.fibonacciSpacing;\n					break;\n			}\n			var p = numbers[i - 1] - 1;\n			if (p) {\n				var distance = Math.PI * 0.5 + options.fibonacciSpacing / (r),\n					move = distance / (p + 1),\n					theta = move - (options.fibonacciSpacing / p) + Math.PI * 0.5 * (i + 1);\n				for (var n = 0; n <= p; ++n) {\n					d.push({\n						x: centreX - Math.sin(theta) * r,\n						y: centreY + Math.cos(theta) * r,\n						size: options.fibonacciRadius\n					});\n					theta += move;\n				}\n			}\n			else d.push({\n				x: centreX,\n				y: centreY,\n				size: options.fibonacciRadius\n			});\n		}\n		return d;\n	};\n}]);",
+			"file": "dances.js",
+			"file_size": 5340,
+			"file_write_time": 130533673470000000,
+			"settings":
+			{
+				"buffer_size": 5414,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "reverse-base.js",
+			"settings":
+			{
+				"buffer_size": 1253,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "'use strict';\n\nangular.module('unicode', ['parseNumbers'])\n.controller('unicode', ['$scope', 'parseNumbers', function(scope, parseNumbers) {\n	function setDecimal(numbers) {\n		scope.decimal = numbers.map(function(number) {\n			return number.toString(10);\n		}).join(' ');\n	}\n	function setUnicode(numbers) {\n		scope.unicode = String.fromCharCode.apply(null, numbers);\n	}\n	// TODO - check upper limit on unicode\n	var unicodeMax = 0xfeffff;\n	scope.$watch('decimal', function(value) {\n		var numbers = parseNumbers(value, 10, undefined, unicodeMax);\n		if (!(scope.decimalInvalid = !numbers)) {\n			setUnicode(numbers);\n		}\n	});\n	scope.$watch('unicode', function(value) {\n		scope.hash = encodeURIComponent(value);\n		var numbers = [];\n		scope.unicodeInvalid = false;\n		if (value)\n			for (var i = 0; i < value.length; ++i) {\n				var number = value.charCodeAt(i);\n				if (number < 1 || number > unicodeMax) {\n					scope.unicodeInvalid = true;\n					return;\n				}\n				numbers.push(number);\n			}\n		setDecimal(numbers);\n	});\n	if (window.location.hash)\n		scope.unicode = decodeURIComponent(window.location.hash.substr(1));\n}]);",
+			"file": "unicode.js",
+			"file_size": 1152,
+			"file_write_time": 130532585910000000,
+			"settings":
+			{
+				"buffer_size": 1109,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "rebase.js",
+			"settings":
+			{
+				"buffer_size": 6209,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "biginput.js",
+			"settings":
+			{
+				"buffer_size": 1724,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "base.html",
+			"settings":
+			{
+				"buffer_size": 1164,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/andrew/Documents/github/MakeAndDo4D",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dist"
+	],
+	"file_history":
+	[
+		"/Users/andrew/Documents/github/MakeAndDo4D/dist/make-and-do.sublime-project",
+		"/Users/andrew/Documents/github/MakeAndDo4D/choose-big.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dist/choose.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dist/prime.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dotcontrols.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dist/gadgets.min.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dist/dot-options.min.js",
+		"/Users/andrew/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Applications/Sublime Text.app/Contents/MacOS/Packages/JavaScript.sublime-package",
+		"/Users/andrew/Documents/github/hilbert/logo.js",
+		"/Users/andrew/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/andrew/Documents/github/MakeAndDo4D/base.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/reverse-base.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/_build.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dotpanel.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dist/dots.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/fibonacci.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/index.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/reverse-base.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/base.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/rebase.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/pascal.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/pascal.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dotproperties.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dots.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/prime.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/prime.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/factorise.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/primeworker.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dots.css",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dot-options.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dances.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/angular.min.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/polygon.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/th.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/big.js/dotproperties.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/choose.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/choose.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/ascii.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/ascii.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/unicode.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/unicode.html",
+		"/Users/andrew/Documents/github/MakeAndDo4D/parse-numbers.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/biginput.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/.gitignore",
+		"/Users/andrew/Documents/github/MakeAndDo4D/big.js/choose-big.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/primeapp.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/dots.js",
+		"/Users/andrew/Documents/github/MakeAndDo4D/big.js/README.md",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/private/.ssh/id_rsa.pub",
+		"/Users/andrew/Documents/github/MakeAndDo4D/pascal.css",
+		"/Users/andrew/Documents/github/MakeAndDo4D/base.css",
+		"/Users/andrew/Documents/github/MakeAndDo4D/style.css",
+		"/Users/andrew/Documents/github/snowflake/fractal.css",
+		"/Users/andrew/Documents/github/snowflake/index.html",
+		"/Users/andrew/Documents/github/mandelbrot/index.html",
+		"/Users/andrew/Documents/github/sidepanel/sidepanel.css",
+		"/Users/andrew/Documents/github/snowflake/fractal.js",
+		"/Users/andrew/Documents/github/sidepanel/sidepanel.js",
+		"/Users/andrew/Documents/github/mandelbrot/mandel.js",
+		"/Users/andrew/Documents/github/snowflake/canvas.js",
+		"/Users/andrew/Documents/github/mandelbrot/sidepanel/sidepanel.js",
+		"/Users/andrew/Documents/github/mandelbrot/mandel.css",
+		"/Users/andrew/Desktop/Google Maps.webloc",
+		"/Users/andrew/Documents/github/mandelbrot/benoir.js",
+		"/Users/andrew/Documents/github/morph/morph.ts",
+		"/Users/andrew/Dropbox/Work PC/keepass.kdbx",
+		"/Users/andrew/Documents/github/colourloop/index.html",
+		"/Users/andrew/Documents/github/colourloop/colourloop.js",
+		"/Users/andrew/Documents/github/mandelbrot/colourloop/colourloop.js",
+		"/Users/andrew/Dropbox/barnivore/2256.json",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/andrew-t.github.io/pull.php",
+		"/Users/andrew/.ssh/id_rsa.pub",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/.htaccess",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/pull.php",
+		"/Users/andrew/.ssh/github_rsa.pub",
+		"/Users/andrew/Documents/github/mandelbrot/promise.js",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/mosaic/csv (copy).php",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/index.php",
+		"/Users/andrew/Documents/github/andrew-t.github.io/script.js",
+		"/Users/andrew/Documents/github/andrew-t.github.io/index.html",
+		"/Users/andrew/Documents/github/ergo/ergo.html",
+		"/Users/andrew/Documents/github/andrew-t.github.io/make-redirects.js",
+		"/Users/andrew/Documents/github/andrew-t.github.io/CNAME",
+		"/Users/andrew/Documents/github/oeiscal/index.html",
+		"/Users/andrew/Documents/github/andrew-t.github.io/style.css",
+		"/Users/andrew/Documents/github/andrew-t.github.io/blog/index.html",
+		"/Users/andrew/Documents/github/andrew-t.github.io/stumpy/index.html",
+		"/Users/andrew/Documents/github/andrew-t.github.id/script.js",
+		"/Users/andrew/Documents/github/andrew-t.github.id/style.css",
+		"/Users/andrew/Documents/github/andrew-t.github.id/index.html",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/morph/morph.ts",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/morph/index.html",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/morph/morph.js",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/ring/render.ts",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/ring/index.html",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/ring/extray.ts",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/ring/raytracer.ts",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/ring/raytracer.js",
+		"/Users/andrew/Dropbox/Work PC/raytracer.ts",
+		"/Users/andrew/Dropbox/remote/andrewt.net/home/public/snowflake/fractal.js",
+		"/Users/andrew/Calibre Library/John Schember/Calibre Quick Start Guide (1)/metadata.opf",
+		"/Users/andrew/Downloads/sspov/textures.inc",
+		"/Users/andrew/Dropbox/android workspace/Barnivore/.gitignore",
+		"/Users/andrew/Documents/test.pov",
+		"/Users/andrew/POV-Ray/scenes/povray_style1.css",
+		"/Users/andrew/Downloads/sspov/DO8K/dorings",
+		"/Users/andrew/POV-Ray/include/shapes.inc",
+		"/Users/andrew/POV-Ray/include/shapesq.inc",
+		"/Users/andrew/Dropbox/barnivore/wine.json",
+		"/Users/andrew/Dropbox/barnivore/liquor.json",
+		"/Users/andrew/Dropbox/barnivore/beer.json",
+		"/Users/andrew/Dropbox/android workspace/Charmed/.hgignore",
+		"/Users/andrew/Dropbox/android workspace/Charm/.hgignore",
+		"/Users/andrew/Dropbox/android workspace/Charm/update",
+		"/Users/andrew/Dropbox/android workspace/Charm/.gitignore",
+		"/Volumes/FEZ/OSX.README"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 96.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"getDelay",
+			"params",
+			"files",
+			"new Array()",
+			"initHouses",
+			"var j",
+			"var i",
+			"var",
+			"webkit-transform",
+			"var",
+			"new Array()",
+			"dotPanel",
+			"this",
+			"Digits",
+			"digits",
+			"this.digits",
+			"digits",
+			"Digits",
+			"digits",
+			"Digits",
+			"digits",
+			"str",
+			"di_gits",
+			"digits",
+			"Digits",
+			"digits",
+			"this.digits",
+			"d",
+			"hits",
+			"function",
+			"exclude",
+			"1",
+			"= r;",
+			"mgonal",
+			"coprime",
+			"polygon.name",
+			"namePolygon",
+			"m",
+			"getDelay",
+			"delayHide",
+			"Big",
+			"}}",
+			"scope.danceStub",
+			"scope.hash",
+			"parseNumbers",
+			"setunicode",
+			"ascii",
+			"Ascii",
+			"ascii",
+			"Ascii",
+			"ascii",
+			"n + ",
+			"n =",
+			"classList.add",
+			"add",
+			"2",
+			"root",
+			"nsions.",
+			"ns.",
+			"on",
+			"s.x",
+			"x",
+			"update",
+			"scope.number = ",
+			"case",
+			"n ",
+			"n",
+			"name",
+			"nth",
+			"n ",
+			"n",
+			"this",
+			"mod",
+			"sqrt",
+			"maxRows",
+			"maxHits",
+			"options.hideDelay",
+			"update",
+			"asciiInvalid",
+			"decimal",
+			"textarea ",
+			"input",
+			"drawPath",
+			"updatePolygon",
+			"detectHoverPoint",
+			"findCursor",
+			"$",
+			"$('#",
+			"init",
+			"this",
+			"polygon",
+			"lineSegmentTform",
+			"$",
+			"findCursor",
+			"point(",
+			"point",
+			"inverseTform",
+			"absMin",
+			"transformCanvas",
+			"javascript:activate",
+			"(high|low)IterationCount",
+			"ctx",
+			" =",
+			"(max|zoom)(col|r|colmult|maxcol|factor|delay)",
+			");\n",
+			"asmodule",
+			"stopbenoir",
+			"benoirsDeferred",
+			"domandel",
+			"benoir",
+			"pointToLine",
+			"i",
+			"* i",
+			" i * ",
+			"i",
+			");\n",
+			"(1 - i)",
+			"r",
+			"127.5",
+			"Math.round",
+			"255",
+			"Colour",
+			"255",
+			" * 4",
+			"Math.TAU",
+			"start",
+			"new Where",
+			"(v)"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"settings.\\1IterationCount",
+			"settings.\\1\\2",
+			"settings.\\1",
+			"\\\""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 17,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "base.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3173,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1981,
+								1981
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 125.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "choose.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1832,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								627,
+								627
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 618.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "dot-options.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2090,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1140,
+								1140
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 427.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "th.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 455,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								170,
+								170
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "factorise.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1612,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1453,
+								1453
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 392.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "fibonacci.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1299,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1164,
+								1164
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "parse-numbers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 557,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								174,
+								174
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "pascal.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1880,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								122,
+								122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1000.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "polygon.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1317,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1227,
+								1227
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 68.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "prime.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2713,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								51,
+								51
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "primeapp.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 197,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								150,
+								150
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "dotproperties.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6808,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								700,
+								700
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3496.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 17,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "dotpanel.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3613,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1982,
+								1982
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2004.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "dances.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5414,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								682,
+								682
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "reverse-base.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1253,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								871,
+								871
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 32.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "unicode.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1109,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								850,
+								850
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "rebase.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6209,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5702,
+								5702
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 316.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "biginput.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1724,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1080,
+								1080
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 244.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "base.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1164,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								975,
+								975
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 18,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "make-and-do.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 254.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

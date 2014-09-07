@@ -2,6 +2,7 @@
 
 angular.module('parseNumbers', [])
 .service('parseNumbers', function() {
+	// This is a helper function used in converting between ASCII or Unicode and numbers.
 	return function(value, radix, digits, max) {
 		var numbers = [];
 		if (!value)

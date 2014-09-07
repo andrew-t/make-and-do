@@ -2,6 +2,7 @@
 
 angular.module('base', ['rebase'])
 .directive('base', ['baseConverter', '$timeout', function(service, timeout) {
+	// An input box that returns a number, and works in any base.
 	var id = 1;
 	return {
 		restrict: 'A',
@@ -18,7 +19,6 @@ angular.module('base', ['rebase'])
 			function update(force) {
 				if (scope.base > 1 && scope.number !== undefined) {
 					ignoreBased = true;
-					//console.log('converting ' + scope.number + ' to base ' + scope.base);
 					if (!force) {
 						var parsed = scope.based && service.fromString(scope.based, scope.base);
 						if (!parsed || !parsed.eq(scope.number))
@@ -28,38 +28,37 @@ angular.module('base', ['rebase'])
 						scope.based = service.toString(scope.number, scope.base, scope.$parent.decimalPlaces);
 					scope.invalid = false;
 					timeout(function() {
+						// This is in a timeout so it happens *after* everything that this update would normally trigger
+						// has checked this flag and moved on.
 						ignoreBased = false;
 					});
-				} //else console.log('ignoring ' + scope.number + ' at base ' + scope.base);
+				}
 			};
 			scope.$watch('base', function() { update(false); });
 			scope.$watch('number', function() { update(false); });
 			scope.$parent.$watch('decimalPlaces', function() { update(true); });
 			scope.$watch('based', function(value) {
-				if (ignoreBased || !value || !scope.based) {
-					//console.log('ignoring ' + scope.number + ' from base ' + scope.base);
-					return;
-				}
-				//console.log('converting ' + value + ' from base ' + scope.base);
-				var parsed = service.fromString(value, scope.base);
-				if (parsed === undefined)
-					scope.invalid = true;
-				else {
-					scope.invalid = false;
-					if (!scope.number.eq(parsed))
-						scope.number = parsed;
+				// This runs when the user updates the number edit box for this base.
+				if (!ignoreBased && value && scope.based) {
+					var parsed = service.fromString(value, scope.base);
+					if (parsed === undefined)
+						scope.invalid = true;
+					else {
+						scope.invalid = false;
+						if (!scope.number.eq(parsed))
+							scope.number = parsed;
+					}
 				}
 			});
 		}
 	};
 }])
 .controller('number', ['$scope', 'baseConverter', function(scope, service) {
-	scope.bases = [];
-	scope.decimalPlaces = 10;
-	var id = 1;
+	// This controller handles the whole page, adding and removing bases, and such things.
+	var nextId = 1;
 	scope.addBase = function(base) {
 		scope.bases.push({
-			id: id++,
+			id: nextId++,
 			base: parseInt(base, 10) || 10
 		});
 	};
@@ -68,19 +67,17 @@ angular.module('base', ['rebase'])
 			if (scope.bases[i].id == id)
 				scope.bases.splice(i, 1);
 	};
-	var handler = function() {
-		scope.rebased = scope.rebases &&
-			service.allYourBase(scope.string, scope.rebases.split(/[,;]\s*/g).map(function(n) { return parseInt(n, 10); }));
-	};
-	scope.$watch('string', handler);
-	scope.$watch('rebases', handler);
-	for (var i = 2; i <= 36; ++i)
-		scope.rebases = (scope.rebases ? scope.rebases + '; ' : '') + i;
+
+	// This updates the permalink URL whenever anything changes.
+	// We could update the URL bar itself but that would mean you'd have to hit 'back' about a thousand times
+	// to get back to the index page.
 	scope.$watch(function() {
 		scope.hash = '#' + scope.number.toString() +
 			'-in-' + scope.bases.map(function(i) { return i.base; }).join(',') +
 			'-to-' + scope.decimalPlaces;
 	});
+
+	// This part loads a state from either the page hash or the baked-in defaults:
 	var bases;
 	if (window.location.hash) {
 		var bits = window.location.hash.substr(1).split('-');
@@ -88,8 +85,11 @@ angular.module('base', ['rebase'])
 		bases = bits[2].split(',').map(function(i) { return parseInt(i, 10); });
 		scope.decimalPlaces = parseInt(bits[4], 10);
 	} else {
+		// This is the default state
 		scope.number = new Big(643934984);
 		bases = [2, 10, 16, 36];
+		scope.decimalPlaces = 10;
 	}
+	scope.bases = [];
 	bases.forEach(scope.addBase);
 }]);

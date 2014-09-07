@@ -3,10 +3,11 @@
 angular.module('dances', ['fibonacci'])
 .service('dances', ['fibonacci', function(fibonacci) {
 	this.getBg = function(i) {
+		// This generates a reasonable colour for dot i.
 		return 'hsl(' + (options.hueStep * i) + ', ' + options.saturation + '%, ' + options.lightness + '%)';
 	};
 
-	// make a dance comprised of N sub-dances
+	// This takes an array of dances, and puts them side by side.
 	this.sumDances = function(ds) {
 		var i, j;
 		for (i = 0; i < ds.length; ++i)
@@ -19,7 +20,7 @@ angular.module('dances', ['fibonacci'])
 		return ds[0];
 	};
 
-	// make sure a dance fits in the panel
+	// This normalizes a dance to fit in a w 
 	this.squeezeDance = function(d, h, w) {
 		var minx = Infinity, 
 			maxx = -Infinity,

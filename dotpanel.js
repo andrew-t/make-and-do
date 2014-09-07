@@ -8,16 +8,20 @@ angular.module('dot-panel', ['dances'])
 		hidingTransitionTime = 300, //ms, must match css
 		promises = [];
 
+	// Runs 'action', 'time' milliseconds from now.
+	// N is the number of a dot, to make sure each dot has only one function queued up.
 	function defer(n, action, time) {
 		if (promises[n]) 
 			timeout.cancel(promises[n]);
 		return promises[n] = timeout(action, time);
 	}
 
-	function getDelay(params, n) {
-		return Math.max(Math.min(params.step, params.maxTotal / n), params.minStep);
+	// Works out a reasonable delay for n things to happen at.
+	function getDelay(n) {
+		return Math.max(Math.min(options.hideDelay.step, options.hideDelay.maxTotal / n), options.hideDelay.minStep);
 	}
 
+	// Hides a dot.
 	function hide(el, x, y) {
 		el.addClass('hiding').css({
 			left: x + 'px',
@@ -29,6 +33,7 @@ angular.module('dot-panel', ['dances'])
 		});
 	}
 
+	// Hides a dot in the future.
 	function delayHide(n, el, d) {
 		return defer(n, function() {
 			var el = angular.element(document.getElementById('dot-' + n));
@@ -40,6 +45,8 @@ angular.module('dot-panel', ['dances'])
 				}, hidingTransitionTime);
 			}
 		}, d).then(function() {
+			// Once the dot has vanished, check to see if there are a load of hidden dots not scheduled to appear.
+			// The system runs slowly when you put in high numbers, and this makes it fast again when you're done.
 			for (var x = promises.length - 1; promises[x] === undefined; --x);
 			promises.length = x;
 		});
@@ -48,13 +55,14 @@ angular.module('dot-panel', ['dances'])
 	// remove all dots with an index of n or above
 	function hideDotsFrom(n) {
 		var d = 0,
-			dStep = getDelay(options.hideDelay, lastN - n);
+			dStep = getDelay(lastN - n);
 		for (; n < promises.length; ++n) {
 			delayHide(n, d);
 			d += dStep;
 		}
 		lastN = n;
 	}
+	// This hides everything when you hit 'update'. Everything hidden is a good safe state.
 	update.hooks.push(function() {
 		hideDotsFrom(0);
 	});

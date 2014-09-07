@@ -3,8 +3,33 @@
 angular.module('properties', ['factorise', 'polygon', 'dances', 'fibonacci'])
 .service('properties', ['factorise', 'dances', 'polygon', 'fibonacci',
 	function(factorise, service, polygonService, fibonacci) {
+		/* This thing returns a set of objects representing types of numbers we recognise, of the form
+			{
+				test: A function that tells you if a number is of this type;
+				generate: A function that creates the Nth number of this type;
+				name: A function that names the Nth number of this type,
+					or the type generally if N is not supplied.
+			}
+			The generate and name functions are only needed on number types we can generate
+			(ie, squares but not sums of two squares).
+			The test function returns undefined if the number isn't of the expected type.
+			Otherwise it returns an object of the form
+			{
+				name: The name of the number
+				class: An array of class names to apply to the link, in case we want to style it
+				stub: A string representation for use in permalinks
+				dance: A function that returns a dance (see below)
+			}
+			A dance is an array of objects of the form
+			{
+				x: The x coordinate of a dot
+				y: The y coordinate of a dot
+				size: The size of a dot
+			}
+			The units are arbitrary; the displayer will rescale them.
+		*/
 		return function() {
-			// IDEAS: Factorials, perfect numbers
+			// IDEAS: perfect numbers
 			var properties = [
 				{
 					test: function(n) {
@@ -13,6 +38,12 @@ angular.module('properties', ['factorise', 'polygon', 'dances', 'fibonacci'])
 							case 1:
 								var m = n.toString(2).length - 1;
 								return {
+									// ~ is bitwise not, and & is bitwise AND.
+									// Negative numbers are stored in twos-complement, so -~n = n + 1.
+									// Mersenne numbers are 2ⁿ-1, so n + 1 has no 1s in common with n
+									// in their binary expansions, so n&-~n = 0, which is false
+									// as far as the ?: operator is concerned, because Javascript.
+									// This is silly coding that I cannot resist.
 									name: n &-~ n ? 'Prime' : 'Mersenne prime',
 									class: ['prime'],
 									stub: 'prime',
@@ -117,6 +148,7 @@ angular.module('properties', ['factorise', 'polygon', 'dances', 'fibonacci'])
 				properties.push({
 					test: function(n) {
 						var root = values.indexOf(n);
+						// indexOf returns -1 if n is not in values. Bitwise not -1 = 0, which is the only falsey number.
 						return ~root ? {
 							name: fibonacci.name(root + 1, init),
 							class: ['fibonacci', 'fibonacci-' + init.join('-')],
@@ -139,7 +171,8 @@ angular.module('properties', ['factorise', 'polygon', 'dances', 'fibonacci'])
 						return n * n * n;
 					},
 					test: function(n) {
-						// rounding errors, so dick about a little:
+						// Inverse third powers are an imprecise science in binary, so we round it then check the maths
+						// forwards, which we can do precisely.
 						var root = Math.round(Math.pow(n, 1/3));
 						if (root * root * root == n)
 							return {

@@ -2,6 +2,7 @@
 
 angular.module('th', [])
 .service('th', function() {
+	// This service returns two letters to put after a cardinal number to make it into an ordinal number.
 	return function(n) {
 		if (!n)
 			return '';

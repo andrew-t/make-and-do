@@ -1,5 +1,10 @@
 'use strict';
 
+/*
+	We're not actually using it, but I built a Pascal's Triangle searcher that uses big.js
+	and here it is:
+*/
+
 angular.module('pascal', ['big'])
 .controller('pascal', ['$scope', function(scope) {
 	scope.maxHits = 10;

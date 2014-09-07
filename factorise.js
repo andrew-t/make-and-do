@@ -2,6 +2,9 @@
 
 (function(){
 	var factoriser = {
+		// Factorise takes an integer and returns an array of its prime factors.
+		// (This can be done in a single line but it's ghastly and probably slower.)
+		// (I mean, insofar as 'a single line' is ameaningful concept in Javascript.)
 		factorise: function(n) {
 			if (n < 1)
 				return [];
@@ -19,6 +22,7 @@
 				factors.push(n);
 			return factors;
 		},
+		// FactoriseBig does the same thing with big.js 'Big' numbers.
 		factoriseBig: function(n, callback) {
 			if (n.lt(1))
 				return [];
@@ -46,6 +50,9 @@
 		}
 	};
 
+	// If this file is imported normally and AngularJS is loaded, register a service.
+	// If it's imported into a web worker, or AngularJS isn't present,
+	// then just sling it on the global scope.
 	if (self.angular)
 		angular.module('factorise', [])
 		.service('factorise', function() {

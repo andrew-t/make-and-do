@@ -2,6 +2,9 @@
 
 angular.module('choose', [])
 .service('combinatorics', function() {
+	// In this file, the 'Big' versions use big.js-style 'Big' numbers, allowing an exact answer,
+	// even when the calculations go way above the biggest number Javascript supports, which is generally
+	// nine trillion or so, and almost all (positive) numbers are more than that.
 	var self = this;
 	this.factorial = function(a) {
 		var f = 1;
