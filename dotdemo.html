@@ -14,16 +14,27 @@
 				border: 1px solid black;
 				background: #eee;
 			}
+			.hider {
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background: #eee;
+				opacity: .8;
+				z-index: 2;
+			}
 			.dot {
+				border-radius: 50%;
+			}
+			div.dot {
 				display: block;
 				position: absolute;
-				border-radius: 50%;
-    			opacity: 0.5;
     			z-index: 1;
 			}
-    		.dot.highlight {
-    			opacity: 1;
-    			z-index: 2;
+    		div.dot.highlight {
+    			z-index: 3;
     		}
     		li.dot {
     			opacity: 1;
@@ -31,6 +42,7 @@
     			width: 20px;
     			height: 20px;
     			position: static;
+    			display: inline-block;
     		}
     	</style>
 	</head>
@@ -40,7 +52,9 @@
 			<label for="n-input">n</label> <input type="number" id="n-input" ng-model="n" min="1">
 			<label for="theta-input">theta</label> <input type="number" id="theta-input" ng-model="theta" min="1">
 			<label for="p-input">p</label> <input type="number" id="p-input" ng-model="p" min="1">
+			<label for="i-input">i</label> <input type="number" id="i-input" ng-model="i">
 			<div dot-panel class="dot-panel" dance="dance">
+				<div class="hider"></div>
 				<div ng-repeat="dot in dots" 
 					ng-style="dot.style"
 					class="dot"

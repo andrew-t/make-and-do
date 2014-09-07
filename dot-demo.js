@@ -12,6 +12,7 @@ angular.module('demo', [])
 	scope.dots = [];
 	scope.n = 1000;
 	scope.p = 1;
+	scope.i = 0;
 	scope.theta =  (1 + Math.sqrt(5)) / 2;
 	var tau = Math.PI * 2,
 		promise;
@@ -29,7 +30,7 @@ angular.module('demo', [])
 					r = rFactor * relR;
 				scope.dots[i] = {
 					i: i,
-					highlight: !(i % scope.p),
+					highlight: !((i - scope.i) % scope.p),
 					style: {
 						background: 'hsl(' + (360 * theta) + ', ' + (demoOptions.rSat ? (relR * 100) : 75) + '%, 50%)',
 						top: (Math.sin(tau * theta) * r + 50 - dotRadius) + '%',
@@ -45,5 +46,6 @@ angular.module('demo', [])
 	}
 	scope.$watch('n', update);
 	scope.$watch('p', update);
+	scope.$watch('i', update);
 	scope.$watch('theta', update);
 }])
