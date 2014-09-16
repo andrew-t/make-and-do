@@ -27,7 +27,7 @@
 				</select>
 				<button ng-click="get(generateProperty, m)">Go</button>
 			</div>
-			<div class="dot-panel" dance="dance"></div>
+			<div dot-panel class="dot-panel" dance="dance"></div>
 			<ul>
 				<li ng-repeat="p in properties">
 					<a href="#{{n}}-{{p.stub}}" ng-click="showProperty(p); $event.preventDefault();">{{p.name}}</a>

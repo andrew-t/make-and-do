@@ -9,15 +9,17 @@ angular.module('dances', ['fibonacci'])
 
 	// This takes an array of dances, and puts them side by side.
 	this.sumDances = function(ds) {
-		var i, j;
+		var i, j, sd = [];
 		for (i = 0; i < ds.length; ++i)
-			this.squeezeDance(ds[i], 1, 1);
-		for (i = 1; i < ds.length; ++i)
-			for (j = 0; j < ds[i].length; ++j) {
-				ds[i][j].x += options.sumDistance;
-				ds[0].push(ds[i][j]);
-			}
-		return ds[0];
+			ds[i] = this.squeezeDance(ds[i], 1, 1);
+		for (i = 0; i < ds.length; ++i)
+			for (j = 0; j < ds[i].length; ++j)
+				sd.push({
+					x: ds[i][j].x + options.sumDistance * i,
+					y: ds[i][j].y,
+					size: ds[i][j].size
+				});
+		return sd;
 	};
 
 	// This normalizes a dance to fit in a w 
@@ -26,8 +28,9 @@ angular.module('dances', ['fibonacci'])
 			maxx = -Infinity,
 			miny = Infinity,
 			maxy = -Infinity,
-			maxSize = -Infinity;
-		for (var i = 0; i < d.length; ++i) {
+			maxSize = -Infinity,
+			i;
+		for (i = 0; i < d.length; ++i) {
 			if (d[i].x < minx) minx = d[i].x;
 			if (d[i].x > maxx) maxx = d[i].x;
 			if (d[i].y < miny) miny = d[i].y;
@@ -43,13 +46,15 @@ angular.module('dances', ['fibonacci'])
 			dw = maxx - minx,
 			m = Math.min(h / dh, w / dw),
 			cx = 0.5 * (w - m * (minx + maxx)),
-			cy = 0.5 * (h - m * (miny + maxy));
-		for (var i = 0; i < d.length; ++i) {
-			d[i].x = m * d[i].x + cx;
-			d[i].y = m * d[i].y + cy;
-			d[i].size = d[i].size * m;
-		}
-		return d;
+			cy = 0.5 * (h - m * (miny + maxy)),
+			sd = [];
+		for (i = 0; i < d.length; ++i) 
+			sd.push({
+				x: m * d[i].x + cx,
+				y: m * d[i].y + cy,
+				size: d[i].size * m
+			});
+		return sd;
 	};
 
 	this.polygonDance = function(sides, perSide, radius, firstSide, lastSide, centreOnCorner) {

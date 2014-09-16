@@ -17,8 +17,8 @@ angular.module('dot-panel', ['dances'])
 	}
 
 	// Works out a reasonable delay for n things to happen at.
-	function getDelay(n) {
-		return Math.max(Math.min(options.hideDelay.step, options.hideDelay.maxTotal / n), options.hideDelay.minStep);
+	function getDelay(delayOptions, n) {
+		return Math.max(Math.min(delayOptions.step, delayOptions.maxTotal / n), delayOptions.minStep);
 	}
 
 	// Hides a dot.
@@ -55,7 +55,7 @@ angular.module('dot-panel', ['dances'])
 	// remove all dots with an index of n or above
 	function hideDotsFrom(n) {
 		var d = 0,
-			dStep = getDelay(lastN - n);
+			dStep = getDelay(options.hideDelay, lastN - n);
 		for (; n < promises.length; ++n) {
 			delayHide(n, d);
 			d += dStep;
