@@ -10,30 +10,18 @@
 		<script src="dotproperties.js"></script>
 		<script src="dot-options.js"></script>
 		<script src="dances.js"></script>
+		<script src="countdown.js"></script>
 		<script src="dotcontrols.js"></script>
 		<script src="dotpanel.js"></script>
 		<script src="dots.js"></script>
 		<link href="dots.css" rel="stylesheet">
+		<link href="countdown.css" rel="stylesheet">
 		<link href="style.css" rel="stylesheet">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	</head>
 	<body ng-app="dots">
 		<section ng-scope ng-controller="dotControls">
-			<label for="n">n</label> <input type="number" id="n" ng-model="n" min="1">
-			<ul>
-				<li ng-repeat="p in properties">
-					<a href="#{{n}}-{{p.stub}}" ng-click="showProperty(p); $event.preventDefault();">{{p.name}}</a>
-				</li>
-			</ul>
 			<div dot-panel class="dot-panel" dance="dance"></div>
-			<div>
-				Generate the <input type="number" min="0" ng-model="m">{{th(m)}}
-				<select ng-model="generateProperty">
-					<option ng-repeat="p in namedProperties" value="{{p}}">{{p}}</option>
-				</select>
-				<button ng-click="get(generateProperty, m)">Go</button>
-			</div>
-			<a href="{{hash}}">Link to this pattern</a>
 		</section>
 	</body>
 </html>

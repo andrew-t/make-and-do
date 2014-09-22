@@ -22,16 +22,7 @@
 				<li ng-repeat="hit in hits">Row {{hit.y + 1}}, position {{hit.x + 1}} = {{hit.n.toFixed(0)}}</li>
 			</ul>
 			<div class="triangle">
-				<div class="cell"
-				     ng-repeat="cell in triangle"
-				     ng-class="{ hit: cell.n.eq(n) }"
-				     ng-mouseenter="mouseIn(cell)"
-				     ng-mouseleave="mouseOut(cell)"
-				     ng-style="{
-				     	top: cell.y * 30 + 'px',
-				     	left: cell.x * 60 + (rows - cell.y) * 30 + 'px',
-				     	'font-size': fontSize(cell.n) + 'px'
-				     }">
+				<div class="cell" ng-repeat="cell in triangle" ng-class="{ hit: cell.n.eq(n) }" ng-mouseenter="mouseIn(cell)" ng-mouseleave="mouseOut(cell)" ng-style="{ top: cell.y * 30 + 'px', left: cell.x * 60 + (rows - cell.y) * 30 + 'px', 'font-size': fontSize(cell.n) + 'px' }">
 					{{cell.n.toFixed(0)}}
 				</div>
 				<div class="tooltip" ng-if="hoverValue">

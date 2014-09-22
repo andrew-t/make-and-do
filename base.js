@@ -86,8 +86,8 @@ angular.module('base', ['rebase'])
 		scope.decimalPlaces = parseInt(bits[4], 10);
 	} else {
 		// This is the default state
-		scope.number = new Big(643934984);
-		bases = [2, 10, 16, 36];
+		scope.number = new Big(1040465);
+		bases = [10, 2, 16, 36];
 		scope.decimalPlaces = 10;
 	}
 	scope.bases = [];

@@ -120,13 +120,17 @@ angular.module('dot-panel', ['dances'])
 			panel = element;
 			scope.squeezeDance = service.squeezeDance;
 			scope.sumDances = service.sumDances;
-			scope.$watch('dance', function(d) {
-				if (d)
-					dance(service.squeezeDance(d, 
-						panel.prop('clientHeight'), panel.prop('clientWidth')));
-				else
-					dance([]);
-			});
+			var handler = function(d) {
+				var h = panel.prop('clientHeight'), 
+					w = panel.prop('clientWidth');
+				if (h * w) {
+					if (d)
+						dance(service.squeezeDance(d, h, w));
+					else
+						dance([]);
+				} else timeout(function() { handler(d); });
+			};
+			scope.$watch('dance', handler);
 		}
 	};
 }]);

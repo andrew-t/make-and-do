@@ -19,8 +19,7 @@
 			</div>
 			<div ng-repeat="b in bases">
 				<label for="base-editor-{{b.id}}">Base</label>
-				<input type="number" ng-model="b.base" id="base-editor-{{b.id}}" 
-				       min="2" g-class="{ invalid: b.base <= 1 }"></input>
+				<input type="number" ng-model="b.base" id="base-editor-{{b.id}}" min="2" g-class="{ invalid: b.base <= 1 }"></input>
 				<div base="b.base" number="$parent.number" label="Value"></div>
 				<button ng-click="remove(b.id)">Remove</button>
 			</div>

@@ -6,7 +6,7 @@ var mangle = true,
 	output = 'gadgets.min.js',
 	errContext = 10,
 	dependencies = ['angular.min.js', 'big.js/big.min.js'],
-	noConcat = [/worker\.js$/i, /\.min\.js$/i, /^factorise\.js$/i, /-options\.js$/i, /-demo\.js$/i];
+	noConcat = [/worker\.js$/i, /\.min\.js$/i, /^factorise\.js$/i, /-options\.js$/i, /-demo\.js$/i, /^pascal\.js$/i, /^countdown\.js$/i];
 
 var fs = require('fs'),
 	uglify = require('./UglifyJS/uglify-js.js'),
