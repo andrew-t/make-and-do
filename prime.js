@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('prime', ['factorise'])
-.directive('prime', ['factorise', function(factorise) {
+.directive('prime', ['factorise', '$timeout', function(factorise, timeout) {
 	// rofl lol its the prime directive hahahaha
 	return {
 		scope: {
@@ -10,6 +10,7 @@ angular.module('prime', ['factorise'])
 		},
 		template: '{{result}} <button ng-if="slow" ng-click="startSlow(n)">Calculate</button>',
 		link: function(scope, element, attrs) {
+			var hideButton = false;
 			// Note: some (terrible) browsers don't support Web Workers
 			// (little Javascript robots that do background calculations without locking the UI)
 			// so detect if they are supported and if not then just don't accept numbers over a billion.
@@ -38,7 +39,7 @@ angular.module('prime', ['factorise'])
 			scope.startSlow = function(n) {
 				if (worker) {
 					worker.postMessage(n.toFixed(10));
-					scope.result = 'Processing\u2026';
+					scope.result = '';
 					scope.slow = false;
 					scope.processing = true;
 				}
@@ -60,6 +61,9 @@ angular.module('prime', ['factorise'])
 					// Because good practice, we coerce worker to be a boolean, using 'not not'.
 					// This is nonsense mathematically, but Javascript so often is.
 					scope.slow = !!worker;
+					if (hideButton)
+						scope.slow = 
+						hideButton = false;
 				} else {
 					scope.slow = false;
 					var factors = factorise.factoriseBig(n);
@@ -73,8 +77,18 @@ angular.module('prime', ['factorise'])
 			// load from URL
 			if (window.location.hash) {
 				scope.n = new Big(window.location.hash.substr(1));
-				if (useSlow(scope.n))
+				if (useSlow(scope.n)) {
 					scope.startSlow(scope.n);
+					hideButton = true;
+				}
+				// This is a bit of a hack, but fixing it properly at this stage would be tricky:
+				timeout(function() {
+					var bigScope = angular.element(document.querySelector('[big]'))
+									   .isolateScope();
+					bigScope.$apply(function() {
+						bigScope.raw = scope.n.toString();
+					});
+				});
 			}
 		}
 	};

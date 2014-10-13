@@ -3,6 +3,7 @@ var mangle = true,
 	squeeze = true,
 	liftVars = true,
 	outDir = 'dist',
+	basePath = '/wp-content/gadgets',
 	output = 'gadgets.min.js',
 	errContext = 10,
 	dependencies = ['angular.min.js', 'big.js/big.min.js'],
@@ -44,7 +45,8 @@ function isConcat(filename) {
 function minify(code, fn) {
 	var ast;
 	try {
-		ast = uglify.parser.parse(code);
+		ast = uglify.parser.parse(code.replace(/new\s+Worker\((['"])/g,
+											   "new Worker($1" + basePath + '/'));
 	} catch (e) {
 		console.log(e);
 		for (var l = e.line - errContext; l <= e.line + errContext; ++l)
