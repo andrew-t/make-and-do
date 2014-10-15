@@ -6,7 +6,16 @@ var mangle = true,
 	basePath = '/wp-content/gadgets',
 	output = 'gadgets.min.js',
 	errContext = 10,
-	dependencies = ['angular.min.js', 'big.js/big.min.js'],
+	dependencies = {
+		'angular.js': {
+			copy: false,
+			url: 'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js'
+		},
+		'big.js/big.js': {
+			copy: 'big.js/big.min.js',
+			fn: 'big.min.js'
+		}
+	},
 	noConcat = [/worker\.js$/i, /\.min\.js$/i, /^factorise\.js$/i, /-options\.js$/i, /-demo\.js$/i, /^pascal\.js$/i, /^countdown\.js$/i];
 
 var fs = require('fs'),
@@ -37,16 +46,24 @@ function isConcat(filename) {
 		if (filter.test(filename))
 			concat = false;
 	});
+	for (var dependency in dependencies)
+		if (filename == dependency)
+			return false;
 	return concat;
 }
 
 // JavaScript
 
 function minify(code, fn) {
-	var ast;
+	var ast, oldCode = code;
+	for (var dependency in dependencies)
+		code = code.replace(dependency,
+							dependencies[dependency].url ||
+							dependencies[dependency].fn);
 	try {
-		ast = uglify.parser.parse(code.replace(/new\s+Worker\((['"])/g,
-											   "new Worker($1" + basePath + '/'));
+		ast = uglify.parser.parse(
+			code.replace(/new\s+Worker\((['"])/g,
+						 "new Worker($1" + basePath + '/'));
 	} catch (e) {
 		console.log(e);
 		for (var l = e.line - errContext; l <= e.line + errContext; ++l)
@@ -71,7 +88,7 @@ function minify(code, fn) {
 	fs.writeFileSync(outDir + '/' + fn, minified);
 
 	console.log('File: ' + fn);
-	console.log('Original length: ' + code.length);
+	console.log('Original length: ' + oldCode.length);
 	console.log('Minified length: ' + minified.length);
 	console.log('Compression ratio: ' + (minified.length / code.length));
 	console.log('');
@@ -102,21 +119,29 @@ console.log('Compression ratio: ' + (totalOut / totalIn));
 // HTML
 
 forEachFile('html', function(filename) {
+	console.log('building ' + filename);
 	var lines = fs.readFileSync(filename, 'utf8').split('\n'),
 		out = '',
 		done = false,
 		getFn = /^\s*<script src="([^"]+)"><\/script>$/i;
 	lines.forEach(function(line) {
 		var fn = line.replace(getFn, '$1');
+		if (fn != line) console.log('Found <script> import of ' + fn);
 		if (fn != line && isConcat(fn)) {
 			if (!done) {
-				out += '\t\t<script src="' + output + '"></script>';
+				console.log('importing as ' + output)
+				out += '\t\t<script src="' + output + '"></script>\n';
 				done = true;
-			}
-		} else
-			// strip dirs from dependencies:
-			out += line.replace(/<script src="([^"]*\/)?([^\/]+)\.js"><\/script>/i, 
-				'<script src="$2.min.js"></script>').replace(/\.min\.min\.js/ig, '.min.js') + '\n';
+			} else console.log('skipping');
+		} else {
+			for (var dependency in dependencies)
+				line = line.replace(
+					'<script src="' + dependency + '"></script>', 
+					'<script src="' + 
+						(dependencies[dependency].url || dependencies[dependency].fn) + 
+					'"></script>');
+			out += line + '\n';
+		}
 	});
 	fs.writeFileSync(outDir + '/' + filename, out);
 });
@@ -133,7 +158,8 @@ forEachFile('css', function(filename) {
 
 // dependencies
 
-dependencies.forEach(function(dependency) {
-	fs.writeFileSync(outDir + '/' + dependency.replace(/^.*\/([^\/]+)$/i, '$1'),
-		fs.readFileSync(dependency));
-});
+for (var dependency in dependencies)
+	if (dependency.copy)
+		fs.writeFileSync(
+			outDir + '/' + dependencies[dependency].fn,
+			fs.readFileSync(dependency.copy));
