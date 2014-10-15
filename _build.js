@@ -119,29 +119,31 @@ console.log('Compression ratio: ' + (totalOut / totalIn));
 // HTML
 
 forEachFile('html', function(filename) {
-	console.log('building ' + filename);
 	var lines = fs.readFileSync(filename, 'utf8').split('\n'),
 		out = '',
 		done = false,
-		getFn = /^\s*<script src="([^"]+)"><\/script>$/i;
+		getFn = /^\s*<script src="([^"]+)"><\/script>\s*$/i;
 	lines.forEach(function(line) {
 		var fn = line.replace(getFn, '$1');
-		if (fn != line) console.log('Found <script> import of ' + fn);
-		if (fn != line && isConcat(fn)) {
-			if (!done) {
-				console.log('importing as ' + output)
-				out += '\t\t<script src="' + output + '"></script>\n';
-				done = true;
-			} else console.log('skipping');
-		} else {
-			for (var dependency in dependencies)
-				line = line.replace(
-					'<script src="' + dependency + '"></script>', 
-					'<script src="' + 
-						(dependencies[dependency].url || dependencies[dependency].fn) + 
-					'"></script>');
-			out += line + '\n';
-		}
+		if (fn != line) {
+			if (isConcat(fn)) {
+				if (!done) {
+					out += '\t\t<script src="' + output + '"></script>\n';
+					done = true;
+				}
+			} else {
+				for (var dependency in dependencies)
+					if (fn == dependency) {
+						out += '\t\t<script src="' +
+								(dependencies[dependency].url || dependencies[dependency].fn) +
+								'"></script>\n';
+						return;
+					}
+				out += '\t\t<script src="' + 
+						fn.substr(0, fn.length - 3) + 
+						'.min.js"></script>\n';
+			}
+		} else out += line + '\n';
 	});
 	fs.writeFileSync(outDir + '/' + filename, out);
 });
@@ -159,7 +161,7 @@ forEachFile('css', function(filename) {
 // dependencies
 
 for (var dependency in dependencies)
-	if (dependency.copy)
+	if (dependencies[dependency].copy)
 		fs.writeFileSync(
 			outDir + '/' + dependencies[dependency].fn,
-			fs.readFileSync(dependency.copy));
+			fs.readFileSync(dependencies[dependency].copy));
