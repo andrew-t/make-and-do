@@ -17,6 +17,7 @@ angular.module('base', ['rebase'])
 			scope.id = id++;
 			scope.label = attrs.label;
 			function update(force) {
+				if (scope.base % 1) return;
 				if (scope.base > 1 && scope.number !== undefined) {
 					ignoreBased = true;
 					if (!force) {
