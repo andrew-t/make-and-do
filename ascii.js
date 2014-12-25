@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ascii', ['parseNumbers'])
-.controller('ascii', ['$scope', 'parseNumbers', function(scope, parseNumbers) {
+.controller('ascii', ['$scope', 'parseNumbers', '$timeout', function(scope, parseNumbers, timeout) {
 	function setDecimal(numbers) {
 		scope.decimal = numbers.map(function(number) {
 			return number.toString(10);
@@ -76,6 +76,8 @@ angular.module('ascii', ['parseNumbers'])
 		setBinary(numbers);
 		setHex(numbers);
 	});
-	if (window.location.hash)
-		scope.ascii = decodeURIComponent(window.location.hash.substr(1));
+	timeout(function() {
+		if (window.location.hash)
+			scope.ascii = decodeURIComponent(window.location.hash.substr(1));
+	});
 }]);
